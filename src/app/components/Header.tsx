@@ -6,9 +6,10 @@ import Link from 'next/link';
 export default function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="w-full flex items-center justify-between px-8 py-6" style={{ marginTop: '20px' }}>
+    <header className="w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6" style={{ marginTop: '20px' }}>
       <div className="flex items-center gap-2">
         <Link href="/" style={{ position: 'relative', display: 'inline-block', width: '38px', height: '33px' }}>
           <img src="/assets/Vector-7.png" alt="logo" style={{ width: '38px', height: '33px' }} />
@@ -29,9 +30,11 @@ export default function Header() {
             ™
           </span>
         </Link>
-        <span className="font-bold text-lg text-black">Architecture Wave</span>
+        <span className="font-bold text-base sm:text-lg text-black">Architecture Wave</span>
       </div>
-      <nav className="flex items-center text-sm font-medium text-gray-700">
+      
+      {/* Desktop Navigation */}
+      <nav className="hidden md:flex items-center text-sm font-medium text-gray-700">
         <div
           style={{ position: 'relative', marginRight: '40px' }}
           onMouseEnter={() => setDropdownOpen(true)}
@@ -138,6 +141,59 @@ export default function Header() {
           </svg>
         </button>
       </nav>
+
+      {/* Mobile Menu Button */}
+      <button 
+        className="md:hidden p-2 rounded-full hover:bg-gray-100"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      >
+        <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          {mobileMenuOpen ? (
+            <path d="M6 18L18 6M6 6l12 12" />
+          ) : (
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          )}
+        </svg>
+      </button>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-t z-50 md:hidden">
+          <div className="px-4 py-6 space-y-4">
+            <div className="border-b pb-4">
+              <a href="#" className="block py-2 text-black font-medium">Magazine</a>
+              <div className="pl-4 space-y-2 mt-2">
+                {['Lifestyle', 'Travel', 'DIY', 'Art'].map((item) => (
+                  <Link
+                    key={item}
+                    href={`/category/${item.toLowerCase()}`}
+                    className="block py-1 text-gray-600 hover:text-black"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item}
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <a href="#" className="block py-2 text-black font-medium">Shop</a>
+            <Link href="/about-us" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
+              About Us
+            </Link>
+            <Link href="/contact-us" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
+              Contact Us
+            </Link>
+            <div className="pt-4 border-t">
+              <button className="flex items-center gap-2 p-2 rounded-full hover:bg-gray-100">
+                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <span className="text-sm">Search</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 } 

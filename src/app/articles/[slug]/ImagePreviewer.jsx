@@ -46,11 +46,19 @@ export default function ImagePreviewer({ images }) {
           />
         </div>
       ) : (
-        <div className={`grid gap-4 w-full ${images.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+        <div className={`grid gap-2 sm:gap-4 w-full ${
+          images.length === 2 
+            ? 'grid-cols-1 sm:grid-cols-2' 
+            : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+        }`}>
           {images.map((image, imageIndex) => (
             <div
               key={imageIndex}
-              className={`relative group cursor-pointer ${images.length >= 2 ? 'aspect-[4/5]' : ''}`}
+              className={`relative group cursor-pointer ${
+                images.length >= 2 
+                  ? 'aspect-square sm:aspect-[4/5]' 
+                  : ''
+              }`}
               onClick={() => handleImageClick(imageIndex)}
             >
               <Image
@@ -58,7 +66,11 @@ export default function ImagePreviewer({ images }) {
                 alt={image.alternativeText || `Article image ${imageIndex + 1}`}
                 fill
                 className="rounded-lg shadow-md object-cover transition-transform duration-200 group-hover:scale-105"
-                sizes={images.length === 2 ? "(max-width: 1024px) 100vw, 50vw" : "(max-width: 1024px) 100vw, 33vw"}
+                sizes={
+                  images.length === 2 
+                    ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw" 
+                    : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                }
               />
             </div>
           ))}

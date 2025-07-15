@@ -9,6 +9,7 @@ const AboutUs = () => {
         <img
           src="assets/Rectangle.png"
           alt="Decorative Rectangle"
+          className="hidden sm:block"
           style={{
             position: 'absolute',
             width: '110px',
@@ -22,6 +23,7 @@ const AboutUs = () => {
          <img
           src="assets/Rectangle2.png"
           alt="Decorative Rectangle"
+          className="hidden sm:block"
           style={{
             position: 'absolute',
             width: '105px',
@@ -35,6 +37,7 @@ const AboutUs = () => {
          <img
           src="assets/Rectangle3.png"
           alt="Decorative Rectangle"
+          className="hidden sm:block"
           style={{
             position: 'absolute',
             width: '105px',
@@ -46,67 +49,51 @@ const AboutUs = () => {
           aria-hidden="true"
         />
         <Header />
-        <div style={{ padding: '48px 48px 48px 30px' }}>
-          <h1 style={{ 
-            fontSize: '72px', 
-            fontWeight: 400, 
-            marginBottom: 0, 
+        <div className="px-4 sm:px-8 md:px-12 py-6 sm:py-8 md:py-12">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal mb-4 sm:mb-6" style={{ 
             fontFamily: 'var(--font-mazzard-soft)', 
             color: '#111',
             lineHeight: '100%',
             letterSpacing: '0%'
           }}>Your atlas to a life<br /><span style={{ 
             fontWeight: 700,
-            fontSize: '72px',
-            lineHeight: '100%',
-            letterSpacing: '0%',
             fontFamily: 'var(--font-mazzard-soft)'
           }}>with a good design.</span></h1>
-          <p style={{ 
-            margin: '24px 0 32px 0', 
+          <p className="mb-6 sm:mb-8 text-base sm:text-lg max-w-lg sm:max-w-xl md:max-w-2xl" style={{ 
             fontFamily: 'var(--font-mazzard-soft)',
             fontWeight: 500,
-            fontSize: '18px',
             lineHeight: '28px',
             letterSpacing: '5%',
             color: '#000',
-            maxWidth: '600px'
           }}>
             Discover the stories, trends, and experiences that shape <span style={{ fontWeight: 700 }}>
               how we live, work, and connect, blending everyday.
             </span>
           </p>
-          <div style={{ 
-            background: '#fff',
-            padding: '32px 0',
-            borderRadius: '12px',
-            maxWidth: '600px',
+          <div className="bg-white p-6 sm:p-8 rounded-xl max-w-lg sm:max-w-xl md:max-w-2xl" style={{ 
             margin: '0',
           }}>
-            <p style={{
+            <p className="text-sm sm:text-base mb-4 sm:mb-6" style={{
               fontFamily: 'var(--font-mazzard-soft)',
               fontWeight: 400,
-              fontSize: '18px',
               lineHeight: '28px',
               letterSpacing: '0%',
               color: '#000',
-              marginBottom: '24px',
               whiteSpace: 'pre-line'
             }}>
-              “WITCHES wander the weird wilds of the world, unafraid and unfettered. They drip from moonlight and the edges of stars, sculpt each other from beeswax and jackal fangs.”
+              "WITCHES wander the weird wilds of the world, unafraid and unfettered. They drip from moonlight and the edges of stars, sculpt each other from beeswax and jackal fangs."
               <br />These words welcome you to the homepage of Cryptocoven, a collection of 9768 digital-art portraits sold as NFTs.
             </p>
-            <p style={{
+            <p className="text-sm sm:text-base" style={{
               fontFamily: 'var(--font-mazzard-soft)',
               fontWeight: 400,
-              fontSize: '18px',
               lineHeight: '28px',
               letterSpacing: '0%',
               color: '#000',
               marginBottom: 0,
               whiteSpace: 'pre-line'
             }}>
-              One witch, Sirius, The Sufficient Hyperplane, has medium, warm-toned skin, a chiseled jawline, red eyes, and long, straight, silver hair. “You make your own jewelry from trinkets and dried hearts,” reads the character's description. “Your magic spawns from paint splatters. You see the truth reflected.” Sirius is a mage, a Sagittarius sun, Scorpio moon, and Aquarius rising.
+              One witch, Sirius, The Sufficient Hyperplane, has medium, warm-toned skin, a chiseled jawline, red eyes, and long, straight, silver hair. "You make your own jewelry from trinkets and dried hearts," reads the character's description. "Your magic spawns from paint splatters. You see the truth reflected." Sirius is a mage, a Sagittarius sun, Scorpio moon, and Aquarius rising.
             </p>
           </div>
         </div>
