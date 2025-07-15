@@ -9,7 +9,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6" style={{ marginTop: '20px' }}>
+    <header className="relative w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6" style={{ marginTop: '20px' }}>
       <div className="flex items-center gap-2">
         <Link href="/" style={{ position: 'relative', display: 'inline-block', width: '38px', height: '33px' }}>
           <img src="/assets/Vector-7.png" alt="logo" style={{ width: '38px', height: '33px' }} />
@@ -158,7 +158,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-t z-50 md:hidden">
+        <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-t z-50 md:hidden" style={{ marginTop: '0' }}>
           <div className="px-4 py-6 space-y-4">
             <div className="border-b pb-4">
               <a href="#" className="block py-2 text-black font-medium">Magazine</a>
