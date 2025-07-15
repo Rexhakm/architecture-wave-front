@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
+import { getImageUrl } from '../../utils/imageUtils';
 
 export default function ImagePreviewer({ images }) {
   const [open, setOpen] = useState(false);
@@ -13,7 +14,7 @@ export default function ImagePreviewer({ images }) {
 
   // Prepare slides for the lightbox
   const slides = images.map((img) => ({
-    src: `http://localhost:1337${img.url}`,
+    src: getImageUrl(img.url),
     alt: img.alternativeText || '',
   }));
 
@@ -34,19 +35,35 @@ export default function ImagePreviewer({ images }) {
         index={index}
         animation={{ fade: 500, swipe: 500 }}
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {images.map((image, imageIndex) => (
-          <div key={imageIndex} className="relative group cursor-pointer" onClick={() => handleImageClick(imageIndex)}>
-            <Image
-              src={`http://localhost:1337${image.url}`}
-              alt={image.alternativeText || `Article image ${imageIndex + 1}`}
-              width={400}
-              height={300}
-              className="w-full h-auto rounded-lg shadow-md transition-transform duration-200 group-hover:scale-105"
-            />
-          </div>
-        ))}
-      </div>
+      {images.length === 1 ? (
+        <div className="relative cursor-pointer" onClick={() => handleImageClick(0)}>
+          <Image
+            src={getImageUrl(images[0].url)}
+            alt={images[0].alternativeText || 'Article image'}
+            width={1000}
+            height={600}
+            className="w-full h-auto rounded-lg shadow-lg"
+          />
+        </div>
+      ) : (
+        <div className={`grid gap-4 w-full ${images.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+          {images.map((image, imageIndex) => (
+            <div
+              key={imageIndex}
+              className={`relative group cursor-pointer ${images.length >= 2 ? 'aspect-[4/5]' : ''}`}
+              onClick={() => handleImageClick(imageIndex)}
+            >
+              <Image
+                src={getImageUrl(image.url)}
+                alt={image.alternativeText || `Article image ${imageIndex + 1}`}
+                fill
+                className="rounded-lg shadow-md object-cover transition-transform duration-200 group-hover:scale-105"
+                sizes={images.length === 2 ? "(max-width: 1024px) 100vw, 50vw" : "(max-width: 1024px) 100vw, 33vw"}
+              />
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 } 

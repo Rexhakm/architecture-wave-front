@@ -3,18 +3,17 @@ import dynamic from 'next/dynamic';
 import DOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
 import { marked } from 'marked';
+import { getImageUrl, getBackendBaseUrl } from '../../utils/imageUtils';
+import Header from '../../components/Header';
 
 
-const API_BASE_URL = 'http://localhost:1337/api';
+const API_BASE_URL = `${getBackendBaseUrl()}/api`;
 
-// Helper to sanitize HTML on server or client
 function sanitize(html) {
   if (typeof window === 'undefined') {
-    // Server-side: use jsdom
     const { window } = new JSDOM('');
     return DOMPurify(window).sanitize(html);
   } else {
-    // Client-side
     return DOMPurify.sanitize(html);
   }
 }
@@ -79,51 +78,54 @@ export default async function Page({ params }) {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">{article.title}</h1>
-        {article.description && (
-          <p className="text-xl text-gray-600 mb-8">{article.description}</p>
-        )}
+    <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white rounded-3xl" style={{ marginBottom: '20px' }}>
+      <Header />
+      <div className="min-h-screen bg-white">
         {article.coverImage && (
-          <div className="mb-8">
+          <div className="max-w-5xl mx-auto mb-8 h-[500px] relative rounded-[45px] overflow-hidden mt-[100px]">
             <Image
-              src={`http://localhost:1337${article.coverImage.url}`}
+              src={getImageUrl(article.coverImage.url)}
               alt={article.coverImage.alternativeText || article.title}
-              width={1200}
-              height={600}
-              className="w-full h-auto rounded-lg shadow-lg"
+              fill
+              className="w-full h-full object-cover rounded-[45px] shadow-lg"
               priority
+              sizes="100vw"
             />
           </div>
         )}
+        <div className="max-w-4xl mx-auto px-4 py-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">{article.title}</h1>
+          {article.description && (
+            <p className="text-xl text-gray-600 mb-8">{article.description}</p>
+          )}
+        </div>
+        <div className="max-w-4xl mx-auto px-4 pb-16">
+          {article.blocks &&
+            article.blocks.map((block, index) => {
+              if (block.__component === 'article-blocks.text-block') {
+                const html = marked.parse(block.content); 
+                console.log('block.content:', block.content);
+                console.log('Parsed HTML:', marked.parse(block.content));
+                return (
+                  <div key={index} className="mb-8">
+                    <div
+                      className="prose prose-lg max-w-none"
+                      dangerouslySetInnerHTML={{ __html: sanitize(html) }}
+                      />
+                  </div>
+                );
+              }
+              if (block.__component === 'article-blocks.image-block') {
+                return (
+                  <div key={index} className="mb-8">
+                    <ImagePreviewer images={block.images} />
+                  </div>
+                );
+              }
+              return null;
+            })}
+        </div>
       </div>
-      <div className="max-w-4xl mx-auto px-4 pb-16">
-        {article.blocks &&
-          article.blocks.map((block, index) => {
-            if (block.__component === 'article-blocks.text-block') {
-              const html = marked.parse(block.content); // Convert Markdown to HTML
-              console.log('block.content:', block.content);
-              console.log('Parsed HTML:', marked.parse(block.content));
-              return (
-                <div key={index} className="mb-8">
-                  <div
-                    className="prose prose-lg max-w-none"
-                    dangerouslySetInnerHTML={{ __html: sanitize(html) }}
-                    />
-                </div>
-              );
-            }
-            if (block.__component === 'article-blocks.image-block') {
-              return (
-                <div key={index} className="mb-8">
-                  <ImagePreviewer images={block.images} />
-                </div>
-              );
-            }
-            return null;
-          })}
-      </div>
-    </div>
+    </main>
   );
 } 
