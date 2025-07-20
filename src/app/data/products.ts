@@ -10,6 +10,9 @@ export const categories: Category[] = [
     { name: "Print", image: "/assets/chair.png" }
 ];
 
+// Fallback image for when local images fail to load
+const FALLBACK_IMAGE = "https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=Product+Image";
+
 export const featuredProducts: Product[] = [
     { 
         id: "1", 
@@ -73,7 +76,7 @@ export const featuredProducts: Product[] = [
         name: "Pour-Over Kettle", 
         brand: "Fellow", 
         price: "$89", 
-        image: "/assets/chair.png",
+        image: "/assets/dinner.png",
         description: "Precision brewing for the perfect cup.",
         longDescription: "The Fellow Pour-Over Kettle combines precision engineering with elegant design for the ultimate coffee brewing experience.",
         rating: 5,
@@ -295,4 +298,9 @@ export const shoppingGuides: ShoppingGuide[] = [
 export const getProductById = (id: string): Product | undefined => {
     const allProducts = [...featuredProducts, ...exclusiveProducts];
     return allProducts.find(product => product.id === id);
+};
+
+// Helper function to get image with fallback
+export const getImageWithFallback = (imagePath: string): string => {
+    return imagePath || FALLBACK_IMAGE;
 }; 

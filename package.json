@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "verify-images": "node scripts/verify-images.js",
+    "prebuild": "npm run verify-images"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
