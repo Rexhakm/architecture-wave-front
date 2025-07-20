@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
-import { getImageUrl } from '../../utils/imageUtils';
+import { getImageUrl } from '../../utils/imageUtils.ts';
 
 export default function ImagePreviewer({ images }) {
   const [open, setOpen] = useState(false);

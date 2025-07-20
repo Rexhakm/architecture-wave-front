@@ -102,7 +102,7 @@ export default function Header() {
             </div>
           )}
         </div>
-        <a href="#" style={{ 
+        <Link href="/shop" style={{ 
           marginRight: '40px',
           fontFamily: 'Inter',
           fontWeight: 400,
@@ -110,8 +110,9 @@ export default function Header() {
           lineHeight: '19px',
           letterSpacing: '0%',
           textTransform: 'none',
-          color: 'black'
-        }}>Shop</a>
+          color: 'black',
+          textDecoration: 'none'
+        }}>Shop</Link>
         <Link href="/about-us" style={{ 
           marginRight: '40px',
           fontFamily: 'Inter',
@@ -175,7 +176,7 @@ export default function Header() {
                 ))}
               </div>
             </div>
-            <a href="#" className="block py-2 text-black font-medium">Shop</a>
+            <Link href="/shop" className="block py-2 text-black font-medium">Shop</Link>
             <Link href="/about-us" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
               About Us
             </Link>
