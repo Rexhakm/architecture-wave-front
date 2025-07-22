@@ -21,13 +21,30 @@ export default function ProductImage({
   const handleError = () => {
     if (!hasError) {
       setHasError(true)
+      console.log(`Image failed to load: ${src}, using fallback`)
       setImgSrc(fallbackSrc)
     }
   }
 
+  // Ensure the src is properly formatted for production
+  const getImageSrc = (imagePath: string) => {
+    // If it's already a full URL, return as is
+    if (imagePath.startsWith('http')) {
+      return imagePath
+    }
+    
+    // If it starts with /, ensure it's properly formatted
+    if (imagePath.startsWith('/')) {
+      return imagePath
+    }
+    
+    // If it doesn't start with /, add it
+    return `/${imagePath}`
+  }
+
   return (
     <img
-      src={imgSrc}
+      src={getImageSrc(imgSrc)}
       alt={alt}
       className={className}
       onError={handleError}

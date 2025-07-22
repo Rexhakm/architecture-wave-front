@@ -3,11 +3,11 @@ import { Product, Category, ShoppingGuide } from '../types/product';
 export const categories: Category[] = [
     { name: "Furniture", image: "/assets/chair.png" },
     { name: "Kitchen & Dining", image: "/assets/dinner.png" },
-    { name: "Bath & Bed", image: "/assets/chair.png" },
-    { name: "Decor & More", image: "/assets/chair.png" },
-    { name: "Lighting & Lamps", image: "/assets/chair.png" },
-    { name: "Music", image: "/assets/chair.png" },
-    { name: "Print", image: "/assets/chair.png" }
+    { name: "Bath & Bed", image: "/assets/Vector-9.png" },
+    { name: "Decor & More", image: "/assets/Vector.png" },
+    { name: "Lighting & Lamps", image: "/assets/image-1.png" },
+    { name: "Music", image: "/assets/image-2.png" },
+    { name: "Print", image: "/assets/image-3.png" }
 ];
 
 // Fallback image for when local images fail to load
@@ -38,7 +38,7 @@ export const featuredProducts: Product[] = [
         name: "White Pillows", 
         brand: "Huckberry", 
         price: "$89", 
-        image: "/assets/chair.png",
+        image: "/assets/dinner.png",
         description: "Premium comfort with elegant design.",
         longDescription: "These luxurious white pillows combine comfort with sophisticated design. Made from high-quality materials for lasting comfort.",
         rating: 4,
@@ -57,7 +57,7 @@ export const featuredProducts: Product[] = [
         name: "Textile Stack", 
         brand: "Huckberry", 
         price: "$124", 
-        image: "/assets/chair.png",
+        image: "/assets/Vector-9.png",
         description: "A curated collection of premium textiles.",
         longDescription: "This carefully selected stack of textiles brings together the finest materials and craftsmanship for your home.",
         rating: 5,
@@ -76,7 +76,7 @@ export const featuredProducts: Product[] = [
         name: "Pour-Over Kettle", 
         brand: "Fellow", 
         price: "$89", 
-        image: "/assets/dinner.png",
+        image: "/assets/Vector.png",
         description: "Precision brewing for the perfect cup.",
         longDescription: "The Fellow Pour-Over Kettle combines precision engineering with elegant design for the ultimate coffee brewing experience.",
         rating: 5,
@@ -95,7 +95,7 @@ export const featuredProducts: Product[] = [
         name: "Ceramic Vase", 
         brand: "Huckberry", 
         price: "$67", 
-        image: "/assets/chair.png",
+        image: "/assets/image-1.png",
         description: "Timeless elegance in ceramic form.",
         longDescription: "This handcrafted ceramic vase brings timeless elegance to any room with its clean lines and beautiful finish.",
         rating: 4,

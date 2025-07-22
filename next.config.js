@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['via.placeholder.com'],
+    domains: ['via.placeholder.com', 'architecture-backend.onrender.com'],
     unoptimized: false,
     formats: ['image/webp', 'image/avif'],
     loader: 'default',
