@@ -15,10 +15,9 @@ This is the frontend application for the Architecture Wave project.
 
 ## Backend Configuration
 
-The application automatically detects the environment and uses the appropriate backend URL:
+The application always uses the production Strapi backend:
 
-- **Development** (`NODE_ENV=development`): Uses `http://localhost:1337`
-- **Production**: Uses `https://architecture-backend.onrender.com`
+- **All Environments**: Uses `https://architecture-backend.onrender.com`
 
 ### Custom Backend URL
 

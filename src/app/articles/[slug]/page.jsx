@@ -1,11 +1,9 @@
-import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import DOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
 import { marked } from 'marked';
 import { getImageUrl, getBackendBaseUrl } from '../../utils/imageUtils.ts';
 import Header from '../../components/Header';
-
 
 const API_BASE_URL = `${getBackendBaseUrl()}/api`;
 
@@ -38,20 +36,23 @@ async function getArticle(uid) {
 
   const data = await res.json();
   if (!data.data || data.data.length === 0) return null;
+  
   const articleData = data.data[0];
   console.log('articleData:', articleData);
   
-  // Handle cover image - it's an array directly
-  let coverImage = null;
+  // Handle cover image - convert to string URL like in articleUtils.ts
+  let coverImageUrl = null;
   if (articleData.coverImage && Array.isArray(articleData.coverImage) && articleData.coverImage.length > 0) {
-    coverImage = articleData.coverImage[0];
+    coverImageUrl = getImageUrl(articleData.coverImage[0].url);
+    console.log('Generated cover image URL:', coverImageUrl);
   }
   
   return {
     title: articleData.title,
     slug: articleData.uid,
     description: articleData.description,
-    coverImage: coverImage,
+    coverImage: coverImageUrl, // Return as string URL
+    coverImageData: articleData.coverImage?.[0] || null, // Keep original data for alt text
     blocks: articleData.blocks?.map(block => {
       if (block.__component === 'article-blocks.text-block') {
         return {
@@ -90,29 +91,27 @@ export default async function Page({ params }) {
       <div className="min-h-screen bg-white">
         {article.coverImage && (
           <div className="max-w-5xl mx-auto mb-6 sm:mb-8 h-64 sm:h-80 md:h-96 lg:h-[500px] relative rounded-2xl sm:rounded-[45px] overflow-hidden mt-8 sm:mt-12 md:mt-10">
-            <Image
-              src={getImageUrl(article.coverImage.url)}
-              alt={article.coverImage.alternativeText || article.title}
-              fill
+            {console.log('Rendering cover image with URL:', article.coverImage)}
+            <img
+              src={article.coverImage}
+              alt={article.coverImageData?.alternativeText || article.title}
               className="w-full h-full object-cover rounded-2xl sm:rounded-[45px] shadow-lg"
-              priority
-              sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
             />
           </div>
         )}
+
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">{article.title}</h1>
           {article.description && (
             <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8">{article.description}</p>
           )}
         </div>
+
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-12 md:pb-16">
           {article.blocks &&
             article.blocks.map((block, index) => {
               if (block.__component === 'article-blocks.text-block') {
-                const html = marked.parse(block.content); 
-                console.log('block.content:', block.content);
-                console.log('Parsed HTML:', marked.parse(block.content));
+                const html = marked.parse(block.content);
                 return (
                   <div key={index} className="mb-6 sm:mb-8">
                     <div
@@ -127,10 +126,11 @@ export default async function Page({ params }) {
                         color: '#111111'
                       }}
                       dangerouslySetInnerHTML={{ __html: sanitize(html) }}
-                      />
+                    />
                   </div>
                 );
               }
+
               if (block.__component === 'article-blocks.image-block') {
                 return (
                   <div key={index} className="mb-6 sm:mb-8">
@@ -138,6 +138,7 @@ export default async function Page({ params }) {
                   </div>
                 );
               }
+
               return null;
             })}
         </div>
@@ -147,7 +148,7 @@ export default async function Page({ params }) {
           <hr className="border-gray-200" />
         </div>
 
-        {/* ArchitectureWave Branding */}
+        {/* Branding */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div className="flex items-center justify-start gap-2 mb-4">
             <img src="/assets/Vector-7.png" alt="ArchitectureWave logo" className="w-8 h-7" />
@@ -162,7 +163,7 @@ export default async function Page({ params }) {
           </div>
         </div>
 
-        {/* Similar Articles Section */}
+        {/* Similar Articles */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 mt-24">
           <h2 style={{
             fontFamily: 'var(--font-mazzard-soft)',
@@ -175,56 +176,25 @@ export default async function Page({ params }) {
             marginBottom: '32px'
           }}>Similar articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {/* Article Card 1 */}
-            <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <div className="aspect-[4/3] overflow-hidden">
-                <img 
-                  src="/assets/image-1.png" 
-                  alt="Yellow-washed building" 
-                  className="w-full h-full object-cover"
-                />
+            {[1, 2, 3].map(i => (
+              <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={`/assets/image-${i}.png`}
+                    alt={`Article preview ${i}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="font-semibold text-gray-900 text-sm leading-tight">
+                    Sample title for article card {i}
+                  </h3>
+                </div>
               </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-gray-900 text-sm leading-tight">
-                  Why the Internet Is Obsessed with This Yellow-Washed...
-                </h3>
-              </div>
-            </div>
-
-            {/* Article Card 2 */}
-            <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <div className="aspect-[4/3] overflow-hidden">
-                <img 
-                  src="/assets/image-2.png" 
-                  alt="Pink wall with window" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-gray-900 text-sm leading-tight">
-                  How Architecture Shapes What You Feel (Even If You...
-                </h3>
-              </div>
-            </div>
-
-            {/* Article Card 3 */}
-            <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <div className="aspect-[4/3] overflow-hidden">
-                <img 
-                  src="/assets/image-3.png" 
-                  alt="Modern architectural interior" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-gray-900 text-sm leading-tight">
-                  PEDREA by JSa and MTA+VPEDRE is not trying to...
-                </h3>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
     </main>
   );
-} 
+}

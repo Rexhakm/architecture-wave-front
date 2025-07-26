@@ -24,12 +24,6 @@ export function getBackendBaseUrl(): string {
     return process.env.NEXT_PUBLIC_BACKEND_URL;
   }
   
-  // Check if we're in development mode
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  
-  if (isDevelopment) {
-    return 'http://localhost:1337';
-  } else {
-    return 'https://architecture-backend.onrender.com';
-  }
+  // Always use production Strapi backend regardless of frontend environment
+  return 'https://architecture-backend.onrender.com';
 } 

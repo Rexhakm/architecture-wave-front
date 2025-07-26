@@ -1,6 +1,5 @@
 "use client";
 
-import Image from 'next/image';
 import { useState } from 'react';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
@@ -37,11 +36,9 @@ export default function ImagePreviewer({ images }) {
       />
       {images.length === 1 ? (
         <div className="relative cursor-pointer" onClick={() => handleImageClick(0)}>
-          <Image
+          <img
             src={getImageUrl(images[0].url)}
             alt={images[0].alternativeText || 'Article image'}
-            width={1000}
-            height={600}
             className="w-full h-auto rounded-lg shadow-lg"
           />
         </div>
@@ -61,16 +58,10 @@ export default function ImagePreviewer({ images }) {
               }`}
               onClick={() => handleImageClick(imageIndex)}
             >
-              <Image
+              <img
                 src={getImageUrl(image.url)}
                 alt={image.alternativeText || `Article image ${imageIndex + 1}`}
-                fill
-                className="rounded-lg shadow-md object-cover transition-transform duration-200 group-hover:scale-105"
-                sizes={
-                  images.length === 2 
-                    ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw" 
-                    : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                }
+                className="w-full h-full rounded-lg shadow-md object-cover transition-transform duration-200 group-hover:scale-105"
               />
             </div>
           ))}
