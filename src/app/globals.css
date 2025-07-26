@@ -2,6 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom styles for rich text images */
+.prose img {
+  @apply rounded-2xl shadow-lg transition-transform duration-200 hover:scale-[1.02] cursor-pointer;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure prose images don't exceed container width */
+.prose img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+/* Add some spacing around images in prose */
+.prose p:has(img) {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Style for single images in prose */
+.prose img:only-child {
+  @apply w-full;
+}
+
+/* Style for multiple images in prose */
+.prose p:has(img) + p:has(img) {
+  margin-top: 1rem;
+}
+
+/* Enhanced image styling for better visual hierarchy */
+.prose img {
+  @apply border border-gray-100;
+}
+
+/* Hover effect for images */
+.prose img:hover {
+  @apply shadow-xl;
+}
+
+/* Ensure images maintain aspect ratio */
+.prose img {
+  object-fit: cover;
+}
+
+/* Responsive image sizing */
+@media (max-width: 640px) {
+  .prose img {
+    @apply rounded-xl;
+  }
+}
+
+@media (min-width: 641px) {
+  .prose img {
+    @apply rounded-2xl;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

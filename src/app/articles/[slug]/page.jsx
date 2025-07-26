@@ -72,6 +72,7 @@ async function getArticle(uid) {
 }
 
 const ImagePreviewer = dynamic(() => import('./ImagePreviewer'), { ssr: false });
+const RichTextImageHandler = dynamic(() => import('./RichTextImageHandler'), { ssr: false });
 
 export default async function Page({ params }) {
   const { slug } = params;
@@ -114,19 +115,21 @@ export default async function Page({ params }) {
                 const html = marked.parse(block.content);
                 return (
                   <div key={index} className="mb-6 sm:mb-8">
-                    <div
-                      className="prose prose-sm sm:prose-base md:prose-lg max-w-none"
-                      style={{
-                        fontFamily: 'var(--font-mazzard-soft)',
-                        fontWeight: 400,
-                        fontStyle: 'normal',
-                        fontSize: '18px',
-                        lineHeight: '26px',
-                        letterSpacing: '0%',
-                        color: '#111111'
-                      }}
-                      dangerouslySetInnerHTML={{ __html: sanitize(html) }}
-                    />
+                    <RichTextImageHandler>
+                      <div
+                        className="prose prose-sm sm:prose-base md:prose-lg max-w-none prose-img:rounded-2xl prose-img:shadow-lg prose-img:transition-all prose-img:duration-200 prose-img:hover:scale-[1.02] prose-img:cursor-pointer"
+                        style={{
+                          fontFamily: 'var(--font-mazzard-soft)',
+                          fontWeight: 400,
+                          fontStyle: 'normal',
+                          fontSize: '18px',
+                          lineHeight: '26px',
+                          letterSpacing: '0%',
+                          color: '#111111'
+                        }}
+                        dangerouslySetInnerHTML={{ __html: sanitize(html) }}
+                      />
+                    </RichTextImageHandler>
                   </div>
                 );
               }
