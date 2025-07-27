@@ -112,6 +112,10 @@ export default async function Page({ params }) {
           {article.blocks &&
             article.blocks.map((block, index) => {
               if (block.__component === 'article-blocks.text-block') {
+                // Add null check for block.content
+                if (!block.content) {
+                  return null; // Skip rendering if content is null/undefined
+                }
                 const html = marked.parse(block.content);
                 return (
                   <div key={index} className="mb-6 sm:mb-8">
