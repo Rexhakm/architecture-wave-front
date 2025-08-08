@@ -13,7 +13,7 @@ const FALLBACK_IMAGES = [
 export async function getAllArticles(): Promise<Article[]> {
   try {
     const res = await fetch(
-      `${API_BASE_URL}/articles?populate[coverImage]=true&sort=createdAt:desc`,
+      `${API_BASE_URL}/articles?populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,createdAt,updatedAt&sort=createdAt:desc`,
       { next: { revalidate: 60 } }
     );
 
@@ -46,7 +46,8 @@ export async function getAllArticles(): Promise<Article[]> {
         title: article.title || 'Untitled',
         description: article.description || '',
         slug: article.uid || `article-${article.id}`,
-        category: article.category || 'Architecture',
+        category: (article.category || 'Architecture').charAt(0).toUpperCase() + (article.category || 'Architecture').slice(1).toLowerCase(),
+        secondCategory: article.secondCategory ? (article.secondCategory.charAt(0).toUpperCase() + article.secondCategory.slice(1).toLowerCase()) : undefined,
         categoryColor: getCategoryColor(article.category),
         coverImage: coverImageUrl,
         createdAt: article.createdAt || new Date().toISOString(),
@@ -61,6 +62,21 @@ export async function getAllArticles(): Promise<Article[]> {
   }
 }
 
+export async function getArticlesByCategory(category: string): Promise<Article[]> {
+  try {
+    const allArticles = await getAllArticles();
+    const normalizedCategory = category.toLowerCase();
+    
+    return allArticles.filter(article => 
+      article.category.toLowerCase() === normalizedCategory ||
+      (article.secondCategory && article.secondCategory.toLowerCase() === normalizedCategory)
+    );
+  } catch (error) {
+    console.error('Error fetching articles by category:', error);
+    return [];
+  }
+}
+
 function getCategoryColor(category: string): string {
   const categoryColors: { [key: string]: string } = {
     'Architecture': '#88B056',
@@ -68,9 +84,21 @@ function getCategoryColor(category: string): string {
     'Travel': '#5162BC',
     'Design': '#88B056',
     'Interior': '#DA6969',
-    'Urban': '#5162BC',
-    'lifestyle': '#DA6969' // Handle lowercase category
+    'Urban': '#5162BC'
   };
   
-  return categoryColors[category] || '#88B056';
+  // Capitalize the category to match our color mapping
+  const capitalizedCategory = category ? category.charAt(0).toUpperCase() + category.slice(1).toLowerCase() : 'Architecture';
+  
+  return categoryColors[capitalizedCategory] || '#88B056';
+}
+
+export function formatCategoryDisplay(category: string, secondCategory?: string): string {
+  if (secondCategory) {
+    // Format: "Category, SecondCategory" - capitalize first letter of each word
+    const firstPart = category.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    const secondPart = secondCategory.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    return `${firstPart}, ${secondPart}`;
+  }
+  return category.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
 } 

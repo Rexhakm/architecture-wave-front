@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Header from '../../components/Header';
+import { getArticlesByCategory } from '../../utils/articleUtils';
+import { Article } from '../../types/article';
 
 interface CategoryPageProps {
   params: {
@@ -15,24 +17,47 @@ const categories = [
   { name: 'Art', color: '#E6E6E6' },
 ];
 
-const articles = [
-  { img: '/assets/article1.jpg', title: `WTF Happened to the Winners of Airbnb's $10M` },
-  { img: '/assets/article2.jpg', title: `WTF Happened to the Winners of Airbnb's $10M` },
-  { img: '/assets/article3.jpg', title: `WTF Happened to the Winners of Airbnb's $10M` },
-  { img: '/assets/article4.jpg', title: `WTF Happened to the Winners of Airbnb's $10M` },
-  { img: '/assets/article5.jpg', title: `WTF Happened to the Winners of Airbnb's $10M` },
-  { img: '/assets/article6.jpg', title: `WTF Happened to the Winners of Airbnb's $10M` },
-  { img: '/assets/article7.jpg', title: `WTF Happened to the Winners of Airbnb's $10M` },
-  { img: '/assets/article8.jpg', title: `WTF Happened to the Winners of Airbnb's $10M` },
-  { img: '/assets/article9.jpg', title: `WTF Happened to the Winners of Airbnb's $10M` },
+// Fallback articles for when API is not available
+const fallbackArticles = [
+  { id: 1, title: 'WTF Happened to the Winners of Airbnb\'s $10M', coverImage: '/assets/article1.jpg', category: 'Lifestyle' },
+  { id: 2, title: 'Modern Architecture Trends in 2024', coverImage: '/assets/article2.jpg', category: 'Travel' },
+  { id: 3, title: 'DIY Home Renovation Guide', coverImage: '/assets/article3.jpg', category: 'DIY' },
+  { id: 4, title: 'Contemporary Art in Architecture', coverImage: '/assets/article4.jpg', category: 'Art' },
+  { id: 5, title: 'Sustainable Living Spaces', coverImage: '/assets/article5.jpg', category: 'Lifestyle' },
+  { id: 6, title: 'Urban Planning Innovations', coverImage: '/assets/article6.jpg', category: 'Travel' },
+  { id: 7, title: 'Creative DIY Projects', coverImage: '/assets/article7.jpg', category: 'DIY' },
+  { id: 8, title: 'Artistic Interior Design', coverImage: '/assets/article8.jpg', category: 'Art' },
+  { id: 9, title: 'Lifestyle Architecture Trends', coverImage: '/assets/article9.jpg', category: 'Lifestyle' },
 ];
 
-export default function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = params;
   const title = slug.charAt(0).toUpperCase() + slug.slice(1);
 
+  // Fetch articles for the current category
+  let articles: Article[] = [];
+  try {
+    articles = await getArticlesByCategory(slug);
+  } catch (error) {
+    console.error('Error fetching articles:', error);
+    // Use fallback articles filtered by category
+    articles = fallbackArticles
+      .filter(article => article.category.toLowerCase() === slug.toLowerCase())
+      .map(article => ({
+        id: article.id,
+        title: article.title,
+        description: '',
+        slug: `article-${article.id}`,
+        category: article.category,
+        categoryColor: '#88B056',
+        coverImage: article.coverImage,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }));
+  }
+
   return (
-    <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white rounded-3xl min-h-[calc(100vh-690px)]" style={{ marginBottom: 40, position: 'relative', zIndex: 1 }}>
+    <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white min-h-[calc(100vh-690px)]" style={{ marginBottom: 40, position: 'relative', zIndex: 1, borderRadius: '45px' }}>
       <Header />
       <div className="px-4 sm:px-8 md:px-12 py-6 sm:py-8 md:py-12">
         {/* Heading */}
@@ -79,6 +104,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                 border: 'none',
                 textAlign: 'center',
                 boxShadow: 'none',
+                height: '40px',
               }}
             >
               {cat.name}
@@ -87,11 +113,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         </div>
         {/* Article Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
-          {articles.map((article, idx) => (
-            <div key={idx} className="flex flex-col items-start">
+          {articles.map((article) => (
+            <div key={article.id} className="flex flex-col items-start">
               <div className="mb-3 overflow-hidden rounded-2xl bg-gray-100 w-full aspect-square">
                 <img 
-                  src={article.img} 
+                  src={article.coverImage} 
                   alt={article.title} 
                   className="w-full h-full object-cover rounded-2xl" 
                 />
@@ -107,7 +133,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           <button className="bg-black text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium mb-2 hover:bg-gray-900 transition text-sm sm:text-base">
             View More
           </button>
-          <span className="text-gray-400 text-xs sm:text-sm">723 more articles</span>
+          <span className="text-gray-400 text-xs sm:text-sm">{articles.length} articles in {title}</span>
         </div>
       </div>
     </main>

@@ -47,7 +47,7 @@ export default function ShopPage() {
     };
 
     return (
-        <main className="w-full sm:w-[calc(100%-20px)] md:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl sm:rounded-3xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
+        <main className="w-full sm:w-[calc(100%-20px)] md:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
             <Header />
             
             {/* Main Title */}

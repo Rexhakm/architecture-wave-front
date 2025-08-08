@@ -2,15 +2,20 @@
 
 import React, { useState } from "react";
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Check if we should show navigation (only on home page)
+  const shouldShowNavigation = pathname === '/';
 
   return (
-    <header className="relative w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6" style={{ marginTop: '20px' }}>
-      <div className="flex items-center gap-2">
+    <header className="relative w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6" style={{ marginTop: '20px', borderRadius: '45px' }}>
+      <div className="flex items-center gap-2" style={{ marginLeft: '60px', marginTop: '25px' }}>
         <Link href="/" style={{ position: 'relative', display: 'inline-block', width: '38px', height: '33px' }}>
           <img src="/assets/Vector-7.png" alt="logo" style={{ width: '38px', height: '33px' }} />
           <span
@@ -33,132 +38,133 @@ export default function Header() {
         <span className="font-bold text-base sm:text-lg text-black">Architecture Wave</span>
       </div>
       
-      {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center text-sm font-medium text-gray-700">
-        <div
-          style={{ position: 'relative', marginRight: '40px' }}
-          onMouseEnter={() => setDropdownOpen(true)}
-          onMouseLeave={() => { setDropdownOpen(false); setHoveredIndex(-1); }}
-        >
-          <a
-            href="#"
-            style={{
-              fontFamily: 'Inter',
-              fontWeight: 400,
-              fontSize: '14px',
-              lineHeight: '19px',
-              letterSpacing: '0%',
-              textTransform: 'none',
-              color: 'black',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '5px',
-            }}
+      {/* Desktop Navigation - Only show on home page */}
+      {shouldShowNavigation && (
+        <nav className="hidden md:flex items-center text-sm font-medium text-gray-700" style={{ marginTop: '25px' }}>
+          <div
+            style={{ position: 'relative', marginRight: '60px' }}
+            onMouseEnter={() => setDropdownOpen(true)}
+            onMouseLeave={() => { setDropdownOpen(false); setHoveredIndex(-1); }}
           >
-            Magazine
-            <svg style={{ marginLeft: 4 }} width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </a>
-          {dropdownOpen && (
-            <div
+            <a
+              href="#"
               style={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                background: 'white',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.02)',
-                borderRadius: '8px',
-                minWidth: '120px',
-                zIndex: 100,
-                padding: '12px 0',
+                fontFamily: 'Sora',
+                fontWeight: 400,
+                fontSize: '14px',
+                lineHeight: '19px',
+                letterSpacing: '0%',
+                textTransform: 'none',
+                color: 'black',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
               }}
             >
-              {['Lifestyle', 'Travel', 'DIY', 'Art'].map((item, idx) => (
-                <Link
-                  key={item}
-                  href={`/category/${item.toLowerCase()}`}
-                  onMouseEnter={() => setHoveredIndex(idx)}
-                  onMouseLeave={() => setHoveredIndex(-1)}
-                  style={{
-                    display: 'block',
-                    padding: '10px 24px',
-                    fontFamily: 'Inter',
-                    fontWeight: 400,
-                    fontSize: '14px',
-                    lineHeight: '19px',
-                    letterSpacing: '0%',
-                    color: hoveredIndex === idx ? 'white' : 'black',
-                    background: hoveredIndex === idx ? 'black' : 'transparent',
-                    textDecoration: 'none',
-                    whiteSpace: 'nowrap',
-                    borderRadius: '4px',
-                    transition: 'background 0.15s, color 0.15s',
-                  }}
-                >
-                  {item}
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-        <Link href="/shop" style={{ 
-          marginRight: '40px',
-          fontFamily: 'Inter',
-          fontWeight: 400,
-          fontSize: '14px',
-          lineHeight: '19px',
-          letterSpacing: '0%',
-          textTransform: 'none',
-          color: 'black',
-          textDecoration: 'none'
-        }}>Shop</Link>
-        <Link href="/about-us" style={{ 
-          marginRight: '40px',
-          fontFamily: 'Inter',
-          fontWeight: 400,
-          fontSize: '14px',
-          lineHeight: '19px',
-          letterSpacing: '0%',
-          textTransform: 'none',
-          color: 'black',
-          textDecoration: 'none'
-        }}>About Us</Link>
-        <Link href="/contact-us" style={{ 
-          marginRight: '40px',
-          fontFamily: 'Inter',
-          fontWeight: 400,
-          fontSize: '14px',
-          lineHeight: '19px',
-          letterSpacing: '0%',
-          textTransform: 'none',
-          color: 'black',
-          textDecoration: 'none'
-        }}>Contact Us</Link>
-        <button className="p-2 rounded-full hover:bg-gray-100">
-          <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              Magazine
+              <svg style={{ marginLeft: 4 }} width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </a>
+            {dropdownOpen && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: 0,
+                  background: 'white',
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.02)',
+                  borderRadius: '8px',
+                  minWidth: '120px',
+                  zIndex: 100,
+                  padding: '12px 0',
+                }}
+              >
+                {['Lifestyle', 'Travel', 'DIY', 'Art'].map((item, idx) => (
+                  <Link
+                    key={item}
+                    href={`/category/${item.toLowerCase()}`}
+                    onMouseEnter={() => setHoveredIndex(idx)}
+                    onMouseLeave={() => setHoveredIndex(-1)}
+                    style={{
+                      display: 'block',
+                      padding: '10px 24px',
+                      fontFamily: 'Inter',
+                      fontWeight: 400,
+                      fontSize: '14px',
+                      lineHeight: '19px',
+                      letterSpacing: '0%',
+                      color: hoveredIndex === idx ? 'white' : 'black',
+                      background: hoveredIndex === idx ? 'black' : 'transparent',
+                      textDecoration: 'none',
+                      whiteSpace: 'nowrap',
+                      borderRadius: '4px',
+                      transition: 'background 0.15s, color 0.15s',
+                    }}
+                  >
+                    {item}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+          {/* Shop link hidden
+          <Link href="/shop" style={{ 
+            marginRight: '60px',
+            fontFamily: 'Inter',
+            fontWeight: 400,
+            fontSize: '14px',
+            lineHeight: '19px',
+            letterSpacing: '0%',
+            textTransform: 'none',
+            color: 'black',
+            textDecoration: 'none'
+          }}>Shop</Link>
+          */}
+          <Link href="/about-us" style={{ 
+            marginRight: '60px',
+            fontFamily: 'Sora',
+            fontWeight: 400,
+            fontSize: '14px',
+            lineHeight: '19px',
+            letterSpacing: '0%',
+            textTransform: 'none',
+            color: 'black',
+            textDecoration: 'none'
+          }}>About Us</Link>
+          <Link href="/contact-us" style={{ 
+            marginRight: '60px',
+            fontFamily: 'Sora',
+            fontWeight: 400,
+            fontSize: '14px',
+            lineHeight: '19px',
+            letterSpacing: '0%',
+            textTransform: 'none',
+            color: 'black',
+            textDecoration: 'none'
+          }}>Contact Us</Link>
+        </nav>
+      )}
+
+      {/* Mobile Menu Button - Only show on home page */}
+      {shouldShowNavigation && (
+        <button 
+          className="md:hidden p-2 rounded-full hover:bg-gray-100"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{ marginTop: '25px' }}
+        >
+          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            {mobileMenuOpen ? (
+              <path d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            )}
           </svg>
         </button>
-      </nav>
+      )}
 
-      {/* Mobile Menu Button */}
-      <button 
-        className="md:hidden p-2 rounded-full hover:bg-gray-100"
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-      >
-        <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          {mobileMenuOpen ? (
-            <path d="M6 18L18 6M6 6l12 12" />
-          ) : (
-            <path d="M4 6h16M4 12h16M4 18h16" />
-          )}
-        </svg>
-      </button>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
+      {/* Mobile Menu - Only show on home page */}
+      {shouldShowNavigation && mobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-t z-50 md:hidden" style={{ marginTop: '0' }}>
           <div className="px-4 py-6 space-y-4">
             <div className="border-b pb-4">
@@ -176,22 +182,15 @@ export default function Header() {
                 ))}
               </div>
             </div>
+            {/* Shop link hidden
             <Link href="/shop" className="block py-2 text-black font-medium">Shop</Link>
+            */}
             <Link href="/about-us" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
               About Us
             </Link>
             <Link href="/contact-us" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
               Contact Us
             </Link>
-            <div className="pt-4 border-t">
-              <button className="flex items-center gap-2 p-2 rounded-full hover:bg-gray-100">
-                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <span className="text-sm">Search</span>
-              </button>
-            </div>
           </div>
         </div>
       )}

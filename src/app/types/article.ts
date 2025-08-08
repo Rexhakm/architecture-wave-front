@@ -4,6 +4,7 @@ export interface Article {
   description: string;
   slug: string;
   category: string;
+  secondCategory?: string;
   categoryColor: string;
   coverImage: string;
   createdAt: string;

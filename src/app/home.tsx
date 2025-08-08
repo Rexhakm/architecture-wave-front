@@ -1,335 +1,293 @@
-import React from "react";
+'use client';
+
+import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
-import { getAllArticles } from "./utils/articleUtils";
+import { getAllArticles, formatCategoryDisplay } from "./utils/articleUtils";
 import Link from "next/link";
 import { Article } from "./types/article";
 
-export default async function Home() {
-    const articles: Article[] = await getAllArticles();
-    
+export default function Home() {
+    const [articles, setArticles] = useState<Article[]>([]);
+    const [displayedArticles, setDisplayedArticles] = useState<Article[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(true);
+    const articlesPerPage = 10;
+
+    useEffect(() => {
+        const loadArticles = async () => {
+            try {
+                const allArticles = await getAllArticles();
+                setArticles(allArticles);
+                setDisplayedArticles(allArticles.slice(0, articlesPerPage));
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error loading articles:', error);
+                setIsLoading(false);
+            }
+        };
+        loadArticles();
+    }, []);
+
+    const handleViewMore = () => {
+        const nextPage = currentPage + 1;
+        const startIndex = 0;
+        const endIndex = nextPage * articlesPerPage;
+        setDisplayedArticles(articles.slice(startIndex, endIndex));
+        setCurrentPage(nextPage);
+    };
+
+    const hasMoreArticles = displayedArticles.length < articles.length;
+
+    if (isLoading) {
+        return (
+            <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white" style={{ borderRadius: '45px' }}>
+                <Header />
+                <div className="flex items-center justify-center min-h-screen">
+                    <div className="text-lg">Loading articles...</div>
+                </div>
+            </main>
+        );
+    }
+
     return (
-        <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white rounded-3xl">
+        <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white" style={{ borderRadius: '45px' }}>
             <Header />
-            <section className="mb-12">
-                <div className="px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-12">
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal mb-4 sm:mb-6" style={{
+            <div className="ml-[60px]">
+                <section className="mb-12">
+                    <div className="px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-12">
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal mb-4 sm:mb-6" style={{
+                            fontFamily: 'var(--font-mazzard-soft)',
+                            color: '#111',
+                            lineHeight: '100%',
+                            letterSpacing: '0%',
+                            display: '-webkit-box',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 2,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis'
+                        }}>
+                            Your atlas to a life<br />
+                            <span style={{ fontWeight: 700 }}>with a good design.</span>
+                        </h1>
+                        <p className="mb-6 sm:mb-8 text-base sm:text-lg max-w-lg sm:max-w-xl md:max-w-2xl" style={{
+                            fontFamily: 'var(--font-mazzard-soft)',
+                            fontWeight: 500,
+                            lineHeight: '28px',
+                            letterSpacing: '5%',
+                            color: '#000',
+                            display: '-webkit-box',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 4,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            marginTop: '40px',
+                            marginBottom: '70px'
+                            
+                        }}>
+                            Discover the stories, trends, and<br />
+                            experiences that shape <span style={{ fontWeight: 700 }}>
+                                how we live,<br />
+                                work, and connect, blending everyday.
+                            </span>
+                        </p>
+                        <div className="flex flex-row gap-8 w-full mt-12 overflow-hidden">
+                            {articles.slice(0, 3).map((article: Article) => (
+                                <Link
+                                    key={article.id}
+                                    href={`/articles/${article.slug}`}
+                                    className="flex-shrink-0 w-[350px] flex flex-row items-center gap-4 hover:opacity-90 transition-opacity"
+                                >
+                                    <img
+                                        src={article.coverImage}
+                                        alt={article.category}
+                                        className="rounded-2xl object-cover"
+                                        style={{
+                                            width: '140px',
+                                            aspectRatio: '1/1',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
+                                    <div className="flex flex-col">
+                                        <span className="text-sm sm:text-base font-medium mb-1 block text-green-600">
+                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                        </span>
+                                        <span className="font-medium text-sm sm:text-base text-black block" style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 500,
+                                            fontSize: '20px',
+                                            lineHeight: '32px',
+                                            color: '#111',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 2,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {article.title}
+                                        </span>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Topic/Series/Creator Grid Section */}
+                <section className="mb-16 px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-12">
+                    <h2 className="text-2xl md:text-3xl font-semibold mb-2" style={{
                         fontFamily: 'var(--font-mazzard-soft)',
-                        color: '#111',
-                        lineHeight: '100%',
+                        fontWeight: 600,
+                        color: '#000000',
+                        lineHeight: '120%',
                         letterSpacing: '0%'
-                    }}>Your atlas to a life<br /><span style={{
-                        fontWeight: 700,
-                        fontFamily: 'var(--font-mazzard-soft)'
-                    }}>with a good design.</span></h1>
-                    <p className="mb-6 sm:mb-8 text-base sm:text-lg max-w-lg sm:max-w-xl md:max-w-2xl" style={{
-                        fontFamily: 'var(--font-mazzard-soft)',
-                        fontWeight: 500,
-                        lineHeight: '28px',
-                        letterSpacing: '5%',
-                        color: '#000',
                     }}>
-                        Discover the stories, trends, and experiences that shape <span style={{ fontWeight: 700 }}>
-                            how we live, work, and connect, blending everyday.
-                        </span>
+                        Dive in by topic, series, or creator
+                    </h2>
+                    <p className="mb-8 text-sm sm:text-base max-w-lg sm:max-w-xl md:max-w-2xl" style={{
+                        fontFamily: 'var(--font-mazzard-soft)',
+                        fontWeight: 400,
+                        fontSize: '14px',
+                        color: '#111'
+                    }}>
+                        A ribbon-esque stair connects three levels that hold a bath
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 justify-start items-start mt-8 sm:mt-12 md:mt-20">
-                        {articles.slice(0, 3).map((article: Article, idx: number) => (
-                            <Link key={article.id} href={`/articles/${article.slug}`} className="flex flex-row items-center w-full sm:w-80 gap-4 hover:opacity-90 transition-opacity">
-                                <img 
-                                    src={article.coverImage} 
-                                    alt={article.category} 
-                                    className="rounded-2xl object-cover" 
-                                    style={{
-                                        width: '140px',
-                                        aspectRatio: '1/1',
-                                        objectFit: 'cover'
-                                    }}
-                                />
+                    <div className="flex justify-start gap-12 flex-wrap">
+                        {articles.slice(0, 3).map((article: Article) => (
+                            <Link
+                                key={article.id}
+                                href={`/articles/${article.slug}`}
+                                className="w-[320px] block hover:opacity-90 transition-opacity"
+                            >
                                 <div>
-                                    <span className="text-sm sm:text-base font-medium mb-1 block" style={{
-                                        fontFamily: 'Inter',
-                                        fontWeight: 600,
-                                        lineHeight: '28.5px',
-                                        letterSpacing: '-5%',
-                                        color: article.categoryColor
-                                    }}>{article.category}</span>
-                                    <span className="font-medium text-sm sm:text-base text-black text-left block" style={{
-                                        fontWeight: 500,
-                                        marginBottom: 0,
+                                    <img
+                                        src={article.coverImage}
+                                        alt={article.category}
+                                        className="rounded-2xl mb-4 w-full h-[320px] object-cover"
+                                    />
+                                    <span className="text-sm font-semibold mb-2 block text-orange-400">
+                                        {formatCategoryDisplay(article.category, article.secondCategory)}
+                                    </span>
+                                    <h3 className="font-bold text-lg mb-2" style={{
                                         fontFamily: 'var(--font-mazzard-soft)',
-                                        color: '#000000',
-                                        lineHeight: '100%',
-                                        letterSpacing: '0%'
-                                    }}>{article.title}</span>
+                                        fontWeight: 500,
+                                        fontSize: '20px',
+                                        lineHeight: '32px',
+                                        color: '#111',
+                                        display: '-webkit-box',
+                                        WebkitBoxOrient: 'vertical',
+                                        WebkitLineClamp: 2,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}>
+                                        {article.title}
+                                    </h3>
+                                    <p className="text-gray-500 text-sm" style={{
+                                        fontFamily: 'var(--font-mazzard-soft)',
+                                        fontWeight: 400,
+                                        fontSize: '14px',
+                                        lineHeight: '26px',
+                                        display: '-webkit-box',
+                                        WebkitBoxOrient: 'vertical',
+                                        WebkitLineClamp: 3,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        color: '#111'
+                                    }}>
+                                        {article.description?.substring(0, 100)}...
+                                    </p>
                                 </div>
                             </Link>
                         ))}
                     </div>
-                </div>
-            </section>
-            {/* Topic/Series/Creator Grid Section */}
-            <section className="mb-16 px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-12">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-2" style={{
-                    fontFamily: 'var(--font-mazzard-soft)',
-                    fontWeight: 500,
-                    color: '#000000',
-                    lineHeight: '100%',
-                    letterSpacing: '0%'
-                }}>
-                    Dive in by topic, series, or creator
-                </h2>
-                <p className="mb-6 sm:mb-8 text-sm sm:text-base text-gray-500 max-w-lg sm:max-w-xl md:max-w-2xl" style={{ fontFamily: 'var(--font-mazzard-soft)', fontWeight: 400 }}>
-                    A ribbon-esque stair connects three levels that hold a bath
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                    {articles.slice(0, 6).map((article: Article, idx: number) => (
-                        <Link key={article.id} href={`/articles/${article.slug}`} className="p-0 hover:opacity-90 transition-opacity">
-                            <div>
-                                <img 
-                                    src={article.coverImage} 
-                                    alt={article.category} 
-                                    className="w-full rounded-2xl mb-4 object-cover" 
+                </section>
+
+                {/* Articles List Section */}
+                <section className="w-full flex flex-col items-start pb-16 mb-[40px] ml-[40px]">
+                    <div className="flex flex-col gap-12 w-full max-w-3xl">
+                        {displayedArticles.map((article: Article) => (
+                            <Link
+                                key={article.id}
+                                href={`/articles/${article.slug}`}
+                                className="flex flex-col md:flex-row items-start gap-8 hover:opacity-90 transition-opacity cursor-pointer"
+                            >
+                                <img
+                                    src={article.coverImage}
+                                    alt={article.category}
+                                    className="w-full md:w-[350px] rounded-2xl object-cover"
                                     style={{
-                                        aspectRatio: '16/9',
+                                        aspectRatio: '16/10',
                                         objectFit: 'cover'
                                     }}
                                 />
-                                <span className="text-sm sm:text-base font-medium mb-1 block" style={{
-                                    fontFamily: 'Inter',
-                                    fontWeight: 600,
-                                    lineHeight: '28.5px',
-                                    letterSpacing: '-5%',
-                                    color: article.categoryColor
-                                }}>{article.category}</span>
-                                <h3 className="font-semibold text-base sm:text-lg mb-1" style={{
-                                    fontFamily: 'var(--font-mazzard-soft)',
-                                    fontWeight: 500,
-                                    fontSize: '18px',
-                                    lineHeight: '27px',
-                                    letterSpacing: '0%',
-                                    color: '#111'
-                                }}>{article.title}</h3>
-                                <p className="text-gray-500 text-xs sm:text-sm" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-                                    {article.description?.substring(0, 100)}...
-                                </p>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-            </section>
-            {/* Vertical Card List Section */}
-            <section className="mb-16 px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-12">
-                <div className="flex flex-col gap-8 sm:gap-12">
-                    {articles.slice(0, 4).map((article: Article, idx: number) => (
-                        <Link key={article.id} href={`/articles/${article.slug}`} className="flex flex-col lg:flex-row items-start gap-6 sm:gap-8 hover:opacity-90 transition-opacity">
-                            <img 
-                                src={article.coverImage} 
-                                alt={article.category} 
-                                className="w-full lg:w-[350px] rounded-2xl object-cover" 
-                                style={{
-                                    aspectRatio: '16/10',
-                                    objectFit: 'cover'
-                                }}
-                            />
-                            <div>
-                                <span className="block mb-1 text-sm sm:text-base" style={{
-                                    fontFamily: 'Inter',
-                                    fontWeight: 600,
-                                    lineHeight: '28.5px',
-                                    letterSpacing: '-5%',
-                                    color: article.categoryColor
-                                }}>{article.category}</span>
-                                <h3 className="mb-1 text-lg sm:text-xl lg:text-2xl" style={{ fontFamily: 'var(--font-mazzard-soft)', fontWeight: 700, lineHeight: '32px', color: '#111' }}>{article.title}</h3>
-                                <p className="text-sm sm:text-base" style={{ fontFamily: 'var(--font-mazzard-soft)', fontWeight: 400, lineHeight: '26px', color: '#6B7280' }}>
-                                    {article.description}
-                                </p>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-            </section>
-            {/* Featured Projects Section */}
-            <section className="mb-16 px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-12">
-                <h2 className="text-3xl font-semibold mb-2" style={{ fontFamily: 'var(--font-mazzard-soft)', color: '#111' }}>
-                    Featured Projects
-                </h2>
-                <p className="mb-8 text-gray-500" style={{ fontFamily: 'var(--font-mazzard-soft)', fontWeight: 400, fontSize: '16px', maxWidth: '700px' }}>
-                    Projects are submitted to Wave by our community of architects, designers, agents, and proud home dwellers. <a href="#" className="font-semibold underline">Post your project!</a>
-                </p>
-                {/* Two Cards Layout */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* First Card */}
-                    {articles.length > 0 && (
-                        <Link href={`/articles/${articles[0].slug}`} className="hover:opacity-90 transition-opacity">
-                            <img 
-                                src={articles[0].coverImage} 
-                                alt="Featured" 
-                                className="w-full rounded-2xl mb-4 object-cover" 
-                                style={{
-                                    aspectRatio: '16/9',
-                                    objectFit: 'cover'
-                                }}
-                            />
-                            <span className="block mb-1" style={{
-                                fontFamily: 'Inter',
-                                fontWeight: 600,
-                                fontSize: '16px',
-                                lineHeight: '28.5px',
-                                letterSpacing: '-5%',
-                                color: articles[0].categoryColor
-                            }}>{articles[0].category}</span>
-                            <h3 className="mb-1" style={{
-                                fontFamily: 'var(--font-mazzard-soft)',
-                                fontWeight: 700,
-                                fontSize: '24px',
-                                lineHeight: '32px',
-                                color: '#111'
-                            }}>{articles[0].title}</h3>
-                            <p style={{
-                                fontFamily: 'var(--font-mazzard-soft)',
-                                fontWeight: 400,
-                                fontSize: '16px',
-                                lineHeight: '26px',
-                                color: '#6B7280'
-                            }}>
-                                {articles[0].description?.substring(0, 150)}...
-                            </p>
-                        </Link>
-                    )}
-                    {/* Second Card */}
-                    {articles.length > 1 && (
-                        <Link href={`/articles/${articles[1].slug}`} className="hover:opacity-90 transition-opacity">
-                            <img 
-                                src={articles[1].coverImage} 
-                                alt={articles[1].category} 
-                                className="w-full rounded-2xl mb-4 object-cover" 
-                                style={{
-                                    aspectRatio: '16/9',
-                                    objectFit: 'cover'
-                                }}
-                            />
-                            <span className="block mb-1" style={{
-                                fontFamily: 'Inter',
-                                fontWeight: 600,
-                                fontSize: '16px',
-                                lineHeight: '28.5px',
-                                letterSpacing: '-5%',
-                                color: articles[1].categoryColor
-                            }}>{articles[1].category}</span>
-                            <h3 className="mb-1" style={{
-                                fontFamily: 'var(--font-mazzard-soft)',
-                                fontWeight: 700,
-                                fontSize: '24px',
-                                lineHeight: '32px',
-                                color: '#111'
-                            }}>{articles[1].title}</h3>
-                            <p style={{
-                                fontFamily: 'var(--font-mazzard-soft)',
-                                fontWeight: 400,
-                                fontSize: '16px',
-                                lineHeight: '26px',
-                                color: '#6B7280'
-                            }}>
-                                {articles[1].description?.substring(0, 150)}...
-                            </p>
-                        </Link>
-                    )}
-                </div>
-            </section>
-            {/* Subscribe Hero Section */}
-            <section className="w-full flex items-center justify-center pb-16" style={{ height: '550px', marginBottom: '40px', paddingLeft: '40px', paddingRight: '40px' }}>
-                <div style={{
-                    position: 'relative',
-                    width: '100%',
-                    maxWidth: '1200px',
-                    height: '550px',
-                    borderRadius: '36px',
-                    overflow: 'hidden',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: 'url(/assets/subscribe-bg.jpg) center/cover no-repeat',
-                }}>
-                    {/* Overlay */}
-                    <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        background: 'rgba(17, 17, 17, 0.65)',
-                        zIndex: 1,
-                    }} />
-                    {/* Content */}
-                    <div style={{
-                        position: 'relative',
-                        zIndex: 2,
-                        width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
-                        <h2 style={{
-                            color: 'white',
-                            fontFamily: 'var(--font-mazzard-soft)',
-                            fontWeight: 400,
-                            fontSize: '48px',
-                            lineHeight: '110%',
-                            marginBottom: '16px',
-                            textAlign: 'center',
-                        }}>
-                            Your atlas to a life<br />
-                            <span style={{ fontWeight: 700 }}>with a good design.</span>
-                        </h2>
-                        <button style={{
-                            marginTop: '24px',
-                            background: 'white',
-                            color: '#111',
-                            border: 'none',
-                            borderRadius: '12px',
-                            padding: '12px 32px',
-                            fontFamily: 'var(--font-inter)',
-                            fontWeight: 700,
-                            fontSize: '18px',
-                            cursor: 'pointer',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
-                        }}>Subscribe</button>
+                                <div>
+                                    <span className="block mb-1" style={{
+                                        color: article.categoryColor,
+                                        fontFamily: 'Inter',
+                                        fontWeight: 600,
+                                        fontSize: '16px',
+                                        lineHeight: '28.5px',
+                                        letterSpacing: '-5%'
+                                    }}>
+                                        {formatCategoryDisplay(article.category, article.secondCategory)}
+                                    </span>
+                                    <h3 className="mb-1" style={{
+                                        fontFamily: 'var(--font-mazzard-soft)',
+                                        fontWeight: 500,
+                                        fontSize: '20px',
+                                        lineHeight: '32px',
+                                        color: '#111',
+                                        display: '-webkit-box',
+                                        WebkitBoxOrient: 'vertical',
+                                        WebkitLineClamp: 2,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}>
+                                        {article.title}
+                                    </h3>
+                                    <p style={{
+                                        fontFamily: 'var(--font-mazzard-soft)',
+                                        fontWeight: 400,
+                                        fontSize: '14px',
+                                        lineHeight: '26px',
+                                        display: '-webkit-box',
+                                        WebkitBoxOrient: 'vertical',
+                                        WebkitLineClamp: 3,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        color: '#111'
+                                    }}>
+                                        {article.description}
+                                    </p>
+                                </div>
+                            </Link>
+                        ))}
                     </div>
-                </div>
-            </section>
-            {/* Articles List Section */}
-            <section className="w-full flex flex-col items-center pb-16" style={{ paddingLeft: '40px', paddingRight: '40px', marginBottom: '40px' }}>
-                <div className="flex flex-col gap-12 w-full max-w-3xl">
-                    {articles.map((article: Article, idx: number) => (
-                        <Link 
-                            key={article.id}
-                            href={`/articles/${article.slug}`}
-                            className="flex flex-col md:flex-row items-start gap-8 hover:opacity-90 transition-opacity cursor-pointer"
-                        >
-                            <img 
-                                src={article.coverImage} 
-                                alt={article.category} 
-                                className="w-full md:w-[350px] rounded-2xl object-cover" 
+                    {hasMoreArticles && (
+                        <div className="flex flex-col items-center justify-center w-full mt-12">
+                            <button
+                                onClick={handleViewMore}
                                 style={{
-                                    aspectRatio: '16/10',
-                                    objectFit: 'cover'
+                                    width: 'auto',
+                                    height: '53px',
+                                    borderRadius: '10px',
+                                    padding: '15px 20px',
+                                    background: '#000000',
+                                    color: '#FFFFFF',
+                                    fontFamily: 'var(--font-inter)',
+                                    fontWeight: 700,
+                                    fontSize: '18px',
+                                    cursor: 'pointer',
+                                    transition: 'opacity 0.2s ease'
                                 }}
-                            />
-                            <div>
-                                <span className="block mb-1" style={{ color: article.categoryColor, fontFamily: 'Inter', fontWeight: 600, fontSize: '16px', lineHeight: '28.5px', letterSpacing: '-5%' }}>{article.category}</span>
-                                <h3 className="mb-1" style={{ fontFamily: 'var(--font-mazzard-soft)', fontWeight: 700, fontSize: '24px', lineHeight: '32px', color: '#111' }}>{article.title}</h3>
-                                <p style={{ fontFamily: 'var(--font-mazzard-soft)', fontWeight: 400, fontSize: '16px', lineHeight: '26px', color: '#6B7280' }}>{article.description}</p>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-                <div className="flex flex-col items-center mt-12">
-                    <span style={{ color: '#BDBDBD', fontFamily: 'var(--font-mazzard-soft)', fontWeight: 400, fontSize: '16px' }}>
-                        {articles.length} articles available
-                    </span>
-                </div>
-            </section>
+                                onMouseEnter={(e) => (e.target as HTMLButtonElement).style.opacity = '0.8'}
+                                onMouseLeave={(e) => (e.target as HTMLButtonElement).style.opacity = '1'}
+                            >
+                                View More
+                            </button>
+                        </div>
+                    )}
+                </section>
+            </div>
         </main>
     );
-} 
+}

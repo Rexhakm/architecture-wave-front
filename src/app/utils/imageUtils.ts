@@ -26,4 +26,21 @@ export function getBackendBaseUrl(): string {
   
   // Always use production Strapi backend regardless of frontend environment
   return 'https://architecture-backend.onrender.com';
-} 
+}
+
+// Cloudinary helper functions
+export const createCloudinaryThumbnailUrl = (originalUrl: string): string | null => {
+  const parts = originalUrl.split('/upload/');
+  if (parts.length !== 2) return null;
+
+  const [prefix, suffix] = parts;
+  return `${prefix}/upload/w_400,h_300,c_thumb,g_auto/${suffix}`;
+};
+
+export const createCloudinaryBlurUrl = (originalUrl: string): string | null => {
+  const parts = originalUrl.split('/upload/');
+  if (parts.length !== 2) return null;
+
+  const [prefix, suffix] = parts;
+  return `${prefix}/upload/e_blur:500,w_10,h_10,c_thumb,g_auto/${suffix}`;
+}; 

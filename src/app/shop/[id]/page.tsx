@@ -16,7 +16,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   // If product not found, show a fallback
   if (!product) {
     return (
-      <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white rounded-3xl pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
+      <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
         <Header />
         <div className="text-center py-12">
           <h1 className="text-2xl font-light text-gray-900 mb-4">Product not found</h1>
@@ -35,7 +35,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
     .slice(0, 4)
 
   return (
-    <main className="w-full sm:w-[calc(100%-20px)] md:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl sm:rounded-3xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
+    <main className="w-full sm:w-[calc(100%-20px)] md:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
       <Header />
       
       {/* Product Detail */}
