@@ -1,4 +1,5 @@
 import React from "react";
+import { absOrFallback } from '../utils/urlUtils';
 
 export default function Footer() {
   return (
@@ -13,30 +14,16 @@ export default function Footer() {
     >
       {/* Background Vectors */}
       <img
-        src="/assets/Vector-5.png"
-        alt="background vector 5"
-        style={{
-          position: "absolute",
-          left: 0,
-          bottom: 0,
-          width: "60%",
-          zIndex: 0,
-          pointerEvents: "none",
-          opacity: 0.7,
-        }}
+        src={absOrFallback('/assets/Vector-5.png')}
+        alt="Decorative element"
+        className="absolute top-0 right-0 w-32 h-32 opacity-10"
+        style={{ zIndex: 0 }}
       />
       <img
-        src="/assets/Vector-6.png"
-        alt="background vector 6"
-        style={{
-          position: "absolute",
-          right: 0,
-          top: 0,
-          width: "60%",
-          zIndex: 0,
-          pointerEvents: "none",
-          opacity: 0.7,
-        }}
+        src={absOrFallback('/assets/Vector-6.png')}
+        alt="Decorative element"
+        className="absolute bottom-0 left-0 w-32 h-32 opacity-10"
+        style={{ zIndex: 0 }}
       />
 
       {/* Main Content Container with left margin */}
@@ -47,11 +34,11 @@ export default function Footer() {
           <div className="flex-1 max-w-md">
             {/* Logo */}
             <div className="flex items-start gap-2 mb-10">
-              <img src="/assets/Vector.png" alt="a" className="h-16 sm:h-20 md:h-28 w-auto" />
-              <img src="/assets/Vector-2.png" alt="w" className="h-16 sm:h-20 md:h-28 w-auto" />
+              <img src={absOrFallback('/assets/Vector.png')} alt="a" className="h-16 sm:h-20 md:h-28 w-auto" />
+              <img src={absOrFallback('/assets/Vector-2.png')} alt="w" className="h-16 sm:h-20 md:h-28 w-auto" />
               <div className="flex items-center ml-2">
-                <img src="/assets/Vector-3.png" alt="T" className="h-3 sm:h-4 w-auto" />
-                <img src="/assets/Vector-4.png" alt="M" className="h-3 sm:h-4 w-auto" />
+                <img src={absOrFallback('/assets/Vector-3.png')} alt="T" className="h-3 sm:h-4 w-auto" />
+                <img src={absOrFallback('/assets/Vector-4.png')} alt="M" className="h-3 sm:h-4 w-auto" />
               </div>
             </div>
 
@@ -101,10 +88,10 @@ export default function Footer() {
               </h4>
               <ul className="space-y-5 text-sm text-gray-300">
                 <li style={{ fontFamily: 'var(--font-mazzard-soft)', fontWeight: 500, fontSize: '14px', lineHeight: '140%', marginTop: '40px' }}>
-                  <a href="/about-us">About Us</a>
+                  <a href={absOrFallback('/about-us')}>About Us</a>
                 </li>
                 <li style={{ fontFamily: 'var(--font-mazzard-soft)', fontWeight: 500, fontSize: '14px', lineHeight: '140%', marginTop: '40px' }}>
-                  <a href="/about-us">Our Mission</a>
+                  <a href={absOrFallback('/about-us')}>Our Mission</a>
                 </li>
               </ul>
             </div>

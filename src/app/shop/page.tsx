@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import ProductImage from "../components/ProductImage";
 import Link from "next/link";
 import { categories, featuredProducts, exclusiveProducts, shoppingGuides } from "../data/products";
+import { absOrFallback } from "../utils/urlUtils";
 
 export default function ShopPage() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -92,7 +93,7 @@ export default function ShopPage() {
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-6">
                     {featuredProducts.map((product, index) => (
-                        <Link key={index} href={`/shop/${product.id}`} className="group cursor-pointer transition-all duration-300 hover:scale-105">
+                        <Link key={index} href={absOrFallback(`/shop/${product.id}`)} className="group cursor-pointer transition-all duration-300 hover:scale-105">
                             <div className="bg-gray-100 rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 transition-all duration-300 group-hover:bg-gray-200 group-hover:shadow-lg aspect-square">
                                 <ProductImage 
                                     src={product.image} 
@@ -162,7 +163,7 @@ export default function ShopPage() {
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
                         {exclusiveProducts.map((product, index) => (
-                            <Link key={index} href={`/shop/${product.id}`} className={`group cursor-pointer transition-all duration-300 hover:scale-105 flex-shrink-0 ${index === 0 ? 'w-64 sm:w-80' : 'w-48 sm:w-64'}`}>
+                            <Link key={index} href={absOrFallback(`/shop/${product.id}`)} className={`group cursor-pointer transition-all duration-300 hover:scale-105 flex-shrink-0 ${index === 0 ? 'w-64 sm:w-80' : 'w-48 sm:w-64'}`}>
                                 <div className="bg-gray-100 rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 transition-all duration-300 group-hover:bg-gray-200 group-hover:shadow-lg aspect-square">
                                     <ProductImage 
                                         src={product.image} 

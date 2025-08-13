@@ -5,12 +5,14 @@ import Header from "./components/Header";
 import { getAllArticles, formatCategoryDisplay } from "./utils/articleUtils";
 import Link from "next/link";
 import { Article } from "./types/article";
+import { absOrFallback } from "./utils/urlUtils";
 
 export default function Home() {
     const [articles, setArticles] = useState<Article[]>([]);
     const [displayedArticles, setDisplayedArticles] = useState<Article[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
     const articlesPerPage = 10;
 
     useEffect(() => {
@@ -28,12 +30,18 @@ export default function Home() {
         loadArticles();
     }, []);
 
-    const handleViewMore = () => {
+    const handleViewMore = async () => {
+        setIsLoadingMore(true);
+        
+        // Simulate a small delay for smoother UX
+        await new Promise(resolve => setTimeout(resolve, 400));
+        
         const nextPage = currentPage + 1;
         const startIndex = 0;
         const endIndex = nextPage * articlesPerPage;
         setDisplayedArticles(articles.slice(startIndex, endIndex));
         setCurrentPage(nextPage);
+        setIsLoadingMore(false);
     };
 
     const hasMoreArticles = displayedArticles.length < articles.length;
@@ -91,10 +99,10 @@ export default function Home() {
                             </span>
                         </p>
                         <div className="flex flex-row gap-8 w-full mt-12 overflow-hidden">
-                            {articles.slice(0, 3).map((article: Article) => (
+                            {articles.filter(article => article.isPromoted).slice(0, 3).map((article: Article) => (
                                 <Link
                                     key={article.id}
-                                    href={`/articles/${article.slug}`}
+                                    href={absOrFallback(`/articles/${article.slug}`)}
                                     className="flex-shrink-0 w-[350px] flex flex-row items-center gap-4 hover:opacity-90 transition-opacity"
                                 >
                                     <img
@@ -155,7 +163,7 @@ export default function Home() {
                         {articles.slice(0, 3).map((article: Article) => (
                             <Link
                                 key={article.id}
-                                href={`/articles/${article.slug}`}
+                                href={absOrFallback(`/articles/${article.slug}`)}
                                 className="w-[320px] block hover:opacity-90 transition-opacity"
                             >
                                 <div>
@@ -204,90 +212,165 @@ export default function Home() {
                 {/* Articles List Section */}
                 <section className="w-full flex flex-col items-start pb-16 mb-[40px] ml-[40px]">
                     <div className="flex flex-col gap-12 w-full max-w-3xl">
-                        {displayedArticles.map((article: Article) => (
-                            <Link
+                        {displayedArticles.map((article: Article, index: number) => (
+                            <div
                                 key={article.id}
-                                href={`/articles/${article.slug}`}
-                                className="flex flex-col md:flex-row items-start gap-8 hover:opacity-90 transition-opacity cursor-pointer"
+                                className="animate-fadeInUp"
+                                style={{
+                                    animationDelay: `${index * 100}ms`,
+                                    animationFillMode: 'both'
+                                }}
                             >
-                                <img
-                                    src={article.coverImage}
-                                    alt={article.category}
-                                    className="w-full md:w-[350px] rounded-2xl object-cover"
-                                    style={{
-                                        aspectRatio: '16/10',
-                                        objectFit: 'cover'
-                                    }}
-                                />
-                                <div>
-                                    <span className="block mb-1" style={{
-                                        color: article.categoryColor,
-                                        fontFamily: 'Inter',
-                                        fontWeight: 600,
-                                        fontSize: '16px',
-                                        lineHeight: '28.5px',
-                                        letterSpacing: '-5%'
-                                    }}>
-                                        {formatCategoryDisplay(article.category, article.secondCategory)}
-                                    </span>
-                                    <h3 className="mb-1" style={{
-                                        fontFamily: 'var(--font-mazzard-soft)',
-                                        fontWeight: 500,
-                                        fontSize: '20px',
-                                        lineHeight: '32px',
-                                        color: '#111',
-                                        display: '-webkit-box',
-                                        WebkitBoxOrient: 'vertical',
-                                        WebkitLineClamp: 2,
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis'
-                                    }}>
-                                        {article.title}
-                                    </h3>
-                                    <p style={{
-                                        fontFamily: 'var(--font-mazzard-soft)',
-                                        fontWeight: 400,
-                                        fontSize: '14px',
-                                        lineHeight: '26px',
-                                        display: '-webkit-box',
-                                        WebkitBoxOrient: 'vertical',
-                                        WebkitLineClamp: 3,
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        color: '#111'
-                                    }}>
-                                        {article.description}
-                                    </p>
-                                </div>
-                            </Link>
+                                <Link
+                                    href={absOrFallback(`/articles/${article.slug}`)}
+                                    className="flex flex-col md:flex-row items-start gap-8 hover:opacity-90 transition-opacity cursor-pointer"
+                                >
+                                    <img
+                                        src={article.coverImage}
+                                        alt={article.category}
+                                        className="w-full md:w-[350px] rounded-2xl object-cover"
+                                        style={{
+                                            aspectRatio: '16/10',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
+                                    <div>
+                                        <span className="block mb-1" style={{
+                                            color: article.categoryColor,
+                                            fontFamily: 'Inter',
+                                            fontWeight: 600,
+                                            fontSize: '16px',
+                                            lineHeight: '28.5px',
+                                            letterSpacing: '-5%'
+                                        }}>
+                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                        </span>
+                                        <h3 className="mb-1" style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 500,
+                                            fontSize: '20px',
+                                            lineHeight: '32px',
+                                            color: '#111',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 2,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {article.title}
+                                        </h3>
+                                        <p style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 400,
+                                            fontSize: '14px',
+                                            lineHeight: '26px',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 3,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            color: '#111'
+                                        }}>
+                                            {article.description}
+                                        </p>
+                                    </div>
+                                </Link>
+                            </div>
                         ))}
+                        
+                        {/* Loading indicator for new articles */}
+                        {isLoadingMore && (
+                            <div className="flex flex-col gap-12 w-full max-w-3xl animate-pulse">
+                                {[...Array(3)].map((_, index) => (
+                                    <div key={`loading-${index}`} className="flex flex-col md:flex-row items-start gap-8">
+                                        <div className="w-full md:w-[350px] h-[220px] bg-gray-200 rounded-2xl animate-pulse"></div>
+                                        <div className="flex-1 space-y-3">
+                                            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+                                            <div className="h-6 bg-gray-200 rounded w-full animate-pulse"></div>
+                                            <div className="h-6 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+                                            <div className="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
+                                            <div className="h-4 bg-gray-200 rounded w-2/3 animate-pulse"></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
+                    
                     {hasMoreArticles && (
                         <div className="flex flex-col items-center justify-center w-full mt-12">
                             <button
                                 onClick={handleViewMore}
+                                disabled={isLoadingMore}
                                 style={{
                                     width: 'auto',
                                     height: '53px',
                                     borderRadius: '10px',
                                     padding: '15px 20px',
-                                    background: '#000000',
+                                    background: isLoadingMore ? '#666666' : '#000000',
                                     color: '#FFFFFF',
                                     fontFamily: 'var(--font-inter)',
                                     fontWeight: 700,
                                     fontSize: '18px',
-                                    cursor: 'pointer',
-                                    transition: 'opacity 0.2s ease'
+                                    cursor: isLoadingMore ? 'not-allowed' : 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    opacity: isLoadingMore ? 0.7 : 1
                                 }}
-                                onMouseEnter={(e) => (e.target as HTMLButtonElement).style.opacity = '0.8'}
-                                onMouseLeave={(e) => (e.target as HTMLButtonElement).style.opacity = '1'}
+                                onMouseEnter={(e) => {
+                                    if (!isLoadingMore) {
+                                        (e.target as HTMLButtonElement).style.opacity = '0.8';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (!isLoadingMore) {
+                                        (e.target as HTMLButtonElement).style.opacity = '1';
+                                    }
+                                }}
                             >
-                                View More
+                                {isLoadingMore ? (
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        Loading...
+                                    </div>
+                                ) : (
+                                    'View More'
+                                )}
                             </button>
                         </div>
                     )}
                 </section>
             </div>
+            
+            {/* Add CSS animations */}
+            <style jsx>{`
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                .animate-fadeInUp {
+                    animation: fadeInUp 0.6s ease-out;
+                }
+                
+                .animate-pulse {
+                    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+                }
+                
+                @keyframes pulse {
+                    0%, 100% {
+                        opacity: 1;
+                    }
+                    50% {
+                        opacity: .5;
+                    }
+                }
+            `}</style>
         </main>
     );
 }

@@ -7,6 +7,7 @@ export interface Article {
   secondCategory?: string;
   categoryColor: string;
   coverImage: string;
+  isPromoted?: boolean;
   createdAt: string;
   updatedAt: string;
 } 

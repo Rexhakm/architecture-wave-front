@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
+import { absOrFallback } from '../utils/urlUtils';
 
 const AboutUs = () => {
   return (
@@ -7,7 +8,7 @@ const AboutUs = () => {
       {/* Main Content */}
       <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white min-h-[calc(100vh-690px)]" style={{ marginBottom: 40, position: 'relative', zIndex: 1, borderRadius: '45px' }}>
         <img
-          src="assets/Rectangle.png"
+          src={absOrFallback('assets/Rectangle.png')}
           alt="Decorative Rectangle"
           className="hidden sm:block"
           style={{
@@ -21,7 +22,7 @@ const AboutUs = () => {
           aria-hidden="true"
         />
         <img
-          src="assets/Rectangle2.png"
+          src={absOrFallback('assets/Rectangle2.png')}
           alt="Decorative Rectangle"
           className="hidden sm:block"
           style={{
@@ -35,7 +36,7 @@ const AboutUs = () => {
           aria-hidden="true"
         />
         <img
-          src="assets/Rectangle3.png"
+          src={absOrFallback('assets/Rectangle3.png')}
           alt="Decorative Rectangle"
           className="hidden sm:block"
           style={{

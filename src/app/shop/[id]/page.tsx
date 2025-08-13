@@ -1,11 +1,13 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import ProductImage from "../../components/ProductImage"
 import { Heart, Share2, Star } from "lucide-react"
 import Header from "../../components/Header"
+import Footer from "../../components/Footer";
 import Link from "next/link"
 import { getProductById, featuredProducts, exclusiveProducts } from "../../data/products"
+import { absOrFallback } from "../../utils/urlUtils";
 
 export default function ProductDetail({ params }: { params: { id: string } }) {
   const [isFavorited, setIsFavorited] = useState(false)
@@ -20,7 +22,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
         <Header />
         <div className="text-center py-12">
           <h1 className="text-2xl font-light text-gray-900 mb-4">Product not found</h1>
-          <Link href="/shop" className="text-blue-600 hover:text-blue-800">
+          <Link href={absOrFallback('/shop')} className="text-blue-600 hover:text-blue-800">
             Return to shop
           </Link>
         </div>
@@ -134,7 +136,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           {relatedProducts.map((item) => (
             <Link 
               key={item.id} 
-              href={`/shop/${item.id}`}
+              href={absOrFallback(`/shop/${item.id}`)}
               className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow group"
             >
               <div className="aspect-square bg-gray-100 relative">

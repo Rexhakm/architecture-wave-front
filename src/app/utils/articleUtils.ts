@@ -13,7 +13,7 @@ const FALLBACK_IMAGES = [
 export async function getAllArticles(): Promise<Article[]> {
   try {
     const res = await fetch(
-      `${API_BASE_URL}/articles?populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,createdAt,updatedAt&sort=createdAt:desc`,
+      `${API_BASE_URL}/articles?populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,isPromoted,createdAt,updatedAt&sort=createdAt:desc`,
       { next: { revalidate: 60 } }
     );
 
@@ -50,6 +50,7 @@ export async function getAllArticles(): Promise<Article[]> {
         secondCategory: article.secondCategory ? (article.secondCategory.charAt(0).toUpperCase() + article.secondCategory.slice(1).toLowerCase()) : undefined,
         categoryColor: getCategoryColor(article.category),
         coverImage: coverImageUrl,
+        isPromoted: article.isPromoted || false,
         createdAt: article.createdAt || new Date().toISOString(),
         updatedAt: article.updatedAt || new Date().toISOString()
       });

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Header from '../../components/Header';
 import { getArticlesByCategory } from '../../utils/articleUtils';
 import { Article } from '../../types/article';
+import { absOrFallback } from '../../utils/urlUtils';
 
 interface CategoryPageProps {
   params: {
@@ -89,8 +90,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           {categories.map((cat) => (
             <Link
               key={cat.name}
-              href={`/category/${cat.name.toLowerCase()}`}
-              className="px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base md:text-lg font-bold rounded-lg transition-colors duration-150"
+              href={absOrFallback(`/category/${cat.name.toLowerCase()}`)}
+              className="px-3 sm:px-6 py-2 sm:text-base md:text-lg font-bold rounded-lg transition-colors duration-150"
               style={{
                 background: cat.name.toLowerCase() === slug.toLowerCase() ? '#E0B1B1' : '#F5F5F5',
                 color: '#111',

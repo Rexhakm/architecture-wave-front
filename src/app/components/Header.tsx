@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { absOrFallback } from '../utils/urlUtils';
 
 export default function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -10,14 +11,14 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  // Check if we should show navigation (only on home page)
-  const shouldShowNavigation = pathname === '/';
+  // Show navigation on all pages
+  const shouldShowNavigation = true;
 
   return (
     <header className="relative w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6" style={{ marginTop: '20px', borderRadius: '45px' }}>
       <div className="flex items-center gap-2" style={{ marginLeft: '60px', marginTop: '25px' }}>
-        <Link href="/" style={{ position: 'relative', display: 'inline-block', width: '38px', height: '33px' }}>
-          <img src="/assets/Vector-7.png" alt="logo" style={{ width: '38px', height: '33px' }} />
+        <Link href={absOrFallback('/')} style={{ position: 'relative', display: 'inline-block', width: '38px', height: '33px' }}>
+          <img src={absOrFallback('/assets/Vector-7.png')} alt="logo" style={{ width: '38px', height: '33px' }} />
           <span
             style={{
               position: 'absolute',
@@ -83,7 +84,7 @@ export default function Header() {
                 {['Lifestyle', 'Travel', 'DIY', 'Art'].map((item, idx) => (
                   <Link
                     key={item}
-                    href={`/category/${item.toLowerCase()}`}
+                    href={absOrFallback(`/category/${item.toLowerCase()}`)}
                     onMouseEnter={() => setHoveredIndex(idx)}
                     onMouseLeave={() => setHoveredIndex(-1)}
                     style={{
@@ -173,7 +174,7 @@ export default function Header() {
                 {['Lifestyle', 'Travel', 'DIY', 'Art'].map((item) => (
                   <Link
                     key={item}
-                    href={`/category/${item.toLowerCase()}`}
+                    href={absOrFallback(`/category/${item.toLowerCase()}`)}
                     className="block py-1 text-gray-600 hover:text-black"
                     onClick={() => setMobileMenuOpen(false)}
                   >

@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
+import { absOrFallback } from '../utils/urlUtils';
 import emailjs from '@emailjs/browser';
 
 export default function ContactUs() {
@@ -93,7 +95,7 @@ export default function ContactUs() {
           left: '-0.44px',
           zIndex: 0,
           pointerEvents: 'none',
-          backgroundImage: 'url(/assets/Vector-10.png)',
+          backgroundImage: `url(${absOrFallback('/assets/Vector-10.png')})`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'top left',
