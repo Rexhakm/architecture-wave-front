@@ -15,8 +15,8 @@ export default function Header() {
   const shouldShowNavigation = true;
 
   return (
-    <header className="relative w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6" style={{ marginTop: '20px', borderRadius: '45px' }}>
-      <div className="flex items-center gap-2" style={{ marginLeft: '60px', marginTop: '25px' }}>
+    <header className="relative w-full flex items-center justify-between px-3 sm:px-4 md:px-8 py-3 sm:py-4 md:py-6" style={{ marginTop: '20px', borderRadius: '45px' }}>
+      <div className="flex items-center gap-2 sm:ml-[30px] md:ml-[60px] mt-6 sm:mt-[25px]">
         <Link href={absOrFallback('/')} style={{ position: 'relative', display: 'inline-block', width: '38px', height: '33px' }}>
           <img src={absOrFallback('/assets/Vector-7.png')} alt="logo" style={{ width: '38px', height: '33px' }} />
           <span
@@ -36,7 +36,7 @@ export default function Header() {
             ™
           </span>
         </Link>
-        <span className="font-bold text-base sm:text-lg text-black">Architecture Wave</span>
+        <span className="font-bold text-sm sm:text-base md:text-lg text-black">Architecture Wave</span>
       </div>
       
       {/* Desktop Navigation - Only show on home page */}
@@ -150,7 +150,7 @@ export default function Header() {
       {/* Mobile Menu Button - Only show on home page */}
       {shouldShowNavigation && (
         <button 
-          className="md:hidden p-2 rounded-full hover:bg-gray-100"
+          className="md:hidden p-2 rounded-full hover:bg-gray-100 mr-3 sm:mr-4"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           style={{ marginTop: '25px' }}
         >
@@ -166,7 +166,7 @@ export default function Header() {
 
       {/* Mobile Menu - Only show on home page */}
       {shouldShowNavigation && mobileMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-t z-50 md:hidden" style={{ marginTop: '0' }}>
+        <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-t z-50 md:hidden" style={{ marginTop: '0', borderRadius: '0 0 20px 20px' }}>
           <div className="px-4 py-6 space-y-4">
             <div className="border-b pb-4">
               <a href="#" className="block py-2 text-black font-medium">Magazine</a>

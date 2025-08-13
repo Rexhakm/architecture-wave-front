@@ -296,7 +296,7 @@ export default async function Page({ params }) {
 
   return (
     <main
-      className="w-[calc(100%-40px)] mx-auto px-4 bg-white"
+      className="w-[calc(100%-20px)] sm:w-[calc(100%-30px)] md:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 md:px-4 bg-white"
       style={{ marginBottom: "20px", borderRadius: "45px" }}
     >
       <Header />
@@ -310,19 +310,19 @@ export default async function Page({ params }) {
           )}
 
           {/* Category Tags */}
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-            <div className="flex flex-wrap gap-2" style={{ gap: "10px" }}>
+          <div className="max-w-4xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 mb-4 sm:mb-6">
+            <div className="flex flex-wrap gap-2" style={{ gap: "8px" }}>
               {article.category && (
                 <span
-                  className="text-white text-sm font-medium"
+                  className="text-white text-xs sm:text-sm font-medium"
                   style={{
                     backgroundColor: article.categoryColor,
-                    height: "40px",
-                    borderRadius: "10px",
+                    height: "32px",
+                    borderRadius: "8px",
                     paddingTop: "4px",
-                    paddingRight: "15px",
+                    paddingRight: "12px",
                     paddingBottom: "4px",
-                    paddingLeft: "15px",
+                    paddingLeft: "12px",
                     display: "flex",
                     alignItems: "center",
                   }}
@@ -337,15 +337,15 @@ export default async function Page({ params }) {
               )}
               {article.secondCategory && (
                 <span
-                  className="text-white text-sm font-medium"
+                  className="text-white text-xs sm:text-sm font-medium"
                   style={{
                     backgroundColor: article.categoryColor,
-                    height: "40px",
-                    borderRadius: "10px",
+                    height: "32px",
+                    borderRadius: "8px",
                     paddingTop: "4px",
-                    paddingRight: "15px",
+                    paddingRight: "12px",
                     paddingBottom: "4px",
-                    paddingLeft: "15px",
+                    paddingLeft: "12px",
                     display: "flex",
                     alignItems: "center",
                   }}
@@ -361,14 +361,14 @@ export default async function Page({ params }) {
             </div>
           </div>
 
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-            <div className="flex justify-between items-start mb-6">
+          <div className="max-w-4xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
+            <div className="flex justify-between items-start mb-4 sm:mb-6">
               <div className="flex-1">
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4">
                   {article.title}
                 </h1>
                 {article.description && (
-                  <p className="text-base sm:text-lg md:text-xl text-gray-600">
+                  <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600">
                     {article.description}
                   </p>
                 )}
@@ -376,14 +376,14 @@ export default async function Page({ params }) {
             </div>
           </div>
 
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-12 md:pb-16">
+          <div className="max-w-4xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 pb-6 sm:pb-8 md:pb-12 lg:pb-16">
             {article.blocks &&
               article.blocks.map((block, index) => {
                 if (block.__component === "article-blocks.text-block") {
                   if (!block.content) return null;
                   const html = marked.parse(block.content);
                   return (
-                    <div key={index} className="mb-6 sm:mb-8">
+                    <div key={index} className="mb-4 sm:mb-6 md:mb-8">
                       <RichTextImageHandler allImages={allImages}>
                         <div
                           className="prose prose-sm sm:prose-base md:prose-lg max-w-none prose-img:rounded-2xl prose-img:shadow-lg prose-img:transition-all prose-img:duration-200 prose-img:hover:scale-[1.02] prose-img:cursor-pointer"
@@ -391,8 +391,8 @@ export default async function Page({ params }) {
                             fontFamily: "var(--font-mazzard-soft)",
                             fontWeight: 400,
                             fontStyle: "normal",
-                            fontSize: "18px",
-                            lineHeight: "26px",
+                            fontSize: "16px",
+                            lineHeight: "24px",
                             letterSpacing: "0%",
                             color: "#111111",
                           }}
@@ -405,7 +405,7 @@ export default async function Page({ params }) {
 
                 if (block.__component === "article-blocks.image-block") {
                   return (
-                    <div key={index} className="mb-6 sm:mb-8">
+                    <div key={index} className="mb-4 sm:mb-6 md:mb-8">
                       <ImagePreviewer
                         images={block.images}
                         allImages={allImages}
@@ -419,24 +419,24 @@ export default async function Page({ params }) {
           </div>
 
           {/* Divider */}
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+          <div className="max-w-4xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12">
             <hr className="border-gray-200" />
           </div>
 
           {/* Branding + Share */}
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-            <div className="flex items-center justify-between">
+          <div className="max-w-4xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="flex items-center gap-2">
                 <img
                   src={absOrFallback("/assets/Vector-7.png") || "/assets/Vector-7.png"}
                   alt="ArchitectureWave logo"
-                  className="w-8 h-7"
+                  className="w-6 h-5 sm:w-8 sm:h-7"
                 />
                 <span
                   style={{
                     fontFamily: "var(--font-mazzard-soft)",
                     fontWeight: 500,
-                    fontSize: "16px",
+                    fontSize: "14px",
                     lineHeight: "100%",
                     letterSpacing: "0%",
                     color: "#000000",
@@ -451,22 +451,22 @@ export default async function Page({ params }) {
 
           {/* Similar Articles */}
           {similarArticles.length > 0 && (
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 mt-24">
+            <div className="max-w-4xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 pb-12 sm:pb-16 mt-8 sm:mt-12">
               <h2
                 style={{
                   fontFamily: "var(--font-mazzard-soft)",
                   fontWeight: 500,
                   fontStyle: "normal",
-                  fontSize: "28px",
-                  lineHeight: "60px",
+                  fontSize: "24px",
+                  lineHeight: "48px",
                   letterSpacing: "0%",
                   color: "#111111",
-                  marginBottom: "32px",
+                  marginBottom: "24px",
                 }}
               >
                 Similar articles
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
                 {similarArticles.map((similar) => (
                   <a
                     key={similar.id}
@@ -483,8 +483,8 @@ export default async function Page({ params }) {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="p-4">
-                      <h3 className="font-semibold text-gray-900 text-sm leading-tight">
+                    <div className="p-3 sm:p-4">
+                      <h3 className="font-semibold text-gray-900 text-xs sm:text-sm leading-tight">
                         {similar.title}
                       </h3>
                     </div>

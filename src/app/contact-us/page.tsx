@@ -89,10 +89,10 @@ export default function ContactUs() {
         className="hidden sm:block"
         style={{
           position: 'absolute',
-          width: '1170.05px',
-          height: '1016.89px',
-          top: '0.06px',
-          left: '-0.44px',
+          width: '100%',
+          height: '100%',
+          top: '0',
+          left: '0',
           zIndex: 0,
           pointerEvents: 'none',
           backgroundImage: `url(${absOrFallback('/assets/Vector-10.png')})`,
@@ -104,11 +104,11 @@ export default function ContactUs() {
         aria-hidden="true"
       />
       {/* Main Content */}
-      <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white min-h-[calc(100vh-690px)]" style={{ marginBottom: 40, position: 'relative', zIndex: 1, borderRadius: '45px' }}>
+      <main className="w-[calc(100%-20px)] sm:w-[calc(100%-30px)] md:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 md:px-4 bg-white min-h-[calc(100vh-690px)]" style={{ marginBottom: 40, position: 'relative', zIndex: 1, borderRadius: '45px' }}>
         <Header />
 
-        <div className="px-4 sm:px-8 md:px-12 py-6 sm:py-8 md:py-12" style={{ marginLeft: 45 }}>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal mb-4 sm:mb-6" style={{
+        <div className="px-2 sm:px-4 md:px-8 lg:px-12 py-4 sm:py-6 md:py-8 lg:py-12" style={{ marginLeft: '20px' }}>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-normal mb-3 sm:mb-4 md:mb-6" style={{
             fontFamily: 'var(--font-mazzard-soft)',
             color: '#111',
             lineHeight: '100%',
@@ -117,10 +117,10 @@ export default function ContactUs() {
             fontWeight: 700,
             fontFamily: 'var(--font-mazzard-soft)'
           }}>Architecture Wave</span></h1>
-          <p className="mb-6 sm:mb-8 text-base sm:text-lg max-w-lg sm:max-w-xl md:max-w-2xl" style={{
+          <p className="mb-4 sm:mb-6 md:mb-8 text-sm sm:text-base md:text-lg max-w-lg sm:max-w-xl md:max-w-2xl" style={{
             fontFamily: 'var(--font-mazzard-soft)',
             fontWeight: 500,
-            lineHeight: '28px',
+            lineHeight: '24px',
             letterSpacing: '5%',
             color: '#000',
             display: '-webkit-box',
@@ -129,7 +129,7 @@ export default function ContactUs() {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             marginTop: '40px',
-            marginBottom: '70px'
+            marginBottom: '50px'
 
           }}>
             Discover the stories, trends, and<br />
@@ -138,11 +138,11 @@ export default function ContactUs() {
               work, and connect, blending everyday.
             </span>
           </p>
-          <form onSubmit={handleSubmit} className="max-w-lg sm:max-w-xl md:max-w-2xl flex flex-col gap-4 sm:gap-5 md:gap-6" style={{
+          <form onSubmit={handleSubmit} className="max-w-lg sm:max-w-xl md:max-w-2xl flex flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6" style={{
             fontWeight: 600,
             fontFamily: 'var(--font-mazzard-soft)',
             color: '#000',
-            marginTop: '100px'
+            marginTop: '60px'
           }}>
             <input
               name="name"
@@ -158,11 +158,11 @@ export default function ContactUs() {
                 background: '#ededed',
                 fontFamily: 'Mazzard Soft H',
                 color: 'black',
-                fontSize: '18px',
-                lineHeight: '38px',
+                fontSize: '16px',
+                lineHeight: '32px',
                 letterSpacing: '5%',
                 fontStyle: 'normal',
-                height: '58px',
+                height: '50px',
                 outline: 'none',
                 transition: 'border-color 0.2s ease-in-out'
               }}
@@ -183,13 +183,13 @@ export default function ContactUs() {
                 color: black !important;
                 font-family: 'Mazzard Soft H' !important;
                 font-weight: 600 !important;
-                font-size: 18px !important;
-                line-height: 38px !important;
+                font-size: 16px !important;
+                line-height: 32px !important;
                 letter-spacing: 5% !important;
                 font-style: normal !important;
               }
             `}</style>
-            {errors.name && <span className="text-sm sm:text-base" style={{ color: '#e57373' }}>{errors.name}</span>}
+            {errors.name && <span className="text-xs sm:text-sm md:text-base" style={{ color: '#e57373' }}>{errors.name}</span>}
             <input
               name="email"
               type="email"
@@ -204,11 +204,11 @@ export default function ContactUs() {
                 background: '#ededed',
                 fontFamily: 'Mazzard Soft H',
                 color: 'black',
-                fontSize: '18px',
-                lineHeight: '38px',
+                fontSize: '16px',
+                lineHeight: '32px',
                 letterSpacing: '5%',
                 fontStyle: 'normal',
-                height: '58px',
+                height: '50px',
                 outline: 'none',
                 transition: 'border-color 0.2s ease-in-out'
               }}
@@ -223,11 +223,11 @@ export default function ContactUs() {
                 }
               }}
             />
-            {errors.email && <span className="text-sm sm:text-base" style={{ color: '#e57373' }}>{errors.email}</span>}
+            {errors.email && <span className="text-xs sm:text-sm md:text-base" style={{ color: '#e57373' }}>{errors.email}</span>}
             <textarea
               name="message"
               placeholder="What you wanna say?"
-              rows={5}
+              rows={4}
               value={form.message}
               onChange={handleChange}
               className="w-full px-3 sm:px-4 py-3 sm:py-4"
@@ -239,8 +239,8 @@ export default function ContactUs() {
                 fontFamily: 'Mazzard Soft H',
                 color: 'black',
                 resize: 'vertical',
-                fontSize: '18px',
-                lineHeight: '38px',
+                fontSize: '16px',
+                lineHeight: '32px',
                 letterSpacing: '5%',
                 fontStyle: 'normal',
                 outline: 'none',
@@ -257,11 +257,11 @@ export default function ContactUs() {
                 }
               }}
             />
-            {errors.message && <span className="text-sm sm:text-base" style={{ color: '#e57373' }}>{errors.message}</span>}
+            {errors.message && <span className="text-xs sm:text-sm md:text-base" style={{ color: '#e57373' }}>{errors.message}</span>}
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg"
+              className="px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg"
               style={{
                 background: isSubmitting ? '#666' : 'black',
                 color: 'white',
@@ -270,7 +270,7 @@ export default function ContactUs() {
                 fontWeight: 600,
                 fontFamily: 'var(--font-mazzard-soft)',
                 cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                width: '120px',
+                width: '100px',
                 opacity: isSubmitting ? 0.7 : 1
               }}
             >
