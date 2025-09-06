@@ -13,7 +13,7 @@ interface Image {
 
 interface ImagePreviewerProps {
   images: Image[];
-  allImages?: any[];
+  allImages?: { src: string; alt: string }[];
 }
 
 export default function ImagePreviewer({ images, allImages }: ImagePreviewerProps) {

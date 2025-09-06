@@ -132,7 +132,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             ) : (
               <div className="text-center py-12">
                 <p className="text-gray-500 text-lg" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-                  Looks like there aren't any articles in this category.
+                  Looks like there aren&apos;t any articles in this category.
                 </p>
               </div>
             )}
