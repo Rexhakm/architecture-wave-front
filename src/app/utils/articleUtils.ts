@@ -1,5 +1,6 @@
 import { getBackendBaseUrl, getImageUrl } from './imageUtils';
 import { Article } from '../types/article';
+import { getCategoryColor } from './categoryColors';
 
 const API_BASE_URL = `${getBackendBaseUrl()}/api`;
 
@@ -78,21 +79,7 @@ export async function getArticlesByCategory(category: string): Promise<Article[]
   }
 }
 
-function getCategoryColor(category: string): string {
-  const categoryColors: { [key: string]: string } = {
-    'Architecture': '#88B056',
-    'Lifestyle': '#DA6969',
-    'Travel': '#5162BC',
-    'Design': '#88B056',
-    'Interior': '#DA6969',
-    'Urban': '#5162BC'
-  };
-  
-  // Capitalize the category to match our color mapping
-  const capitalizedCategory = category ? category.charAt(0).toUpperCase() + category.slice(1).toLowerCase() : 'Architecture';
-  
-  return categoryColors[capitalizedCategory] || '#88B056';
-}
+
 
 export function formatCategoryDisplay(category: string, secondCategory?: string): string {
   if (secondCategory) {
