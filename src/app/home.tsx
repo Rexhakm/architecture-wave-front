@@ -73,7 +73,7 @@ export default function Home() {
                             WebkitBoxOrient: 'vertical',
                             WebkitLineClamp: 2,
                             overflow: 'hidden',
-                            textOverflow: 'ellipsis'
+                            textOverflow: 'ellipsis',
                         }}>
                             Your atlas to a life<br />
                             <span style={{ fontWeight: 700 }}>with a good design.</span>
@@ -90,8 +90,8 @@ export default function Home() {
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             marginTop: '40px',
-                            marginBottom: '70px'
-                            
+                            marginBottom: '70px',
+
                         }}>
                             Discover the stories, trends, and<br />
                             experiences that shape <span style={{ fontWeight: 700 }}>
@@ -132,7 +132,7 @@ export default function Home() {
                                             WebkitBoxOrient: 'vertical',
                                             WebkitLineClamp: 2,
                                             overflow: 'hidden',
-                                            textOverflow: 'ellipsis'
+                                            textOverflow: 'ellipsis',
                                         }}>
                                             {article.title}
                                         </span>
@@ -144,7 +144,7 @@ export default function Home() {
                 </section>
 
                 {/* Topic/Series/Creator Grid Section */}
-                <section className="mb-16 px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-12">
+                <section className="mb-4 px-4 sm:px-8 md:px-10 py-2 sm:py-4 md:py-6">
                     <h2 className="text-2xl md:text-3xl font-semibold mb-2" style={{
                         fontFamily: 'var(--font-mazzard-soft)',
                         fontWeight: 600,
@@ -214,10 +214,248 @@ export default function Home() {
                     </div>
                 </section>
 
+            
+
+                {/* New Articles Section - 4 items only */}
+                <section className="w-full flex flex-col items-start pb-4 mb-3 ml-[40px]">
+                    <div className="flex flex-col gap-6 w-full max-w-3xl">
+                        {articles.length > 3 ? articles.slice(3, 7).map((article: Article, index: number) => (
+                            <div
+                                key={`new-${article.id}`}
+                                className="animate-fadeInUp"
+                                style={{
+                                    animationDelay: `${index * 100}ms`,
+                                    animationFillMode: 'both'
+                                }}
+                            >
+                                <Link
+                                    href={absOrFallback(`/articles/${article.slug}`)}
+                                    className="flex flex-col md:flex-row items-start gap-8 hover:opacity-90 transition-opacity cursor-pointer"
+                                >
+                                    <img
+                                        src={article.coverImage}
+                                        alt={article.category}
+                                        className="w-full md:w-[350px] rounded-2xl object-cover"
+                                        style={{
+                                            aspectRatio: '16/10',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
+                                    <div>
+                                        <span className="block mb-1" style={{
+                                            color: article.categoryColor,
+                                            fontFamily: 'Inter',
+                                            fontWeight: 600,
+                                            fontSize: '16px',
+                                            lineHeight: '28.5px',
+                                            letterSpacing: '-5%'
+                                        }}>
+                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                        </span>
+                                        <h3 className="mb-1" style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 500,
+                                            fontSize: '20px',
+                                            lineHeight: '32px',
+                                            color: '#111',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 2,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {article.title}
+                                        </h3>
+                                        <p style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 400,
+                                            fontSize: '14px',
+                                            lineHeight: '26px',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 3,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            color: '#111'
+                                        }}>
+                                            {article.description}
+                                        </p>
+                                    </div>
+                                </Link>
+                            </div>
+                        )) : (
+                            <div className="text-center text-gray-500 py-8">
+                                No additional articles available
+                            </div>
+                        )}
+                    </div>
+                </section>
+
+                    {/* Featured Projects Section */}
+                <section className="mb-4 px-4 sm:px-8 md:px-10 py-2 sm:py-4 md:py-6">
+                    <h2 className="mb-2" style={{
+                        fontFamily: 'var(--font-mazzard-soft)',
+                        fontWeight: 500,
+                        fontStyle: 'Medium',
+                        fontSize: '32px',
+                        lineHeight: '80px',
+                        letterSpacing: '0%',
+                        color: '#000000'
+                    }}>
+                        Featured Projects
+                    </h2>
+                    <p className="mb-4 text-base max-w-2xl" style={{
+                        fontFamily: 'var(--font-mazzard-soft)',
+                        fontWeight: 400,
+                        fontSize: '14px',
+                        color: '#111',
+                        lineHeight: '24px'
+                    }}>
+                        Featured Projects are submitted to Wave by our community of architects, designers, agents, and proud home. <span 
+                            className="cursor-pointer hover:opacity-80" 
+                            style={{
+                                fontFamily: 'Mazzard Soft H',
+                                fontWeight: 600,
+                                fontStyle: 'Semi Bold',
+                                fontSize: '14px',
+                                lineHeight: '100%',
+                                letterSpacing: '0%',
+                                verticalAlign: 'middle',
+                                textDecoration: 'underline',
+                                textDecorationStyle: 'solid',
+                                textDecorationThickness: '0%'
+                            }}
+                        >Post your project!</span>
+                    </p>
+                    
+                    <div className="flex flex-col gap-4">
+                        {articles.filter(article => article.isPromoted).slice(0, 1).map((article: Article) => (
+                            <div key={`featured-${article.id}`} className="bg-white rounded-2xl overflow-hidden">
+                                <Link
+                                    href={absOrFallback(`/articles/${article.slug}`)}
+                                    className="block hover:opacity-95 transition-opacity"
+                                >
+                                    <div className="relative">
+                                        <img
+                                            src={article.coverImage}
+                                            alt={article.category}
+                                            className="w-full h-[500px] object-cover"
+                                            style={{ borderRadius: '45px' }}
+                                        />
+                                    </div>
+                                    <div className="pl-0 pr-2 py-4">
+                                        <span className="block mb-1" style={{
+                                            color: getCategoryColor(article.category),
+                                            fontFamily: 'Inter',
+                                            fontWeight: 600,
+                                            fontSize: '16px',
+                                            lineHeight: '28.5px',
+                                            letterSpacing: '-5%'
+                                        }}>
+                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                        </span>
+                                        <h3 className="mb-1" style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 500,
+                                            fontSize: '20px',
+                                            lineHeight: '32px',
+                                            color: '#111',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 2,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {article.title}
+                                        </h3>
+                                        <p style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 400,
+                                            fontSize: '14px',
+                                            lineHeight: '26px',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 3,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            color: '#111'
+                                        }}>
+                                            {article.description}
+                                        </p>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Featured Section - Two Cards Side by Side */}
+                <section className="mb-4 px-4 sm:px-8 md:px-10 pt-0 pb-2 sm:pt-1 sm:pb-4 md:pt-2 md:pb-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {articles.filter(article => article.isPromoted).slice(0, 2).map((article: Article, index: number) => (
+                            <div key={`featured-card-${article.id}`} className="bg-white rounded-2xl overflow-hidden">
+                                <Link
+                                    href={absOrFallback(`/articles/${article.slug}`)}
+                                    className="block hover:opacity-95 transition-opacity"
+                                >
+                                    <div className="relative">
+                                        <img
+                                            src={article.coverImage}
+                                            alt={article.category}
+                                            className="w-full h-[350px] object-cover"
+                                            style={{ borderRadius: '20px' }}
+                                        />
+                                    </div>
+                                    <div className="pt-6 pr-6 pb-6 pl-0">
+                                        <span className="block mb-3 text-sm font-semibold" style={{
+                                            color: getCategoryColor(article.category),
+                                            fontFamily: 'Inter',
+                                            fontWeight: 600,
+                                            fontSize: '14px',
+                                            lineHeight: '20px',
+                                            letterSpacing: '-2%'
+                                        }}>
+                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                        </span>
+                                        <h3 className="mb-3" style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 700,
+                                            fontSize: '24px',
+                                            lineHeight: '32px',
+                                            color: '#111',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 2,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {article.title}
+                                        </h3>
+                                        <p style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 400,
+                                            fontSize: '16px',
+                                            lineHeight: '24px',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 2,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            color: '#666'
+                                        }}>
+                                            {article.description}
+                                        </p>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
                 {/* Articles List Section */}
-                <section className="w-full flex flex-col items-start pb-16 mb-[40px] ml-[40px]">
-                    <div className="flex flex-col gap-12 w-full max-w-3xl">
-                        {displayedArticles.slice(3).map((article: Article, index: number) => (
+                <section className="w-full flex flex-col items-start pb-4 mb-3 ml-[40px]">
+                    <div className="flex flex-col gap-6 w-full max-w-3xl">
+                        {displayedArticles.slice(7).map((article: Article, index: number) => (
                             <div
                                 key={article.id}
                                 className="animate-fadeInUp"
@@ -285,7 +523,7 @@ export default function Home() {
                         
                         {/* Loading indicator for new articles */}
                         {isLoadingMore && (
-                            <div className="flex flex-col gap-12 w-full max-w-3xl animate-pulse">
+                            <div className="flex flex-col gap-6 w-full max-w-3xl animate-pulse">
                                 {[...Array(3)].map((_, index) => (
                                     <div key={`loading-${index}`} className="flex flex-col md:flex-row items-start gap-8">
                                         <div className="w-full md:w-[350px] h-[220px] bg-gray-200 rounded-2xl animate-pulse"></div>
@@ -303,7 +541,7 @@ export default function Home() {
                     </div>
                     
                     {hasMoreArticles && (
-                        <div className="flex flex-col items-center justify-center w-full mt-12">
+                        <div className="flex flex-col items-center justify-center w-full mt-6">
                             <button
                                 onClick={handleViewMore}
                                 disabled={isLoadingMore}

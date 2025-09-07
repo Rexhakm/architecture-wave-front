@@ -59,7 +59,8 @@ const AboutUs = () => {
             letterSpacing: '0%'
           }}>Your atlas to a life<br /><span style={{
             fontWeight: 700,
-            fontFamily: 'var(--font-mazzard-soft)'
+            fontFamily: 'var(--font-mazzard-soft)',
+             fontSize: '72px'
           }}>with a good design.</span></h1>
           <p className="mb-6 sm:mb-8 text-base sm:text-lg" style={{
             fontFamily: 'var(--font-mazzard-soft)',
