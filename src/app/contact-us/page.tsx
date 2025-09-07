@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import Header from '../components/Header';
+import ProductImage from '../components/ProductImage';
 
 export default function ContactUs() {
   return (
@@ -48,11 +49,12 @@ export default function ContactUs() {
 
           {/* Hero Image */}
           <div className="mb-12 sm:mb-16" style={{ marginLeft: '10px', marginRight: '10px' }}>
-            <img
+            <ProductImage
               src="/assets/contact-us.png"
               alt="Modern Architecture Building"
+              fallbackSrc="https://via.placeholder.com/1200x550/f3f4f6/9ca3af?text=Contact+Us"
+              className="w-full"
               style={{
-                width: '100%',
                 height: '550px',
                 objectFit: 'cover',
                 borderRadius: '45px'

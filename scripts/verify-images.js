@@ -13,6 +13,7 @@ function checkImageExists(imagePath) {
 const imagesToCheck = [
   'assets/chair.png',
   'assets/dinner.png',
+  'assets/contact-us.png',
   'assets/Vector-9.png',
   'assets/Vector.png',
   'assets/image-1.png',

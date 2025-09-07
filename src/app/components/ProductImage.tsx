@@ -7,13 +7,15 @@ interface ProductImageProps {
   alt: string
   className?: string
   fallbackSrc?: string
+  style?: React.CSSProperties
 }
 
 export default function ProductImage({ 
   src, 
   alt, 
   className = "", 
-  fallbackSrc = "https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=Product+Image" 
+  fallbackSrc = "https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=Product+Image",
+  style = {}
 }: ProductImageProps) {
   const [imgSrc, setImgSrc] = useState(src)
   const [hasError, setHasError] = useState(false)
@@ -48,7 +50,7 @@ export default function ProductImage({
       alt={alt}
       className={className}
       onError={handleError}
-      style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+      style={{ objectFit: 'cover', width: '100%', height: '100%', ...style }}
     />
   )
 } 
