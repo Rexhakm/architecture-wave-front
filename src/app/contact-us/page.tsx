@@ -1,7 +1,6 @@
 "use client";
 import React from 'react';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
 import { absOrFallback } from '../utils/urlUtils';
 
 export default function ContactUs() {
@@ -44,7 +43,7 @@ export default function ContactUs() {
               color: '#111',
               marginBottom: '40px'
             }}>
-              We'd love to hear from you. Whether you have questions about our content, want to share your project, or need assistance with your subscription, our team is here to help.
+              We&apos;d love to hear from you. Whether you have questions about our content, want to share your project, or need assistance with your subscription, our team is here to help.
             </p>
           </div>
 
