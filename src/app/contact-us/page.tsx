@@ -1,7 +1,6 @@
 "use client";
 import React from 'react';
 import Header from '../components/Header';
-import { absOrFallback } from '../utils/urlUtils';
 
 export default function ContactUs() {
   return (
@@ -50,7 +49,7 @@ export default function ContactUs() {
           {/* Hero Image */}
           <div className="mb-12 sm:mb-16" style={{ marginLeft: '10px', marginRight: '10px' }}>
             <img
-              src={absOrFallback('/assets/contact-us.png')}
+              src="/assets/contact-us.png"
               alt="Modern Architecture Building"
               style={{
                 width: '100%',
