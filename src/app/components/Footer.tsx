@@ -93,6 +93,9 @@ export default function Footer() {
                 <li style={{ fontFamily: 'var(--font-mazzard-soft)', fontWeight: 500, fontSize: '14px', lineHeight: '140%', marginTop: '40px' }}>
                   <a href={absOrFallback('/about-us')}>Our Mission</a>
                 </li>
+                <li style={{ fontFamily: 'var(--font-mazzard-soft)', fontWeight: 500, fontSize: '14px', lineHeight: '140%', marginTop: '40px' }}>
+                  <a href={absOrFallback('/contact-us')}>Contact Us</a>
+                </li>
               </ul>
             </div>
 

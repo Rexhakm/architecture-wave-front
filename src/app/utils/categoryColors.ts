@@ -1,10 +1,10 @@
 // Centralized category color mapping for consistent use across the application
 export const CATEGORY_COLORS: { [key: string]: string } = {
   // Primary categories with hex colors
-  'Architecture + Design': '#D4A373',
-  'Feeling Good': '#F2B5D4',
-  'Lifestyle + Culture': '#FFD6A5',
-  'Travel': '#B5E48C',
+  'Architecture + Design': '#88B056',
+  'Feeling Good': '#E470AA',
+  'Lifestyle + Culture': '#DCBB69',
+  'Travel': '#9770E4',
 };
 
 /**
@@ -64,6 +64,7 @@ export function hasCategory(category: string): boolean {
   const normalizedCategory = category
     .toLowerCase()
     .replace(/-/g, ' ')
+    .replace(/\s+and\s+/g, ' + ')
     .replace(/\s*\+\s*/g, ' + ')
     .replace(/\s+/g, ' ')
     .trim();
@@ -72,6 +73,7 @@ export function hasCategory(category: string): boolean {
     if (name === 'architecture') return 'architecture + design';
     if (name === 'architecture+design') return 'architecture + design';
     if (name === 'architecture + design') return 'architecture + design';
+    if (name === 'lifestyle and culture') return 'lifestyle + culture';
     return name;
   };
 

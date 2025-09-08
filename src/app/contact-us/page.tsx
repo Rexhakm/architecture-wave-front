@@ -18,6 +18,7 @@ export default function ContactUs() {
         <Header />
 
         <div className="px-4 sm:px-8 md:px-12 py-6 sm:py-8 md:py-12">
+          
           {/* Header Section */}
           <div className="mb-8 sm:mb-12 sm:ml-[45px]">
             <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal mb-4 sm:mb-6 text-left" style={{
@@ -64,6 +65,8 @@ export default function ContactUs() {
               }}
             />
           </div>
+
+          
 
           {/* Contact Sections */}
           <div className="flex flex-col gap-8 sm:gap-12 sm:ml-[45px]">

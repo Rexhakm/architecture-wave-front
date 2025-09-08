@@ -60,7 +60,7 @@ const AboutUs = () => {
           }}>Your atlas to a life<br /><span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl" style={{
             fontWeight: 700,
             fontFamily: 'var(--font-mazzard-soft)',
-          }}>shaped by design</span></h1>
+          }}>shaped by design.</span></h1>
        
           <p className="text-sm sm:text-base mb-4 sm:mb-6" style={{
             fontFamily: 'Inter',

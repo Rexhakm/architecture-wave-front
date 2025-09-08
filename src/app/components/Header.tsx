@@ -43,7 +43,7 @@ export default function Header({ tintColor }: { tintColor?: string }) {
   return (
     <header className="relative w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6" style={{ marginTop: '20px', borderRadius: '45px' }}>
       <div className="flex items-center gap-2 justify-center sm:justify-start" style={{ marginLeft: '0px', marginTop: '25px' }}>
-        <div className="sm:ml-[70px]">
+        <div className="sm:ml-[50px] flex items-center gap-1 h-[40px]">
         <Link href={absOrFallback('/')} style={{ position: 'relative', display: 'inline-block', width: '72px', height: '40px' }} aria-label="Go to home">
           <div
             style={{
@@ -62,7 +62,7 @@ export default function Header({ tintColor }: { tintColor?: string }) {
             }}
           />
         </Link>
-        <span className="font-bold text-base sm:text-lg text-black">Architecture Wave</span>
+        <span className="inline-flex items-center h-[40px] font-bold text-base sm:text-lg text-black" style={{ lineHeight: '1' }}>Architecture Wave</span>
         </div>
       </div>
       

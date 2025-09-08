@@ -81,6 +81,7 @@ export async function getArticlesByCategory(category: string): Promise<Article[]
       return value
         .toLowerCase()
         .replace(/-/g, ' ')          // hyphens to spaces
+        .replace(/\s+and\s+/g, '+') // treat 'and' as '+'
         .replace(/\s*\+\s*/g, '+') // collapse any spaced '+' to '+'
         .replace(/plus/g, '+')        // convert token 'plus' to '+'
         .replace(/\s+/g, ' ')        // collapse multiple spaces
@@ -92,6 +93,12 @@ export async function getArticlesByCategory(category: string): Promise<Article[]
       if (value === 'architecture' || value === 'architecture+design' || value === 'architecture + design') {
         return 'architecture';
       }
+      if (value === 'lifestyle and culture') {
+        return 'lifestyle + culture';
+      }
+      if (value === 'lifestyle+culture') {
+        return 'lifestyle + culture';
+      }
       return value;
     };
 
@@ -100,6 +107,12 @@ export async function getArticlesByCategory(category: string): Promise<Article[]
     return allArticles.filter((article) => {
       const primary = normalizeToCanonical(normalizeLabel(article.category));
       const secondary = normalizeToCanonical(normalizeLabel(article.secondCategory));
+
+      if (normalizedCategory === 'lifestyle + culture') {
+        const targets = new Set(['lifestyle + culture', 'lifestyle', 'culture']);
+        return targets.has(primary) || (!!secondary && targets.has(secondary));
+      }
+
       return primary === normalizedCategory || (!!secondary && secondary === normalizedCategory);
     });
   } catch (error) {

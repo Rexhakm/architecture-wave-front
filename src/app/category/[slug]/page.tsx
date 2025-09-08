@@ -24,6 +24,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     const normalized = slug
       .toLowerCase()
       .replace(/-/g, ' ')
+      .replace(/\s+and\s+/g, ' + ')
       .replace(/plus/g, '+')
       .trim();
     const mapped = (normalized === 'architecture' || normalized === 'architecture+design' || normalized === 'architecture + design')

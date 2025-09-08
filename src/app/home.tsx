@@ -76,7 +76,7 @@ export default function Home() {
                             textOverflow: 'ellipsis',
                         }}>
                             Your atlas to a life<br />
-                            <span style={{ fontWeight: 700 }}>with a good design.</span>
+                            <span style={{ fontWeight: 700 }}>shaped by design.</span>
                         </h1>
                         <p className="mb-6 sm:mb-8 text-base sm:text-lg max-w-lg sm:max-w-xl md:max-w-2xl" style={{
                             fontFamily: 'var(--font-mazzard-soft)',
@@ -406,7 +406,13 @@ export default function Home() {
                         lineHeight: '24px'
                     }}>
                         Projects are submitted to Wave by our community of architects, designers, agents, and proud home dwellers. <span 
-                            className="cursor-pointer hover:opacity-80" 
+                            className="hover:opacity-80"
+                            style={{
+                                verticalAlign: 'middle'
+                            }}
+                        ><a
+                            href="mailto:contact@architecturewave.com"
+                            aria-label="Submit your project via email"
                             style={{
                                 fontFamily: 'Mazzard Soft H',
                                 fontWeight: 600,
@@ -414,12 +420,12 @@ export default function Home() {
                                 fontSize: '14px',
                                 lineHeight: '100%',
                                 letterSpacing: '0%',
-                                verticalAlign: 'middle',
                                 textDecoration: 'underline',
                                 textDecorationStyle: 'solid',
-                                textDecorationThickness: '0%'
+                                textDecorationThickness: '0%',
+                                color: '#111'
                             }}
-                        >Submit your project! </span>
+                        >Submit your project!</a> </span>
                     </p>
                     
                     <div className="flex flex-col gap-4">
