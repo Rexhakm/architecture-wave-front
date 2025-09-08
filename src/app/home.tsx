@@ -58,6 +58,32 @@ export default function Home() {
         );
     }
 
+    // Prepare non-overlapping article selections for sections
+    const usedArticleIds = new Set<string | number>();
+    const promotedArticles = articles.filter(article => article.isPromoted);
+
+    // Reserve 2 items for featuredCards first
+    const featuredCards = promotedArticles.slice(0, 2);
+    featuredCards.forEach(a => usedArticleIds.add(a.id));
+
+    // Then 1 item for featuredProject
+    const featuredProject = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 1);
+    featuredProject.forEach(a => usedArticleIds.add(a.id));
+
+    // Remaining promoted for topPromoted (up to 3)
+    const topPromoted = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 3);
+    topPromoted.forEach(a => usedArticleIds.add(a.id));
+
+    // Fill grid and new sections from remaining pool (non-overlapping)
+    const gridArticles = articles.filter(a => !usedArticleIds.has(a.id)).slice(0, 6);
+    gridArticles.forEach(a => usedArticleIds.add(a.id));
+
+    const newArticles = articles.filter(a => !usedArticleIds.has(a.id)).slice(0, 4);
+    newArticles.forEach(a => usedArticleIds.add(a.id));
+
+    // Remainder for the main list
+    const articlesForList = displayedArticles.filter(a => !usedArticleIds.has(a.id));
+
     return (
         <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white" style={{ borderRadius: '45px' }}>
             <Header />
@@ -101,7 +127,7 @@ export default function Home() {
                         </p>
                         {/* Mobile: Vertical list layout */}
                         <div className="flex flex-col sm:hidden gap-6 w-full mt-12">
-                            {articles.filter(article => article.isPromoted).slice(0, 3).map((article: Article) => (
+                            {topPromoted.map((article: Article) => (
                                 <Link
                                     key={article.id}
                                     href={absOrFallback(`/articles/${article.slug}`)}
@@ -143,7 +169,7 @@ export default function Home() {
 
                         {/* Desktop: Horizontal layout */}
                         <div className="hidden sm:flex flex-row gap-8 w-full mt-12 overflow-hidden">
-                            {articles.filter(article => article.isPromoted).slice(0, 3).map((article: Article) => (
+                            {topPromoted.map((article: Article) => (
                                 <Link
                                     key={article.id}
                                     href={absOrFallback(`/articles/${article.slug}`)}
@@ -206,7 +232,7 @@ export default function Home() {
                     </p>
                     {/* Mobile: Vertical list layout */}
                     <div className="flex flex-col sm:hidden gap-6">
-                        {articles.slice(0, 6).map((article: Article) => (
+                        {gridArticles.map((article: Article) => (
                             <Link
                                 key={article.id}
                                 href={absOrFallback(`/articles/${article.slug}`)}
@@ -258,7 +284,7 @@ export default function Home() {
 
                     {/* Desktop: Grid layout */}
                     <div className="hidden sm:flex justify-start gap-4 sm:gap-12 flex-wrap">
-                        {articles.slice(0, 6).map((article: Article) => (
+                        {gridArticles.map((article: Article) => (
                             <Link
                                 key={article.id}
                                 href={absOrFallback(`/articles/${article.slug}`)}
@@ -314,7 +340,7 @@ export default function Home() {
                 {/* New Articles Section - 4 items only */}
                 <section className="w-full flex flex-col items-start pb-4 mb-3 ml-0 sm:ml-[40px]">
                     <div className="flex flex-col gap-8 sm:gap-6 w-full max-w-3xl">
-                        {articles.length > 3 ? articles.slice(3, 7).map((article: Article, index: number) => (
+                        {newArticles.length > 0 ? newArticles.map((article: Article, index: number) => (
                             <div
                                 key={`new-${article.id}`}
                                 className="animate-fadeInUp"
@@ -429,7 +455,7 @@ export default function Home() {
                     </p>
                     
                     <div className="flex flex-col gap-4">
-                        {articles.filter(article => article.isPromoted).slice(0, 1).map((article: Article) => (
+                        {featuredProject.map((article: Article) => (
                             <div key={`featured-${article.id}`} className="bg-white rounded-2xl overflow-hidden">
                                 <Link
                                     href={absOrFallback(`/articles/${article.slug}`)}
@@ -492,7 +518,7 @@ export default function Home() {
                 {/* Featured Section - Two Cards Side by Side */}
                 <section className="mb-4 px-4 sm:px-8 md:px-10 pt-0 pb-2 sm:pt-1 sm:pb-4 md:pt-2 md:pb-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {articles.filter(article => article.isPromoted).slice(0, 2).map((article: Article, index: number) => (
+                        {featuredCards.map((article: Article, index: number) => (
                             <div key={`featured-card-${article.id}`} className="bg-white rounded-2xl overflow-hidden">
                                 <Link
                                     href={absOrFallback(`/articles/${article.slug}`)}
@@ -555,7 +581,7 @@ export default function Home() {
                 {/* Articles List Section */}
                 <section className="w-full flex flex-col items-start pb-4 mb-3 ml-0 sm:ml-[40px]">
                     <div className="flex flex-col gap-8 sm:gap-6 w-full max-w-3xl">
-                        {displayedArticles.slice(7).map((article: Article, index: number) => (
+                        {articlesForList.map((article: Article, index: number) => (
                             <div
                                 key={article.id}
                                 className="animate-fadeInUp"
