@@ -95,7 +95,7 @@ export async function getArticlesByCategory(category: string): Promise<Article[]
       return value;
     };
 
-    let normalizedCategory = normalizeToCanonical(normalizeLabel(category));
+    const normalizedCategory = normalizeToCanonical(normalizeLabel(category));
 
     return allArticles.filter((article) => {
       const primary = normalizeToCanonical(normalizeLabel(article.category));
