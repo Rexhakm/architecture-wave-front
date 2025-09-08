@@ -60,27 +60,8 @@ const AboutUs = () => {
           }}>Your atlas to a life<br /><span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl" style={{
             fontWeight: 700,
             fontFamily: 'var(--font-mazzard-soft)',
-          }}>with a good design.</span></h1>
-          <p className="mb-6 sm:mb-8 text-base sm:text-lg" style={{
-            fontFamily: 'var(--font-mazzard-soft)',
-            fontWeight: 500,
-            lineHeight: '28px',
-            letterSpacing: '5%',
-            color: '#000',
-            display: '-webkit-box',
-            WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 4,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            marginTop: '40px',
-            marginBottom: '70px',
-            maxWidth: '50vw'
-
-          }}>
-            Your atlas to a life <span style={{ fontWeight: 700 }}>
-            shaped by design.<br />
-            </span>
-          </p>
+          }}>shaped by design</span></h1>
+       
           <p className="text-sm sm:text-base mb-4 sm:mb-6" style={{
             fontFamily: 'Inter',
             fontWeight: 400,

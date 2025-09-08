@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import Header from '../components/Header';
+import { absOrFallback } from '../utils/urlUtils';
 import ProductImage from '../components/ProductImage';
 
 export default function ContactUs() {
@@ -42,7 +43,7 @@ export default function ContactUs() {
               color: '#111',
               marginBottom: '40px'
             }}>
-              Whether you’d like to share feedback, pitch a story, collaborate, or explore partnership opportunities—we’re all ears.
+              Whether you’d like to share feedback, pitch a story, collaborate, or explore partnership opportunities, we’re all ears.
               <br /><br />
               Most inquiries are best directed through one of the dedicated channels below:
 
@@ -52,7 +53,7 @@ export default function ContactUs() {
           {/* Hero Image */}
           <div className="mb-12 sm:mb-16" style={{ marginLeft: '10px', marginRight: '10px' }}>
             <ProductImage
-              src="/assets/contact-us.png"
+              src={absOrFallback('/assets/contact-us.png') || '/assets/contact-us.png'}
               alt="Modern Architecture Building"
               fallbackSrc="https://via.placeholder.com/1200x550/f3f4f6/9ca3af?text=Contact+Us"
               className="w-full"

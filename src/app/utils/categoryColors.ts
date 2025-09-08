@@ -1,7 +1,7 @@
 // Centralized category color mapping for consistent use across the application
 export const CATEGORY_COLORS: { [key: string]: string } = {
   // Primary categories with hex colors
-  'Architecture': '#D4A373',
+  'Architecture + Design': '#D4A373',
   'Feeling Good': '#F2B5D4',
   'Lifestyle + Culture': '#FFD6A5',
   'Travel': '#B5E48C',
@@ -14,23 +14,35 @@ export const CATEGORY_COLORS: { [key: string]: string } = {
  */
 export function getCategoryColor(category: string): string {
   if (!category) {
-    return CATEGORY_COLORS['Architecture'] || '#D4A373';
+    return CATEGORY_COLORS['Architecture + Design'] || '#D4A373';
   }
 
-  // Handle special characters and spaces in category names
-  const normalizedCategory = category.toLowerCase()
+  // Normalize incoming category strings and alias legacy names
+  const normalizedCategory = category
+    .toLowerCase()
+    .replace(/-/g, ' ')
+    .replace(/\s*\+\s*/g, '+')
     .replace(/\s+/g, ' ')
-    .replace(/\+/g, ' + ');
+    .trim();
 
-  // Find exact match first
+  const alias = (name: string): string => {
+    if (name === 'architecture') return 'architecture + design';
+    if (name === 'architecture+design') return 'architecture + design';
+    if (name === 'architecture + design') return 'architecture + design';
+    return name;
+  };
+
+  const target = alias(normalizedCategory);
+
   for (const [key, color] of Object.entries(CATEGORY_COLORS)) {
-    if (key.toLowerCase() === normalizedCategory) {
+    const keyNormalized = key.toLowerCase().replace(/\s*\+\s*/g, ' + ').replace(/\s+/g, ' ').trim();
+    if (keyNormalized === target) {
       return color;
     }
   }
 
   // Fallback to default
-  return CATEGORY_COLORS['Architecture'] || '#D4A373';
+  return CATEGORY_COLORS['Architecture + Design'] || '#D4A373';
 }
 
 /**
@@ -49,11 +61,25 @@ export function getCategoryNames(): string[] {
 export function hasCategory(category: string): boolean {
   if (!category) return false;
   
-  const normalizedCategory = category.toLowerCase()
+  const normalizedCategory = category
+    .toLowerCase()
+    .replace(/-/g, ' ')
+    .replace(/\s*\+\s*/g, ' + ')
     .replace(/\s+/g, ' ')
-    .replace(/\+/g, ' + ');
+    .trim();
+
+  const alias = (name: string): string => {
+    if (name === 'architecture') return 'architecture + design';
+    if (name === 'architecture+design') return 'architecture + design';
+    if (name === 'architecture + design') return 'architecture + design';
+    return name;
+  };
 
   return getCategoryNames().some(name => 
-    name.toLowerCase() === normalizedCategory
+    name
+      .toLowerCase()
+      .replace(/\s*\+\s*/g, ' + ')
+      .replace(/\s+/g, ' ')
+      .trim() === alias(normalizedCategory)
   );
 }

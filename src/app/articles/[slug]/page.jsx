@@ -60,9 +60,9 @@ async function getArticle(uid) {
     title: articleData.title,
     slug: articleData.uid,
     description: articleData.description,
-    category: articleData.category,
+    category: (articleData.category && (articleData.category.toLowerCase() === 'architecture' || articleData.category.toLowerCase() === 'architecture+design' || articleData.category.toLowerCase() === 'architecture + design')) ? 'Architecture + Design' : articleData.category,
     secondCategory: articleData.secondCategory,
-    categoryColor: getCategoryColor(articleData.category),
+    categoryColor: getCategoryColor((articleData.category && (articleData.category.toLowerCase() === 'architecture' || articleData.category.toLowerCase() === 'architecture+design' || articleData.category.toLowerCase() === 'architecture + design')) ? 'Architecture + Design' : articleData.category),
     coverImage: coverImageUrl,
     coverImageData: articleData.coverImage?.[0] || null,
     createdAt: articleData.createdAt,
@@ -115,8 +115,10 @@ async function getSimilarArticles(category, currentSlug, limit = 3) {
     let data = await res.json();
 
     if (!data.data || data.data.length === 0) {
+      // Query only Architecture as canonical backend value
+      const fallbackLegacy = encodeURIComponent('Architecture');
       res = await fetch(
-        `${API_BASE_URL}/articles?filters[category][$eq]=Architecture&filters[uid][$ne]=${currentSlug}&populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,createdAt,updatedAt&sort=createdAt:desc&pagination[limit]=${limit}`,
+        `${API_BASE_URL}/articles?filters[category][$eq]=${fallbackLegacy}&filters[uid][$ne]=${currentSlug}&populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,createdAt,updatedAt&sort=createdAt:desc&pagination[limit]=${limit}`,
         { next: { revalidate: 60 } }
       );
       data = await res.json();

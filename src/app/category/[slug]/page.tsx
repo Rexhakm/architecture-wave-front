@@ -20,13 +20,23 @@ const categories = Object.entries(CATEGORY_COLORS).map(([name, color]) => ({
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = params;
-  const title = slug
-    .toLowerCase()
-    .replace(/-/g, ' ')
-    .replace(/plus/g, '+')
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  const title = (() => {
+    const normalized = slug
+      .toLowerCase()
+      .replace(/-/g, ' ')
+      .replace(/plus/g, '+')
+      .trim();
+    const mapped = (normalized === 'architecture' || normalized === 'architecture+design' || normalized === 'architecture + design')
+      ? 'architecture + design'
+      : normalized;
+    return mapped
+      .split(/([+])/)
+      .map(token => token === '+' ? ' + ' : token.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '))
+      .join('')
+      .replace(/\s+\+\s+/g, ' + ')
+      .trim()
+      .replace(/^Architecture \+ design$/, 'Architecture + Design');
+  })();
 
   // Fetch articles for the current category
   let articles: Article[] = [];

@@ -26,6 +26,17 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+/* Prevent accidental horizontal overflow across the site */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Use border-box to avoid width + padding causing overflow */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

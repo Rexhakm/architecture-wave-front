@@ -29,6 +29,13 @@ export async function getAllArticles(): Promise<Article[]> {
 
     const articles: Article[] = [];
     
+    const normalizePrimaryCategory = (raw?: string): string => {
+      if (!raw) return 'Architecture + Design';
+      const lowered = raw.toLowerCase().trim();
+      if (lowered === 'architecture' || lowered === 'architecture+design' || lowered === 'architecture + design') return 'Architecture + Design';
+      return raw;
+    };
+
     for (const article of data.data) {
       console.log('Processing article:', article);
       
@@ -47,9 +54,9 @@ export async function getAllArticles(): Promise<Article[]> {
         title: article.title || 'Untitled',
         description: article.description || '',
         slug: article.uid || `article-${article.id}`,
-        category: (article.category || 'Architecture').charAt(0).toUpperCase() + (article.category || 'Architecture').slice(1).toLowerCase(),
-        secondCategory: article.secondCategory ? (article.secondCategory.charAt(0).toUpperCase() + article.secondCategory.slice(1).toLowerCase()) : undefined,
-        categoryColor: getCategoryColor(article.category),
+        category: normalizePrimaryCategory(article.category),
+        secondCategory: article.secondCategory || undefined,
+        categoryColor: getCategoryColor(normalizePrimaryCategory(article.category)),
         coverImage: coverImageUrl,
         isPromoted: article.isPromoted || false,
         createdAt: article.createdAt || new Date().toISOString(),
@@ -80,11 +87,19 @@ export async function getArticlesByCategory(category: string): Promise<Article[]
         .trim();
     };
 
-    const normalizedCategory = normalizeLabel(category);
+    const normalizeToCanonical = (value: string): string => {
+      if (!value) return '';
+      if (value === 'architecture' || value === 'architecture+design' || value === 'architecture + design') {
+        return 'architecture';
+      }
+      return value;
+    };
+
+    let normalizedCategory = normalizeToCanonical(normalizeLabel(category));
 
     return allArticles.filter((article) => {
-      const primary = normalizeLabel(article.category);
-      const secondary = normalizeLabel(article.secondCategory);
+      const primary = normalizeToCanonical(normalizeLabel(article.category));
+      const secondary = normalizeToCanonical(normalizeLabel(article.secondCategory));
       return primary === normalizedCategory || (!!secondary && secondary === normalizedCategory);
     });
   } catch (error) {
@@ -97,10 +112,30 @@ export async function getArticlesByCategory(category: string): Promise<Article[]
 
 export function formatCategoryDisplay(category: string, secondCategory?: string): string {
   if (secondCategory) {
-    // Format: "Category, SecondCategory" - capitalize first letter of each word
-    const firstPart = category.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
-    const secondPart = secondCategory.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    // Format: "Category, SecondCategory" - title case over space and plus
+    const toTitle = (value: string) => value
+      .split(/([+])/)
+      .map(token => token === '+' ? ' + ' : token.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' '))
+      .join('')
+      .replace(/\s+\+\s+/g, ' + ')
+      .trim();
+
+    const mapPrimary = (value: string) => {
+      const v = value.trim();
+      if (v.toLowerCase() === 'architecture' || v.toLowerCase() === 'architecture+design' || v.toLowerCase() === 'architecture + design') return 'Architecture + Design';
+      return v;
+    };
+
+    const firstPart = toTitle(mapPrimary(category));
+    const secondPart = toTitle(secondCategory);
     return `${firstPart}, ${secondPart}`;
   }
-  return category.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+  const value = category.trim();
+  const mapped = (value.toLowerCase() === 'architecture' || value.toLowerCase() === 'architecture+design' || value.toLowerCase() === 'architecture + design') ? 'Architecture + Design' : value;
+  return mapped
+    .split(/([+])/)
+    .map(token => token === '+' ? ' + ' : token.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' '))
+    .join('')
+    .replace(/\s+\+\s+/g, ' + ')
+    .trim();
 } 
