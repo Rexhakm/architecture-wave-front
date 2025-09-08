@@ -16,16 +16,12 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "16x16 32x32", type: "image/x-icon" },
-      { url: "/icons/icon-16x16.svg", sizes: "16x16", type: "image/svg+xml" },
-      { url: "/icons/icon-32x32.svg", sizes: "32x32", type: "image/svg+xml" },
-      { url: "/icons/icon-192x192.svg", sizes: "192x192", type: "image/svg+xml" },
-      { url: "/icons/icon-512x512.svg", sizes: "512x512", type: "image/svg+xml" },
+      { url: "/assets/Vector-12.png", sizes: "any", type: "image/png" },
     ],
     apple: [
-      { url: "/icons/apple-touch-icon.svg", sizes: "180x180", type: "image/svg+xml" },
+      { url: "/assets/Vector-12.png", sizes: "180x180", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
+    shortcut: "/assets/Vector-12.png",
   },
   appleWebApp: {
     capable: true,
@@ -103,6 +99,12 @@ export default function RootLayout({
         {/* DNS prefetch for performance */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+        {/* Explicit favicon links with cache-busting to force browser refresh */}
+        <link rel="icon" href="/assets/Vector-12.png?v=3" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/assets/Vector-12.png?v=3" type="image/png" sizes="192x192" />
+        <link rel="shortcut icon" href="/assets/Vector-12.png?v=3" type="image/png" />
+        <link rel="apple-touch-icon" href="/assets/Vector-12.png?v=3" />
       </head>
       <body
         className={`${mazzardSoft.variable} ${inter.variable} antialiased min-h-screen flex flex-col`}
