@@ -30,7 +30,9 @@ const imagesToCheck = [
   'assets/Vector-7.png',
   'assets/Vector-8.png',
   'assets/Rectangle.png',
-  'assets/Rectangle2.png'
+  'assets/Rectangle2.png',
+  'assets/arch_icon.png',
+  'assets/contact-us.png'
 ];
 
 console.log('🔍 Checking image files...\n');
