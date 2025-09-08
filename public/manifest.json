@@ -1,0 +1,27 @@
+{
+  "name": "Architecture Wave",
+  "short_name": "ArchWave",
+  "description": "Your atlas to a life with good design",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#E2E2E2",
+  "theme_color": "#111111",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["lifestyle", "design", "architecture"],
+  "icons": [
+    {
+      "src": "/assets/Vector-12.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/Vector-12.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+} 

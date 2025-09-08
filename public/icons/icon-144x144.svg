@@ -1,0 +1,20 @@
+<svg width="144" height="144" viewBox="0 0 144 144" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="72" cy="72" r="72" fill="#E2E2E2"/>
+  
+  <!-- Top shape - inverted V / upward arrow -->
+  <path d="M36 50.4 L72 21.599999999999998 L108 50.4" 
+        stroke="#111111" 
+        stroke-width="11.52" 
+        fill="none" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+  
+  <!-- Bottom shape - stylized W -->
+  <path d="M28.8 64.8 L50.4 93.60000000000001 L72 64.8 L93.60000000000001 93.60000000000001 L115.2 64.8" 
+        stroke="#111111" 
+        stroke-width="11.52" 
+        fill="none" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+</svg>
