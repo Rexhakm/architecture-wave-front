@@ -50,7 +50,7 @@ export default function Header({ tintColor }: { tintColor?: string }) {
 
   return (
     <header
-      className="relative w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6"
+      className="relative w-full flex items-center justify-between pl-1 pr-4 sm:px-8 py-4 sm:py-6"
       style={{
         marginTop: '20px',
         borderRadius: '45px',
@@ -77,7 +77,7 @@ export default function Header({ tintColor }: { tintColor?: string }) {
             }}
           />
         </Link>
-        <span className="inline-flex items-center h-[40px] font-bold text-base sm:text-lg text-black -ml-1 mt-1" style={{ lineHeight: '1' }}>Architecture Wave</span>
+        <span className="hidden sm:inline-flex items-center h-[40px] font-bold text-base sm:text-lg text-black -ml-1 mt-1" style={{ lineHeight: '1' }}>Architecture Wave</span>
         </div>
       </div>
       
@@ -204,7 +204,7 @@ export default function Header({ tintColor }: { tintColor?: string }) {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           style={{ marginTop: '25px' }}
         >
-          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <svg className="text-black md:text-current" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             {mobileMenuOpen ? (
               <path d="M6 18L18 6M6 6l12 12" />
             ) : (

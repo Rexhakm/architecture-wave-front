@@ -1,11 +1,6 @@
 {
-  "/about-us/page": "app/about-us/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/category/[slug]/page": "app/category/[slug]/page.js",
-  "/contact-us/page": "app/contact-us/page.js",
-  "/shop/[id]/page": "app/shop/[id]/page.js",
   "/page": "app/page.js",
-  "/shop/page": "app/shop/page.js",
-  "/articles/[slug]/page": "app/articles/[slug]/page.js",
-  "/category/page": "app/category/page.js"
+  "/about-us/page": "app/about-us/page.js",
+  "/contact-us/page": "app/contact-us/page.js",
+  "/category/[slug]/page": "app/category/[slug]/page.js"
 }

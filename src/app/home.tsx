@@ -76,13 +76,28 @@ export default function Home() {
     const topPromoted = promotedArticles.slice(0, 3);
     topPromoted.forEach(a => usedArticleIds.add(a.id));
 
-    // Then reserve 2 items for featuredCards from remaining promoted
-    const featuredCards = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 2);
-    featuredCards.forEach(a => usedArticleIds.add(a.id));
+    // Then reserve 2 items for featuredCards from remaining promoted.
+    // If not enough promoted remain, fill with next best non-promoted items.
+    const baseFeatured = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 2);
+    baseFeatured.forEach(a => usedArticleIds.add(a.id));
+    let featuredCards = baseFeatured;
+    if (featuredCards.length < 2) {
+        const needed = 2 - featuredCards.length;
+        const fallback = articles
+            .filter(a => !usedArticleIds.has(a.id))
+            .slice(0, needed);
+        featuredCards = [...featuredCards, ...fallback];
+        fallback.forEach(a => usedArticleIds.add(a.id));
+    }
 
-    // Then 1 item for featuredProject from remaining promoted
-    const featuredProject = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 1);
+    // Then 1 item for featuredProject from remaining promoted; fallback to non-promoted if none left
+    let featuredProject = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 1);
     featuredProject.forEach(a => usedArticleIds.add(a.id));
+    if (featuredProject.length < 1) {
+        const fallbackProject = articles.filter(a => !usedArticleIds.has(a.id)).slice(0, 1);
+        featuredProject = [...featuredProject, ...fallbackProject];
+        fallbackProject.forEach(a => usedArticleIds.add(a.id));
+    }
 
     // Fill grid and new sections from remaining pool (non-overlapping)
     const gridArticles = articles.filter(a => !usedArticleIds.has(a.id)).slice(0, 6);
