@@ -62,14 +62,13 @@ const AboutUs = () => {
             fontFamily: 'var(--font-mazzard-soft)',
           }}>shaped by design.</span></h1>
        
-          <p className="text-sm sm:text-base mb-4 sm:mb-6" style={{
+          <p className="text-sm sm:text-base mb-4 sm:mb-6 max-w-full sm:max-w-[50%]" style={{
             fontFamily: 'var(--font-mazzard-soft)',
             fontWeight: 400,
             lineHeight: '28px',
             letterSpacing: '0%',
             color: '#000',
             whiteSpace: 'pre-line',
-            maxWidth: '50%',
             fontSize: '18px',
             marginTop: '80px',
           }}>
