@@ -27,7 +27,7 @@ export default function Footer() {
       />
 
       {/* Main Content Container with left margin */}
-      <div className="relative z-10 flex flex-col h-full ml-[60px] mr-[60px]" style={{ paddingTop: '40px' }}>
+      <div className="relative z-10 flex flex-col h-full ml-4 sm:ml-[60px] mr-4 sm:mr-[60px]" style={{ paddingTop: '40px' }}>
         {/* Top Section - Brand and Navigation */}
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 lg:justify-between mb-16 lg:mb-20">
           {/* Left Section - Brand */}

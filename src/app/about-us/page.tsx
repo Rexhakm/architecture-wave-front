@@ -6,7 +6,7 @@ const AboutUs = () => {
   return (
     <div style={{ position: 'relative', width: '100%' }}>
       {/* Main Content */}
-      <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white min-h-[calc(100vh-690px)]" style={{ marginBottom: 40, position: 'relative', zIndex: 1, borderRadius: '45px' }}>
+      <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white min-h-[calc(100vh-690px)]" style={{ marginBottom: 40, position: 'relative', zIndex: 1, borderRadius: '45px' }}>
         <img
           src={absOrFallback('assets/Rectangle.png')}
           alt="Decorative Rectangle"
@@ -50,17 +50,16 @@ const AboutUs = () => {
           aria-hidden="true"
         />
         <Header />
-        <div className="ml-[60px]">
+        <div className="ml-0 sm:ml-[60px]">
           <div className="px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-12" style={{ paddingBottom: '100px' }}>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal mb-4 sm:mb-6" style={{
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal mb-4 sm:mb-6" style={{
             fontFamily: 'var(--font-mazzard-soft)',
             color: '#111',
             lineHeight: '100%',
             letterSpacing: '0%'
-          }}>Your atlas to a life<br /><span style={{
+          }}>Your atlas to a life<br /><span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl" style={{
             fontWeight: 700,
             fontFamily: 'var(--font-mazzard-soft)',
-             fontSize: '72px'
           }}>with a good design.</span></h1>
           <p className="mb-6 sm:mb-8 text-base sm:text-lg" style={{
             fontFamily: 'var(--font-mazzard-soft)',

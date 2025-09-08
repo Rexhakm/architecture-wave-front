@@ -17,7 +17,8 @@ export default function Header() {
 
   return (
     <header className="relative w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6" style={{ marginTop: '20px', borderRadius: '45px' }}>
-      <div className="flex items-center gap-2" style={{ marginLeft: '70px', marginTop: '25px' }}>
+      <div className="flex items-center gap-2 justify-center sm:justify-start" style={{ marginLeft: '0px', marginTop: '25px' }}>
+        <div className="sm:ml-[70px]">
         <Link href={absOrFallback('/')} style={{ position: 'relative', display: 'inline-block', width: '38px', height: '33px' }}>
           <img src={absOrFallback('/assets/Vector-7.png')} alt="logo" style={{ width: '38px', height: '33px' }} />
           <span
@@ -38,6 +39,7 @@ export default function Header() {
           </span>
         </Link>
         <span className="font-bold text-base sm:text-lg text-black">Architecture Wave</span>
+        </div>
       </div>
       
       {/* Desktop Navigation - Only show on home page */}

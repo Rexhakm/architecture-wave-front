@@ -28,9 +28,9 @@ export default function CategoryPage() {
   ];
 
   return (
-    <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white min-h-[calc(100vh-690px)]" style={{ marginBottom: 40, position: 'relative', zIndex: 1, borderRadius: '45px' }}>
+    <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white min-h-[calc(100vh-690px)]" style={{ marginBottom: 40, position: 'relative', zIndex: 1, borderRadius: '45px' }}>
       <Header />
-      <div className="ml-[70px]">
+      <div className="ml-0 sm:ml-[70px]">
         <section className="mb-12">
           <div className="px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-12">
             {/* Heading */}

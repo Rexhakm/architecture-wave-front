@@ -49,7 +49,7 @@ export default function Home() {
 
     if (isLoading) {
         return (
-            <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white" style={{ borderRadius: '45px' }}>
+            <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white" style={{ borderRadius: '45px' }}>
                 <Header />
                 <div className="flex items-center justify-center min-h-screen">
                     <div className="text-lg">Loading articles...</div>
@@ -59,12 +59,12 @@ export default function Home() {
     }
 
     return (
-        <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white" style={{ borderRadius: '45px' }}>
+        <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white" style={{ borderRadius: '45px' }}>
             <Header />
-            <div className="ml-[60px]">
+            <div className="ml-0 sm:ml-[60px]">
                 <section className="mb-12">
                     <div className="px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-12">
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal mb-4 sm:mb-6" style={{
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal mb-4 sm:mb-6" style={{
                             fontFamily: 'var(--font-mazzard-soft)',
                             color: '#111',
                             lineHeight: '100%',
@@ -99,7 +99,50 @@ export default function Home() {
                                 work, and connect, blending everyday.
                             </span>
                         </p>
-                        <div className="flex flex-row gap-8 w-full mt-12 overflow-hidden">
+                        {/* Mobile: Vertical list layout */}
+                        <div className="flex flex-col sm:hidden gap-6 w-full mt-12">
+                            {articles.filter(article => article.isPromoted).slice(0, 3).map((article: Article) => (
+                                <Link
+                                    key={article.id}
+                                    href={absOrFallback(`/articles/${article.slug}`)}
+                                    className="flex items-center gap-4 hover:opacity-90 transition-opacity"
+                                >
+                                    <img
+                                        src={article.coverImage}
+                                        alt={article.category}
+                                        className="rounded-2xl object-cover w-32 h-32 flex-shrink-0"
+                                        style={{
+                                            aspectRatio: '1/1',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
+                                    <div className="flex flex-col flex-1">
+                                        <span className="text-sm font-medium mb-1 block" style={{
+                                            color: getCategoryColor(article.category)
+                                        }}>
+                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                        </span>
+                                        <span className="font-medium text-sm text-black block" style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 500,
+                                            fontSize: '16px',
+                                            lineHeight: '24px',
+                                            color: '#111',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 2,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                        }}>
+                                            {article.title}
+                                        </span>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+
+                        {/* Desktop: Horizontal layout */}
+                        <div className="hidden sm:flex flex-row gap-8 w-full mt-12 overflow-hidden">
                             {articles.filter(article => article.isPromoted).slice(0, 3).map((article: Article) => (
                                 <Link
                                     key={article.id}
@@ -109,20 +152,19 @@ export default function Home() {
                                     <img
                                         src={article.coverImage}
                                         alt={article.category}
-                                        className="rounded-2xl object-cover"
+                                        className="rounded-2xl object-cover w-[140px] h-[140px]"
                                         style={{
-                                            width: '140px',
                                             aspectRatio: '1/1',
                                             objectFit: 'cover'
                                         }}
                                     />
                                     <div className="flex flex-col">
-                                        <span className="text-sm sm:text-base font-medium mb-1 block" style={{
+                                        <span className="text-sm font-medium mb-1 block" style={{
                                             color: getCategoryColor(article.category)
                                         }}>
                                             {formatCategoryDisplay(article.category, article.secondCategory)}
                                         </span>
-                                        <span className="font-medium text-sm sm:text-base text-black block" style={{
+                                        <span className="font-medium text-sm text-black block" style={{
                                             fontFamily: 'var(--font-mazzard-soft)',
                                             fontWeight: 500,
                                             fontSize: '20px',
@@ -162,12 +204,65 @@ export default function Home() {
                     }}>
                         A ribbon-esque stair connects three levels that hold a bath
                     </p>
-                    <div className="flex justify-start gap-12 flex-wrap">
+                    {/* Mobile: Vertical list layout */}
+                    <div className="flex flex-col sm:hidden gap-6">
                         {articles.slice(0, 6).map((article: Article) => (
                             <Link
                                 key={article.id}
                                 href={absOrFallback(`/articles/${article.slug}`)}
-                                className="w-[320px] block hover:opacity-90 transition-opacity"
+                                className="flex items-center gap-4 hover:opacity-90 transition-opacity"
+                            >
+                                <img
+                                    src={article.coverImage}
+                                    alt={article.category}
+                                    className="rounded-2xl w-32 h-32 flex-shrink-0 object-cover"
+                                />
+                                <div className="flex flex-col flex-1">
+                                    <span className="text-sm font-semibold mb-1 block" style={{
+                                        color: getCategoryColor(article.category)
+                                    }}>
+                                        {formatCategoryDisplay(article.category, article.secondCategory)}
+                                    </span>
+                                    <h3 className="font-bold text-sm mb-1" style={{
+                                        fontFamily: 'var(--font-mazzard-soft)',
+                                        fontWeight: 500,
+                                        fontSize: '16px',
+                                        lineHeight: '24px',
+                                        color: '#111',
+                                        display: '-webkit-box',
+                                        WebkitBoxOrient: 'vertical',
+                                        WebkitLineClamp: 2,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}>
+                                        {article.title}
+                                    </h3>
+                                    <p className="text-gray-500 text-xs" style={{
+                                        fontFamily: 'var(--font-mazzard-soft)',
+                                        fontWeight: 400,
+                                        fontSize: '12px',
+                                        lineHeight: '18px',
+                                        display: '-webkit-box',
+                                        WebkitBoxOrient: 'vertical',
+                                        WebkitLineClamp: 2,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        color: '#111'
+                                    }}>
+                                        {article.description?.substring(0, 80)}...
+                                    </p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+
+                    {/* Desktop: Grid layout */}
+                    <div className="hidden sm:flex justify-start gap-4 sm:gap-12 flex-wrap">
+                        {articles.slice(0, 6).map((article: Article) => (
+                            <Link
+                                key={article.id}
+                                href={absOrFallback(`/articles/${article.slug}`)}
+                                className="w-full sm:w-[320px] block hover:opacity-90 transition-opacity"
                             >
                                 <div>
                                     <img
@@ -217,8 +312,8 @@ export default function Home() {
             
 
                 {/* New Articles Section - 4 items only */}
-                <section className="w-full flex flex-col items-start pb-4 mb-3 ml-[40px]">
-                    <div className="flex flex-col gap-6 w-full max-w-3xl">
+                <section className="w-full flex flex-col items-start pb-4 mb-3 ml-0 sm:ml-[40px]">
+                    <div className="flex flex-col gap-8 sm:gap-6 w-full max-w-3xl">
                         {articles.length > 3 ? articles.slice(3, 7).map((article: Article, index: number) => (
                             <div
                                 key={`new-${article.id}`}
@@ -293,11 +388,10 @@ export default function Home() {
 
                     {/* Featured Projects Section */}
                 <section className="mb-4 px-4 sm:px-8 md:px-10 py-2 sm:py-4 md:py-6">
-                    <h2 className="mb-2" style={{
+                    <h2 className="mb-2 text-2xl sm:text-3xl md:text-4xl" style={{
                         fontFamily: 'var(--font-mazzard-soft)',
                         fontWeight: 500,
                         fontStyle: 'Medium',
-                        fontSize: '32px',
                         lineHeight: '80px',
                         letterSpacing: '0%',
                         color: '#000000'
@@ -453,8 +547,8 @@ export default function Home() {
                 </section>
 
                 {/* Articles List Section */}
-                <section className="w-full flex flex-col items-start pb-4 mb-3 ml-[40px]">
-                    <div className="flex flex-col gap-6 w-full max-w-3xl">
+                <section className="w-full flex flex-col items-start pb-4 mb-3 ml-0 sm:ml-[40px]">
+                    <div className="flex flex-col gap-8 sm:gap-6 w-full max-w-3xl">
                         {displayedArticles.slice(7).map((article: Article, index: number) => (
                             <div
                                 key={article.id}
@@ -464,9 +558,66 @@ export default function Home() {
                                     animationFillMode: 'both'
                                 }}
                             >
+                                {/* Mobile: Vertical list layout */}
                                 <Link
                                     href={absOrFallback(`/articles/${article.slug}`)}
-                                    className="flex flex-col md:flex-row items-start gap-8 hover:opacity-90 transition-opacity cursor-pointer"
+                                    className="flex sm:hidden items-center gap-4 hover:opacity-90 transition-opacity cursor-pointer ml-4"
+                                >
+                                    <img
+                                        src={article.coverImage}
+                                        alt={article.category}
+                                        className="w-32 h-32 rounded-2xl object-cover flex-shrink-0"
+                                        style={{
+                                            aspectRatio: '1/1',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
+                                    <div className="flex flex-col flex-1">
+                                        <span className="block mb-1 text-sm" style={{
+                                            color: article.categoryColor,
+                                            fontFamily: 'Inter',
+                                            fontWeight: 600,
+                                            fontSize: '14px',
+                                            lineHeight: '20px',
+                                            letterSpacing: '-5%'
+                                        }}>
+                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                        </span>
+                                        <h3 className="mb-1" style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 500,
+                                            fontSize: '16px',
+                                            lineHeight: '24px',
+                                            color: '#111',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 2,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {article.title}
+                                        </h3>
+                                        <p className="text-xs" style={{
+                                            fontFamily: 'var(--font-mazzard-soft)',
+                                            fontWeight: 400,
+                                            fontSize: '12px',
+                                            lineHeight: '18px',
+                                            display: '-webkit-box',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 2,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            color: '#111'
+                                        }}>
+                                            {article.description}
+                                        </p>
+                                    </div>
+                                </Link>
+
+                                {/* Desktop: Horizontal layout */}
+                                <Link
+                                    href={absOrFallback(`/articles/${article.slug}`)}
+                                    className="hidden sm:flex flex-col md:flex-row items-start gap-8 hover:opacity-90 transition-opacity cursor-pointer"
                                 >
                                     <img
                                         src={article.coverImage}

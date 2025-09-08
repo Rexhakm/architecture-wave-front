@@ -282,7 +282,7 @@ export default async function Page({ params }) {
 
   return (
     <main
-      className="w-[calc(100%-40px)] mx-auto px-4 bg-white"
+      className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white"
       style={{ marginBottom: "20px", borderRadius: "45px" }}
     >
       <Header />

@@ -37,7 +37,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
     .slice(0, 4)
 
   return (
-    <main className="w-full sm:w-[calc(100%-20px)] md:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
+      <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
       <Header />
       
       {/* Product Detail */}

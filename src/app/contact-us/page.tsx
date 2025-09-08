@@ -18,18 +18,17 @@ export default function ContactUs() {
 
         <div className="px-4 sm:px-8 md:px-12 py-6 sm:py-8 md:py-12">
           {/* Header Section */}
-          <div className="mb-8 sm:mb-12" style={{ marginLeft: '45px' }}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal mb-4 sm:mb-6" style={{
+          <div className="mb-8 sm:mb-12 sm:ml-[45px]">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal mb-4 sm:mb-6 text-left" style={{
               fontFamily: 'var(--font-mazzard-soft)',
               color: '#111',
               lineHeight: '100%',
               letterSpacing: '0%',
             }}>
               Contact<br />
-              <span style={{
+              <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl" style={{
                 fontWeight: 400,
                 fontFamily: 'var(--font-mazzard-soft)',
-                fontSize: '72px'
               }}>ArchitectureWave</span>
             </h1>
             
@@ -63,7 +62,7 @@ export default function ContactUs() {
           </div>
 
           {/* Contact Sections */}
-          <div className="flex flex-col gap-8 sm:gap-12" style={{ marginLeft: '45px' }}>
+          <div className="flex flex-col gap-8 sm:gap-12 sm:ml-[45px]">
             {/* Subscription Help */}
             <div className="text-center md:text-left">
               <h3 className="text-xl sm:text-2xl font-bold mb-4" style={{
