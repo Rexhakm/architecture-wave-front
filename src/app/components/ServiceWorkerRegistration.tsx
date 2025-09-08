@@ -12,7 +12,31 @@ export default function ServiceWorkerRegistration() {
       navigator.serviceWorker
         .register(url)
         .then((registration) => {
-          console.log('SW registered: ', registration);
+          // Listen for updates to the service worker.
+          if (registration.waiting) {
+            registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+          }
+
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (!newWorker) return;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed') {
+                if (navigator.serviceWorker.controller) {
+                  // New content is available; force activation
+                  newWorker.postMessage({ type: 'SKIP_WAITING' });
+                }
+              }
+            });
+          });
+
+          // Reload when the new SW takes control
+          let refreshing = false;
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (refreshing) return;
+            refreshing = true;
+            window.location.reload();
+          });
         })
         .catch((registrationError) => {
           console.log('SW registration failed: ', registrationError);

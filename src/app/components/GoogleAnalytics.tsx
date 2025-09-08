@@ -18,11 +18,9 @@ export default function GoogleAnalytics({ gaId }: GoogleAnalyticsProps) {
     const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
 
     // Send page_view on route changes
-    if (typeof window !== "undefined" && (window as any).gtag) {
-      (window as any).gtag('config', gaId, {
-        page_path: url,
-      });
-    }
+    type GtagFunction = (...args: unknown[]) => void;
+    const gtag = (typeof window !== "undefined" ? (window as Window & { gtag?: GtagFunction }).gtag : undefined);
+    gtag?.('config', gaId, { page_path: url });
   }, [gaId, pathname, searchParams]);
 
   if (!gaId) return null;

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 import { mazzardSoft } from "../fonts";
 import Footer from "./components/Footer";
 import GoogleAnalytics from "./components/GoogleAnalytics";
@@ -112,9 +113,15 @@ export default function RootLayout({
         className={`${mazzardSoft.variable} ${inter.variable} antialiased min-h-screen flex flex-col`}
         style={{ fontFamily: "var(--font-mazzard-soft)", background: "#E2E2E2" }}
       >
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-PQ89L42VT2"} />
-        <ServiceWorkerRegistration />
-        <div className="flex-grow">{children}</div>
+        <Suspense fallback={null}>
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-PQ89L42VT2"} />
+        </Suspense>
+        <Suspense fallback={null}>
+          <ServiceWorkerRegistration />
+        </Suspense>
+        <Suspense fallback={null}>
+          <div className="flex-grow">{children}</div>
+        </Suspense>
         <Footer />
       </body>
     </html>
