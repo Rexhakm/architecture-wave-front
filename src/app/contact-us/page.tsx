@@ -53,7 +53,7 @@ export default function ContactUs() {
           {/* Hero Image */}
           <div className="mb-12 sm:mb-16" style={{ marginLeft: '10px', marginRight: '10px' }}>
             <ProductImage
-              src={absOrFallback('/assets/contact-us.png') || '/assets/contact-us.png'}
+              src={absOrFallback('/assets/contact-us.png')}
               alt="Modern Architecture Building"
               fallbackSrc="https://via.placeholder.com/1200x550/f3f4f6/9ca3af?text=Contact+Us"
               className="w-full"
