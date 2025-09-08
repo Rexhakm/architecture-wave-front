@@ -77,10 +77,8 @@ const AboutUs = () => {
             maxWidth: '50vw'
 
           }}>
-            Discover the stories, trends, and<br />
-            experiences that shape <span style={{ fontWeight: 700 }}>
-              how we live,<br />
-              work, and connect, blending everyday.
+            Your atlas to a life <span style={{ fontWeight: 700 }}>
+            shaped by design.<br />
             </span>
           </p>
           <p className="text-sm sm:text-base mb-4 sm:mb-6" style={{
@@ -93,15 +91,14 @@ const AboutUs = () => {
             maxWidth: '50%',
             fontSize: '18px'
           }}>
-            Architecture Wave is a design and travel platform celebrating how spaces shape us — emotionally, spiritually, and sensorially.
+            Architecture Wave is a design and travel platform dedicated to the spaces that move us emotionally, spiritually, and sensorially. What began as an Instagram community has grown into a digital magazine, curating the most compelling stories of architecture, interiors, and destinations around the world.
             <br /><br />
-            Born on Instagram and now evolving into a digital magazine, we spotlight architecture not just as form, but as feeling. From poetic villas on remote coastlines to soulful interiors that speak in silence, we curate stories that connect beauty with meaning.
+            We see design not as decoration, but as experience. A villa on a remote coastline, an interior that speaks in silence, a city that reshapes who we are. Every feature is chosen for the way it lingers long after you leave.
+
             <br /><br />
-            Our audience, over 12 million monthly design lovers, includes tastemakers, architects, and dreamers from across the globe. Together, we explore the spaces that stay with us long after we leave them.
+            With an audience of more than 12 million monthly design lovers, including architects, tastemakers, and dreamers, we are a global community united by a shared belief that design is not only seen but deeply felt.
             <br /><br />
-            Through visuals, words, and our signature calm aesthetic, Architecture Wave is not just about design — it&apos;s about how design moves us.
-            <br /><br />
-            Our mission is to awaken deeper emotional connection with the spaces we inhabit and inspire a more mindful way of experiencing the world through architecture.
+            Through evocative visuals, editorial storytelling, and our signature calm aesthetic, Architecture Wave exists to inspire a more mindful way of living and traveling. Our mission is simple yet profound: to awaken deeper emotional connection with the spaces we inhabit and to show how design can transform the way we experience the world.
           </p>
         </div>
         </div>

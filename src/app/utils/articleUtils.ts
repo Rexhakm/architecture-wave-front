@@ -67,12 +67,26 @@ export async function getAllArticles(): Promise<Article[]> {
 export async function getArticlesByCategory(category: string): Promise<Article[]> {
   try {
     const allArticles = await getAllArticles();
-    const normalizedCategory = category.toLowerCase();
-    
-    return allArticles.filter(article => 
-      article.category.toLowerCase() === normalizedCategory ||
-      (article.secondCategory && article.secondCategory.toLowerCase() === normalizedCategory)
-    );
+
+    // Normalization helper to align formats across slug and stored labels
+    const normalizeLabel = (value?: string): string => {
+      if (!value) return '';
+      return value
+        .toLowerCase()
+        .replace(/-/g, ' ')          // hyphens to spaces
+        .replace(/\s*\+\s*/g, '+') // collapse any spaced '+' to '+'
+        .replace(/plus/g, '+')        // convert token 'plus' to '+'
+        .replace(/\s+/g, ' ')        // collapse multiple spaces
+        .trim();
+    };
+
+    const normalizedCategory = normalizeLabel(category);
+
+    return allArticles.filter((article) => {
+      const primary = normalizeLabel(article.category);
+      const secondary = normalizeLabel(article.secondCategory);
+      return primary === normalizedCategory || (!!secondary && secondary === normalizedCategory);
+    });
   } catch (error) {
     console.error('Error fetching articles by category:', error);
     return [];

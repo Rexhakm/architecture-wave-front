@@ -285,7 +285,7 @@ export default async function Page({ params }) {
       className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white"
       style={{ marginBottom: "20px", borderRadius: "45px" }}
     >
-      <Header />
+      <Header tintColor={article.categoryColor} />
       <UnifiedImageLightbox allImages={allImages}>
         <div className="min-h-screen">
           {article.coverImage && (

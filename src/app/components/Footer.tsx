@@ -53,7 +53,7 @@ export default function Footer() {
                 letterSpacing: '0.05em',
               }}
             >
-              Discover the stories, trends, and experiences that shape{" "}
+              A lens on global architecture and interiors,{" "}
               <span
                 style={{
                   fontFamily: 'var(--font-mazzard-soft)',
@@ -63,9 +63,9 @@ export default function Footer() {
                   letterSpacing: '0.05em',
                 }}
               >
-                how we live, work, and connect, blending everyday lifestyle{" "}
+                where culture, emotion, and everyday life{" "}
               </span>
-              with rich cultural insights.
+              unfold into the language of design.
             </p>
           </div>
 

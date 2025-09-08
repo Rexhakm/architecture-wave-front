@@ -96,7 +96,7 @@ export default function Home() {
                             Discover the stories, trends, and<br />
                             experiences that shape <span style={{ fontWeight: 700 }}>
                                 how we live,<br />
-                                work, and connect, blending everyday.
+                                work, and connect in the rhythm of everyday life.
                             </span>
                         </p>
                         {/* Mobile: Vertical list layout */}
@@ -194,7 +194,7 @@ export default function Home() {
                         lineHeight: '120%',
                         letterSpacing: '0%'
                     }}>
-                        Dive in by topic, series, or creator
+                        Dive into projects, ideas, and culture.
                     </h2>
                     <p className="mb-8 text-sm sm:text-base max-w-lg sm:max-w-xl md:max-w-2xl" style={{
                         fontFamily: 'var(--font-mazzard-soft)',
@@ -202,7 +202,7 @@ export default function Home() {
                         fontSize: '14px',
                         color: '#111'
                     }}>
-                        A ribbon-esque stair connects three levels that hold a bath
+                        Understanding design as a language of space and story.
                     </p>
                     {/* Mobile: Vertical list layout */}
                     <div className="flex flex-col sm:hidden gap-6">
@@ -405,7 +405,7 @@ export default function Home() {
                         color: '#111',
                         lineHeight: '24px'
                     }}>
-                        Featured Projects are submitted to Wave by our community of architects, designers, agents, and proud home. <span 
+                        Projects are submitted to Wave by our community of architects, designers, agents, and proud home dwellers. <span 
                             className="cursor-pointer hover:opacity-80" 
                             style={{
                                 fontFamily: 'Mazzard Soft H',
@@ -419,7 +419,7 @@ export default function Home() {
                                 textDecorationStyle: 'solid',
                                 textDecorationThickness: '0%'
                             }}
-                        >Post your project!</span>
+                        >Submit your project! </span>
                     </p>
                     
                     <div className="flex flex-col gap-4">

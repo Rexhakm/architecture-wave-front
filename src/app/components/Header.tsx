@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { absOrFallback } from '../utils/urlUtils';
 import { CATEGORY_COLORS } from '../utils/categoryColors';
 
-export default function Header() {
+export default function Header({ tintColor }: { tintColor?: string }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -15,28 +15,52 @@ export default function Header() {
   // Show navigation on all pages
   const shouldShowNavigation = true;
 
+  // Determine active category color from path `/category/[slug]`
+  const getActiveCategoryColor = (): string | undefined => {
+    if (!pathname) return undefined;
+    const match = pathname.match(/^\/category\/([^/]+)/);
+    if (!match) return undefined;
+    const currentSlug = match[1];
+
+    // Mirror slugification used when generating category links
+    const slugify = (name: string) =>
+      name
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/\+/g, 'plus')
+        .replace(/[^a-z0-9-]/g, '');
+
+    for (const name of Object.keys(CATEGORY_COLORS)) {
+      if (slugify(name) === currentSlug) {
+        return CATEGORY_COLORS[name];
+      }
+    }
+    return undefined;
+  };
+
+  const activeCategoryColor = tintColor || getActiveCategoryColor();
+
   return (
     <header className="relative w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6" style={{ marginTop: '20px', borderRadius: '45px' }}>
       <div className="flex items-center gap-2 justify-center sm:justify-start" style={{ marginLeft: '0px', marginTop: '25px' }}>
         <div className="sm:ml-[70px]">
-        <Link href={absOrFallback('/')} style={{ position: 'relative', display: 'inline-block', width: '38px', height: '33px' }}>
-          <img src={absOrFallback('/assets/Vector-7.png')} alt="logo" style={{ width: '38px', height: '33px' }} />
-          <span
+        <Link href={absOrFallback('/')} style={{ position: 'relative', display: 'inline-block', width: '72px', height: '40px' }} aria-label="Go to home">
+          <div
             style={{
-              position: 'absolute',
-              top: '-2px',
-              left: '93%',
-              transform: 'translateX(-50%)',
-              fontSize: '12px',
-              fontWeight: 600,
-              color: 'black',
-              lineHeight: 1,
-              background: 'transparent',
-              padding: '0 2px',
+              width: '72px',
+              height: '40px',
+              backgroundColor: activeCategoryColor || 'black',
+              WebkitMaskImage: `url(/assets/arch_icon.png)`,
+              maskImage: `url(/assets/arch_icon.png)`,
+              WebkitMaskRepeat: 'no-repeat',
+              maskRepeat: 'no-repeat',
+              WebkitMaskPosition: 'center',
+              maskPosition: 'center',
+              WebkitMaskSize: 'contain',
+              maskSize: 'contain',
+              display: 'inline-block',
             }}
-          >
-            ™
-          </span>
+          />
         </Link>
         <span className="font-bold text-base sm:text-lg text-black">Architecture Wave</span>
         </div>

@@ -2,13 +2,9 @@
 export const CATEGORY_COLORS: { [key: string]: string } = {
   // Primary categories with hex colors
   'Architecture': '#D4A373',
-  'Interior Designer': '#A3B18A',
   'Feeling Good': '#F2B5D4',
-  'Healing': '#B9D9EB',
   'Lifestyle + Culture': '#FFD6A5',
   'Travel': '#B5E48C',
-  'DIY': '#FFB4A2',
-  'Art': '#C8B6FF',
 };
 
 /**

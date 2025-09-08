@@ -42,7 +42,10 @@ export default function ContactUs() {
               color: '#111',
               marginBottom: '40px'
             }}>
-              We&apos;d love to hear from you. Whether you have questions about our content, want to share your project, or need assistance with your subscription, our team is here to help.
+              Whether you’d like to share feedback, pitch a story, collaborate, or explore partnership opportunities—we’re all ears.
+              <br /><br />
+              Most inquiries are best directed through one of the dedicated channels below:
+
             </p>
           </div>
 
@@ -63,7 +66,7 @@ export default function ContactUs() {
 
           {/* Contact Sections */}
           <div className="flex flex-col gap-8 sm:gap-12 sm:ml-[45px]">
-            {/* Subscription Help */}
+            {/* Editorial Inquiries */}
             <div className="text-center md:text-left">
               <h3 className="text-xl sm:text-2xl font-bold mb-4" style={{
                 fontFamily: 'var(--font-mazzard-soft)',
@@ -74,7 +77,7 @@ export default function ContactUs() {
                 letterSpacing: '0%',
                 color: '#111'
               }}>
-                Subscription Help
+                Editorial Inquiries
               </h3>
               <p className="text-sm sm:text-base mb-4" style={{
                 fontFamily: 'var(--font-mazzard-soft)',
@@ -86,84 +89,31 @@ export default function ContactUs() {
                 color: '#666',
                 marginBottom: '16px'
               }}>
-                Need assistance with your subscription? Our customer service team is ready to help with billing questions, account access, and subscription management.
+                For story ideas, project pitches, or contributor questions, please contact us at{' '}
+                <a 
+                  href="mailto:contact@architecturewave.com" 
+                  style={{ 
+                    color: '#8FC945', 
+                    textDecoration: 'none',
+                    fontWeight: '600'
+                  }}
+                >
+                  contact@architecturewave.com
+                </a>
+                .
               </p>
               <p className="text-sm sm:text-base" style={{
                 fontFamily: 'var(--font-mazzard-soft)',
                 color: '#666',
                 lineHeight: '24px'
               }}>
-                Email us at{' '}
-                <a 
-                  href="mailto:subscriptions@architecturewave.com" 
-                  style={{ 
-                    color: '#8FC945', 
-                    textDecoration: 'none',
-                    fontWeight: '600'
-                  }}
-                >
-                  subscriptions@architecturewave.com
-                </a>
-                {' '}or call us at{' '}
-                <a 
-                  href="tel:1-800-ARCH-WAVE" 
-                  style={{ 
-                    color: '#8FC945', 
-                    textDecoration: 'none',
-                    fontWeight: '600'
-                  }}
-                >
-                  1-800-ARCH-WAVE
-                </a>
+                We’re particularly interested in narratives that explore architecture, interiors, cultural context, and design as lived experience.
               </p>
             </div>
 
-            {/* Sales & Marketing */}
-            <div className="text-center md:text-left" style={{ marginTop: '40px' }}>
-              <h3 className="text-xl sm:text-2xl font-bold mb-4" style={{
-                fontFamily: 'var(--font-mazzard-soft)',
-                fontWeight: 500,
-                fontStyle: 'Medium',
-                fontSize: '32px',
-                lineHeight: '48px',
-                letterSpacing: '0%',
-                color: '#111'
-              }}>
-                Sales & Marketing
-              </h3>
-              <p className="text-sm sm:text-base mb-4" style={{
-                fontFamily: 'var(--font-mazzard-soft)',
-                fontWeight: 400,
-                fontStyle: 'Regular',
-                fontSize: '16px',
-                lineHeight: '24px',
-                letterSpacing: '0%',
-                color: '#666',
-                marginBottom: '16px'
-              }}>
-                Interested in advertising with us or partnering with ArchitectureWave? Our sales team can help you reach our engaged audience of design professionals and enthusiasts.
-              </p>
-              <p className="text-sm sm:text-base" style={{
-                fontFamily: 'var(--font-mazzard-soft)',
-                color: '#666',
-                lineHeight: '24px'
-              }}>
-                Contact our sales team at{' '}
-                <a 
-                  href="mailto:sales@architecturewave.com" 
-                  style={{ 
-                    color: '#8FC945', 
-                    textDecoration: 'none',
-                    fontWeight: '600'
-                  }}
-                >
-                  sales@architecturewave.com
-                </a>
-                {' '}for advertising opportunities and partnerships.
-              </p>
-            </div>
+            
 
-            {/* Editorial */}
+            {/* Partnerships & Advertising */}
             <div className="text-center md:text-left" style={{ marginTop: '40px', marginBottom: '80px' }}>
               <h3 className="text-xl sm:text-2xl font-bold mb-4" style={{
                 fontFamily: 'var(--font-mazzard-soft)',
@@ -174,7 +124,7 @@ export default function ContactUs() {
                 letterSpacing: '0%',
                 color: '#111'
               }}>
-                Editorial
+                Partnerships & Advertising
               </h3>
               <p className="text-sm sm:text-base mb-4" style={{
                 fontFamily: 'var(--font-mazzard-soft)',
@@ -186,25 +136,17 @@ export default function ContactUs() {
                 color: '#666',
                 marginBottom: '16px'
               }}>
-                Have a story idea, project submission, or press release? Our editorial team reviews all submissions and would love to hear about innovative architecture and design projects.
-              </p>
-              <p className="text-sm sm:text-base" style={{
-                fontFamily: 'var(--font-mazzard-soft)',
-                color: '#666',
-                lineHeight: '24px'
-              }}>
-                Send your submissions to{' '}
+                Interested in partnering with Architecture Wave—whether branded content, sponsorship, or media opportunities? Reach out to us at{' '}
                 <a 
-                  href="mailto:editorial@architecturewave.com" 
+                  href="mailto:advertising@architecturewave.com" 
                   style={{ 
                     color: '#8FC945', 
                     textDecoration: 'none',
                     fontWeight: '600'
                   }}
                 >
-                  editorial@architecturewave.com
-                </a>
-                {' '}with high-resolution images and project details.
+                  advertising@architecturewave.com
+                </a>.
               </p>
             </div>
           </div>

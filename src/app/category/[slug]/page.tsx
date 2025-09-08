@@ -20,7 +20,13 @@ const categories = Object.entries(CATEGORY_COLORS).map(([name, color]) => ({
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = params;
-  const title = slug.charAt(0).toUpperCase() + slug.slice(1);
+  const title = slug
+    .toLowerCase()
+    .replace(/-/g, ' ')
+    .replace(/plus/g, '+')
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 
   // Fetch articles for the current category
   let articles: Article[] = [];
@@ -32,9 +38,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     articles = [];
   }
 
-  // Ensure we have at least 9 articles for the grid layout
-  // If we have fewer than 9, we'll show what we have
-  const displayArticles = articles.slice(0, 9);
+  // Display all available articles
+  const displayArticles = articles;
 
   return (
     <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white min-h-[calc(100vh-690px)]" style={{ marginBottom: 40, position: 'relative', zIndex: 1, borderRadius: '45px' }}>
@@ -42,6 +47,20 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       <div className="ml-0 sm:ml-[60px]">
         <section className="mb-12">
           <div className="px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-12">
+            {/* Category Title */}
+            <h1
+              className="mb-6 sm:mb-8 text-4xl sm:text-6xl lg:text-7xl"
+              style={{
+                fontFamily: 'var(--font-mazzard-soft)',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                lineHeight: '100%',
+                letterSpacing: '0%',
+                color: '#000'
+              }}
+            >
+              {title}
+            </h1>
             {/* Subheading - consistent across all categories */}
             <p className="mb-6 sm:mb-8 text-base sm:text-lg max-w-lg sm:max-w-xl md:max-w-2xl" style={{ 
               fontFamily: 'var(--font-mazzard-soft)',
@@ -50,8 +69,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               letterSpacing: '5%',
               color: '#000',
             }}>
-              Discover the stories, trends, and experiences that shape <span style={{ fontWeight: 700 }}>
-                how we live, work, and connect, blending everyday.
+              Explore the narratives of how design influences identity, <span style={{ fontWeight: 700 }}>
+              and the rhythms of modern living.
               </span>
             </p>
             
@@ -93,8 +112,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             
             {/* Article Grid - single row layout with fixed heights */}
             {displayArticles.length > 0 ? (
-              <div className="flex flex-col sm:flex-row gap-5 mb-8 sm:mb-12" style={{ gap: '20px' }}>
-                {displayArticles.slice(0, 3).map((article) => (
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-5 mb-8 sm:mb-12" style={{ gap: '20px' }}>
+                {displayArticles.map((article) => (
                   <Link
                     key={article.id}
                     href={absOrFallback(`/articles/${article.slug}`)}
