@@ -88,9 +88,13 @@ async function getArticle(uid) {
 
 async function getSimilarArticles(category, currentSlug, limit = 3) {
   try {
-    const encodedCategory = encodeURIComponent(category);
+    const normalize = (v) => (v || '').toLowerCase().trim();
+    const isArchitecture = (() => {
+      const n = normalize(category);
+      return n === 'architecture' || n === 'architecture+design' || n === 'architecture + design';
+    })();
 
-    // read secondCategory for current article
+    // read secondCategory for current article (raw from backend)
     const currentArticleRes = await fetch(
       `${API_BASE_URL}/articles?filters[uid][$eq]=${currentSlug}&fields=secondCategory`,
       { next: { revalidate: 60 } }
@@ -98,14 +102,34 @@ async function getSimilarArticles(category, currentSlug, limit = 3) {
     const currentArticleData = await currentArticleRes.json();
     const currentSecondCategory = currentArticleData.data?.[0]?.secondCategory;
 
-    let filters = `filters[uid][$ne]=${currentSlug}`;
-
-    if (currentSecondCategory) {
-      const encodedSecondCategory = encodeURIComponent(currentSecondCategory);
-      filters += `&filters[$or][0][category][$eq]=${encodedCategory}&filters[$or][1][category][$eq]=${encodedSecondCategory}&filters[$or][2][secondCategory][$eq]=${encodedCategory}&filters[$or][3][secondCategory][$eq]=${encodedSecondCategory}`;
-    } else {
-      filters += `&filters[$or][0][category][$eq]=${encodedCategory}&filters[$or][1][secondCategory][$eq]=${encodedCategory}`;
+    // Build target values to match against (category and secondCategory)
+    const targets = new Set();
+    if (isArchitecture) {
+      ['Architecture', 'Architecture + Design', 'Architecture+Design', 'architecture', 'architecture+design', 'architecture + design'].forEach(v => targets.add(v));
+    } else if (category) {
+      const c = category;
+      targets.add(c);
+      const n = normalize(c);
+      if (n && c !== n) targets.add(n);
     }
+    if (currentSecondCategory) {
+      const n = normalize(currentSecondCategory);
+      if (n === 'architecture' || n === 'architecture+design' || n === 'architecture + design') {
+        ['Architecture', 'Architecture + Design', 'Architecture+Design', 'architecture', 'architecture+design', 'architecture + design'].forEach(v => targets.add(v));
+      } else {
+        targets.add(currentSecondCategory);
+        if (currentSecondCategory !== n) targets.add(n);
+      }
+    }
+
+    // Construct filters using $in for both fields
+    const values = Array.from(targets);
+    let filters = `filters[uid][$ne]=${encodeURIComponent(currentSlug)}`;
+    values.forEach((val, idx) => {
+      const enc = encodeURIComponent(val);
+      filters += `&filters[$or][0][category][$in][${idx}]=${enc}`;
+      filters += `&filters[$or][1][secondCategory][$in][${idx}]=${enc}`;
+    });
 
     let res = await fetch(
       `${API_BASE_URL}/articles?${filters}&populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,createdAt,updatedAt&sort=createdAt:desc&pagination[limit]=${limit}`,
@@ -114,11 +138,22 @@ async function getSimilarArticles(category, currentSlug, limit = 3) {
 
     let data = await res.json();
 
+    // Fallback 1: explicitly query legacy Architecture in both fields
     if (!data.data || data.data.length === 0) {
-      // Query only Architecture as canonical backend value
-      const fallbackLegacy = encodeURIComponent('Architecture');
+      const val = encodeURIComponent('Architecture');
+      const fallbackQuery = `filters[uid][$ne]=${encodeURIComponent(currentSlug)}&filters[$or][0][category][$eq]=${val}&filters[$or][1][secondCategory][$eq]=${val}`;
       res = await fetch(
-        `${API_BASE_URL}/articles?filters[category][$eq]=${fallbackLegacy}&filters[uid][$ne]=${currentSlug}&populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,createdAt,updatedAt&sort=createdAt:desc&pagination[limit]=${limit}`,
+        `${API_BASE_URL}/articles?${fallbackQuery}&populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,createdAt,updatedAt&sort=createdAt:desc&pagination[limit]=${limit}`,
+        { next: { revalidate: 60 } }
+      );
+      data = await res.json();
+    }
+
+    // Fallback 2: case-insensitive contains 'architecture' on both fields
+    if (!data.data || data.data.length === 0) {
+      const containsQuery = `filters[uid][$ne]=${encodeURIComponent(currentSlug)}&filters[$or][0][category][$containsi]=architecture&filters[$or][1][secondCategory][$containsi]=architecture`;
+      res = await fetch(
+        `${API_BASE_URL}/articles?${containsQuery}&populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,createdAt,updatedAt&sort=createdAt:desc&pagination[limit]=${limit}`,
         { next: { revalidate: 60 } }
       );
       data = await res.json();
@@ -327,7 +362,7 @@ export default async function Page({ params }) {
                 <span
                   className="text-white text-sm font-medium"
                   style={{
-                    backgroundColor: article.categoryColor,
+                    backgroundColor: getCategoryColor(article.secondCategory),
                     height: "40px",
                     borderRadius: "10px",
                     paddingTop: "4px",

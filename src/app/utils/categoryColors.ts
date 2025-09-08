@@ -21,7 +21,8 @@ export function getCategoryColor(category: string): string {
   const normalizedCategory = category
     .toLowerCase()
     .replace(/-/g, ' ')
-    .replace(/\s*\+\s*/g, '+')
+    // Normalize plus to a spaced form for consistent comparison
+    .replace(/\s*\+\s*/g, ' + ')
     .replace(/\s+/g, ' ')
     .trim();
 
@@ -32,10 +33,17 @@ export function getCategoryColor(category: string): string {
     return name;
   };
 
-  const target = alias(normalizedCategory);
+  const target = alias(normalizedCategory)
+    .replace(/\s*\+\s*/g, ' + ')
+    .replace(/\s+/g, ' ')
+    .trim();
 
   for (const [key, color] of Object.entries(CATEGORY_COLORS)) {
-    const keyNormalized = key.toLowerCase().replace(/\s*\+\s*/g, ' + ').replace(/\s+/g, ' ').trim();
+    const keyNormalized = key
+      .toLowerCase()
+      .replace(/\s*\+\s*/g, ' + ')
+      .replace(/\s+/g, ' ')
+      .trim();
     if (keyNormalized === target) {
       return color;
     }

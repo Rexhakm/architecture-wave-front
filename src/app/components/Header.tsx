@@ -1,16 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { absOrFallback } from '../utils/urlUtils';
 import { CATEGORY_COLORS } from '../utils/categoryColors';
 
 export default function Header({ tintColor }: { tintColor?: string }) {
+  const [isMounted, setIsMounted] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  // Avoid any SSR/CSR mismatch by rendering only after mount
+  useEffect(() => {
+    // Defer to next frame for smoother transition
+    const id = requestAnimationFrame(() => setIsMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   // Show navigation on all pages
   const shouldShowNavigation = true;
@@ -41,9 +49,16 @@ export default function Header({ tintColor }: { tintColor?: string }) {
   const activeCategoryColor = tintColor || getActiveCategoryColor();
 
   return (
-    <header className="relative w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6" style={{ marginTop: '20px', borderRadius: '45px' }}>
+    <header
+      className="relative w-full flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6"
+      style={{
+        marginTop: '20px',
+        borderRadius: '45px',
+        minHeight: '90px'
+      }}
+    >
       <div className="flex items-center gap-2 justify-center sm:justify-start" style={{ marginLeft: '0px', marginTop: '25px' }}>
-        <div className="sm:ml-[50px] flex items-center gap-1 h-[40px]">
+        <div className="sm:ml-[50px] flex items-center gap-0 h-[40px]">
         <Link href={absOrFallback('/')} style={{ position: 'relative', display: 'inline-block', width: '72px', height: '40px' }} aria-label="Go to home">
           <div
             style={{
@@ -62,7 +77,7 @@ export default function Header({ tintColor }: { tintColor?: string }) {
             }}
           />
         </Link>
-        <span className="inline-flex items-center h-[40px] font-bold text-base sm:text-lg text-black" style={{ lineHeight: '1' }}>Architecture Wave</span>
+        <span className="inline-flex items-center h-[40px] font-bold text-base sm:text-lg text-black -ml-1 mt-1" style={{ lineHeight: '1' }}>Architecture Wave</span>
         </div>
       </div>
       
@@ -77,7 +92,7 @@ export default function Header({ tintColor }: { tintColor?: string }) {
             <a
               href="#"
               style={{
-                fontFamily: 'Sora',
+                fontFamily: 'var(--font-mazzard-soft)',
                 fontWeight: 400,
                 fontSize: '14px',
                 lineHeight: '19px',
@@ -124,7 +139,7 @@ export default function Header({ tintColor }: { tintColor?: string }) {
                       style={{
                         display: 'block',
                         padding: '10px 24px',
-                        fontFamily: 'Inter',
+                        fontFamily: 'var(--font-inter)',
                         fontWeight: 400,
                         fontSize: '14px',
                         lineHeight: '19px',
@@ -159,7 +174,7 @@ export default function Header({ tintColor }: { tintColor?: string }) {
           */}
           <Link href="/about-us" style={{ 
             marginRight: '60px',
-            fontFamily: 'Sora',
+            fontFamily: 'var(--font-mazzard-soft)',
             fontWeight: 400,
             fontSize: '14px',
             lineHeight: '19px',
@@ -170,7 +185,7 @@ export default function Header({ tintColor }: { tintColor?: string }) {
           }}>About Us</Link>
           <Link href="/contact-us" style={{ 
             marginRight: '60px',
-            fontFamily: 'Sora',
+            fontFamily: 'var(--font-mazzard-soft)',
             fontWeight: 400,
             fontSize: '14px',
             lineHeight: '19px',
@@ -204,7 +219,7 @@ export default function Header({ tintColor }: { tintColor?: string }) {
         <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-t z-50 md:hidden" style={{ marginTop: '0' }}>
           <div className="px-4 py-6 space-y-4">
             <div className="border-b pb-4">
-              <a href="#" className="block py-2 text-black font-medium">Magazine</a>
+              <a href="#" className="block py-2 text-black font-medium" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>Magazine</a>
               <div className="pl-4 space-y-2 mt-2">
                 {Object.keys(CATEGORY_COLORS).map((item) => {
                   // Handle spaces and special characters in category names by converting to URL-friendly format
@@ -229,10 +244,10 @@ export default function Header({ tintColor }: { tintColor?: string }) {
             {/* Shop link hidden
             <Link href="/shop" className="block py-2 text-black font-medium">Shop</Link>
             */}
-            <Link href="/about-us" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
+            <Link href="/about-us" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)} style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
               About Us
             </Link>
-            <Link href="/contact-us" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)}>
+            <Link href="/contact-us" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)} style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
               Contact Us
             </Link>
           </div>

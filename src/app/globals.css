@@ -24,12 +24,20 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  /* Always reserve vertical scrollbar to avoid layout shift on first paint */
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
 }
 
 /* Prevent accidental horizontal overflow across the site */
 html, body {
   max-width: 100%;
   overflow-x: hidden;
+}
+
+/* Reserve space for the vertical scrollbar to avoid layout shift on first paint */
+html {
+  scrollbar-gutter: stable both-edges;
 }
 
 /* Use border-box to avoid width + padding causing overflow */

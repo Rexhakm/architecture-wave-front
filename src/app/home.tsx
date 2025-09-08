@@ -47,32 +47,42 @@ export default function Home() {
 
     const hasMoreArticles = displayedArticles.length < articles.length;
 
-    if (isLoading) {
+    // Keep a single layout to avoid header remount flicker on first load
+
+    // Helper to render primary and optional secondary category with individual colors
+    const CategoryLabels: React.FC<{ primary: string; secondary?: string }> = ({ primary, secondary }) => {
         return (
-            <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white" style={{ borderRadius: '45px' }}>
-                <Header />
-                <div className="flex items-center justify-center min-h-screen">
-                    <div className="text-lg">Loading articles...</div>
-                </div>
-            </main>
+            <>
+                <span style={{ color: getCategoryColor(primary) }}>
+                    {formatCategoryDisplay(primary)}
+                </span>
+                {secondary && (
+                    <>
+                        <span style={{ color: '#111' }}>, </span>
+                        <span style={{ color: getCategoryColor(secondary) }}>
+                            {formatCategoryDisplay(secondary)}
+                        </span>
+                    </>
+                )}
+            </>
         );
-    }
+    };
 
     // Prepare non-overlapping article selections for sections
     const usedArticleIds = new Set<string | number>();
     const promotedArticles = articles.filter(article => article.isPromoted);
 
-    // Reserve 2 items for featuredCards first
-    const featuredCards = promotedArticles.slice(0, 2);
+    // First section: ensure exactly up to 3 items from isPromoted
+    const topPromoted = promotedArticles.slice(0, 3);
+    topPromoted.forEach(a => usedArticleIds.add(a.id));
+
+    // Then reserve 2 items for featuredCards from remaining promoted
+    const featuredCards = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 2);
     featuredCards.forEach(a => usedArticleIds.add(a.id));
 
-    // Then 1 item for featuredProject
+    // Then 1 item for featuredProject from remaining promoted
     const featuredProject = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 1);
     featuredProject.forEach(a => usedArticleIds.add(a.id));
-
-    // Remaining promoted for topPromoted (up to 3)
-    const topPromoted = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 3);
-    topPromoted.forEach(a => usedArticleIds.add(a.id));
 
     // Fill grid and new sections from remaining pool (non-overlapping)
     const gridArticles = articles.filter(a => !usedArticleIds.has(a.id)).slice(0, 6);
@@ -143,10 +153,8 @@ export default function Home() {
                                         }}
                                     />
                                     <div className="flex flex-col flex-1">
-                                        <span className="text-sm font-medium mb-1 block" style={{
-                                            color: getCategoryColor(article.category)
-                                        }}>
-                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                        <span className="text-sm font-medium mb-1 block">
+                                            <CategoryLabels primary={article.category} secondary={article.secondCategory} />
                                         </span>
                                         <span className="font-medium text-sm text-black block" style={{
                                             fontFamily: 'var(--font-mazzard-soft)',
@@ -185,10 +193,8 @@ export default function Home() {
                                         }}
                                     />
                                     <div className="flex flex-col">
-                                        <span className="text-sm font-medium mb-1 block" style={{
-                                            color: getCategoryColor(article.category)
-                                        }}>
-                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                        <span className="text-sm font-medium mb-1 block">
+                                            <CategoryLabels primary={article.category} secondary={article.secondCategory} />
                                         </span>
                                         <span className="font-medium text-sm text-black block" style={{
                                             fontFamily: 'var(--font-mazzard-soft)',
@@ -244,10 +250,8 @@ export default function Home() {
                                     className="rounded-2xl w-32 h-32 flex-shrink-0 object-cover"
                                 />
                                 <div className="flex flex-col flex-1">
-                                    <span className="text-sm font-semibold mb-1 block" style={{
-                                        color: getCategoryColor(article.category)
-                                    }}>
-                                        {formatCategoryDisplay(article.category, article.secondCategory)}
+                                    <span className="text-sm font-semibold mb-1 block">
+                                        <CategoryLabels primary={article.category} secondary={article.secondCategory} />
                                     </span>
                                     <h3 className="font-bold text-sm mb-1" style={{
                                         fontFamily: 'var(--font-mazzard-soft)',
@@ -296,10 +300,8 @@ export default function Home() {
                                         alt={article.category}
                                         className="rounded-2xl mb-4 w-full h-[320px] object-cover"
                                     />
-                                    <span className="text-sm font-semibold mb-2 block" style={{
-                                        color: getCategoryColor(article.category)
-                                    }}>
-                                        {formatCategoryDisplay(article.category, article.secondCategory)}
+                                    <span className="text-sm font-semibold mb-2 block">
+                                        <CategoryLabels primary={article.category} secondary={article.secondCategory} />
                                     </span>
                                     <h3 className="font-bold text-lg mb-2" style={{
                                         fontFamily: 'var(--font-mazzard-soft)',
@@ -364,14 +366,13 @@ export default function Home() {
                                     />
                                     <div>
                                         <span className="block mb-1" style={{
-                                            color: article.categoryColor,
                                             fontFamily: 'Inter',
                                             fontWeight: 600,
                                             fontSize: '16px',
                                             lineHeight: '28.5px',
                                             letterSpacing: '-5%'
                                         }}>
-                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                            <CategoryLabels primary={article.category} secondary={article.secondCategory} />
                                         </span>
                                         <h3 className="mb-1" style={{
                                             fontFamily: 'var(--font-mazzard-soft)',
@@ -471,14 +472,13 @@ export default function Home() {
                                     </div>
                                     <div className="pl-0 pr-2 py-4">
                                         <span className="block mb-1" style={{
-                                            color: getCategoryColor(article.category),
                                             fontFamily: 'Inter',
                                             fontWeight: 600,
                                             fontSize: '16px',
                                             lineHeight: '28.5px',
                                             letterSpacing: '-5%'
                                         }}>
-                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                            <CategoryLabels primary={article.category} secondary={article.secondCategory} />
                                         </span>
                                         <h3 className="mb-1" style={{
                                             fontFamily: 'var(--font-mazzard-soft)',
@@ -534,14 +534,13 @@ export default function Home() {
                                     </div>
                                     <div className="pt-6 pr-6 pb-6 pl-0">
                                         <span className="block mb-3 text-sm font-semibold" style={{
-                                            color: getCategoryColor(article.category),
                                             fontFamily: 'Inter',
                                             fontWeight: 600,
                                             fontSize: '14px',
                                             lineHeight: '20px',
                                             letterSpacing: '-2%'
                                         }}>
-                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                            <CategoryLabels primary={article.category} secondary={article.secondCategory} />
                                         </span>
                                         <h3 className="mb-3" style={{
                                             fontFamily: 'var(--font-mazzard-soft)',
@@ -606,14 +605,13 @@ export default function Home() {
                                     />
                                     <div className="flex flex-col flex-1">
                                         <span className="block mb-1 text-sm" style={{
-                                            color: article.categoryColor,
                                             fontFamily: 'Inter',
                                             fontWeight: 600,
                                             fontSize: '14px',
                                             lineHeight: '20px',
                                             letterSpacing: '-5%'
                                         }}>
-                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                            <CategoryLabels primary={article.category} secondary={article.secondCategory} />
                                         </span>
                                         <h3 className="mb-1" style={{
                                             fontFamily: 'var(--font-mazzard-soft)',
@@ -662,14 +660,13 @@ export default function Home() {
                                     />
                                     <div>
                                         <span className="block mb-1" style={{
-                                            color: article.categoryColor,
                                             fontFamily: 'Inter',
                                             fontWeight: 600,
                                             fontSize: '16px',
                                             lineHeight: '28.5px',
                                             letterSpacing: '-5%'
                                         }}>
-                                            {formatCategoryDisplay(article.category, article.secondCategory)}
+                                            <CategoryLabels primary={article.category} secondary={article.secondCategory} />
                                         </span>
                                         <h3 className="mb-1" style={{
                                             fontFamily: 'var(--font-mazzard-soft)',

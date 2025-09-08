@@ -52,7 +52,7 @@ export default function ContactUs() {
           </div>
 
           {/* Hero Image */}
-          <div className="mb-12 sm:mb-16" style={{ marginLeft: '10px', marginRight: '10px' }}>
+          <div className="mb-12 sm:mb-16" style={{ marginLeft: '5px', marginRight: '10px' }}>
             <ProductImage
               src={absOrFallback('/assets/contact-us.png')}
               alt="Modern Architecture Building"

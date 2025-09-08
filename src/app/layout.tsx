@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { mazzardSoft } from "../fonts";
 import Footer from "./components/Footer";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 import ServiceWorkerRegistration from "./components/ServiceWorkerRegistration";
 import "./globals.css";
 
@@ -12,17 +13,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Architecture Wave - Your atlas to a life with good design",
-  description: "Discover the stories, trends, and experiences that shape how we live, work, and connect, blending everyday lifestyle with rich cultural insights.",
+  description:
+    "Discover the stories, trends, and experiences that shape how we live, work, and connect, blending everyday lifestyle with rich cultural insights.",
+  // Keep manifest for PWA
   manifest: "/manifest.json",
-  icons: {
-    icon: [
-      { url: "/assets/Vector-12.png", sizes: "any", type: "image/png" },
-    ],
-    apple: [
-      { url: "/assets/Vector-12.png", sizes: "180x180", type: "image/png" },
-    ],
-    shortcut: "/assets/Vector-12.png",
-  },
+  // Keep it simple. Let browsers find this one file.
+  icons: { icon: "/favicon-v2.ico" },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -55,11 +51,12 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://architecturewave.com",
     title: "Architecture Wave - Your atlas to a life with good design",
-    description: "Discover the stories, trends, and experiences that shape how we live, work, and connect, blending everyday lifestyle with rich cultural insights.",
+    description:
+      "Discover the stories, trends, and experiences that shape how we live, work, and connect, blending everyday lifestyle with rich cultural insights.",
     siteName: "Architecture Wave",
     images: [
       {
-        url: "/icons/icon-512x512.svg",
+        url: "/icons/icon-512x512.png", // use PNG for OG/Twitter, not SVG
         width: 512,
         height: 512,
         alt: "Architecture Wave Logo",
@@ -69,8 +66,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Architecture Wave - Your atlas to a life with good design",
-    description: "Discover the stories, trends, and experiences that shape how we live, work, and connect, blending everyday lifestyle with rich cultural insights.",
-    images: ["/icons/icon-512x512.svg"],
+    description:
+      "Discover the stories, trends, and experiences that shape how we live, work, and connect, blending everyday lifestyle with rich cultural insights.",
+    images: ["/icons/icon-512x512.png"],
   },
   verification: {
     google: "your-google-verification-code",
@@ -87,33 +85,36 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Additional meta tags for better cross-browser support */}
+        {/* Keep Windows tile meta if you want */}
         <meta name="msapplication-TileColor" content="#111111" />
-        <meta name="msapplication-TileImage" content="/icons/icon-144x144.svg" />
+        <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
-        
-        {/* Preconnect to external domains for performance */}
+
+        {/* Preconnects for fonts performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
-        {/* DNS prefetch for performance */}
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-
-        {/* Explicit favicon links with cache-busting to force browser refresh */}
-        <link rel="icon" href="/assets/Vector-12.png?v=3" type="image/png" sizes="32x32" />
-        <link rel="icon" href="/assets/Vector-12.png?v=3" type="image/png" sizes="192x192" />
-        <link rel="shortcut icon" href="/assets/Vector-12.png?v=3" type="image/png" />
-        <link rel="apple-touch-icon" href="/assets/Vector-12.png?v=3" />
+        {/* IMPORTANT: no manual <link rel="icon"> here. Metadata handles it. */}
+        {/* Preload assets used immediately in header to avoid flicker on first paint */}
+        <link
+          rel="preload"
+          as="image"
+          href="/assets/arch_icon.png"
+          imageSrcSet="/assets/arch_icon.png 1x"
+        />
       </head>
       <body
         className={`${mazzardSoft.variable} ${inter.variable} antialiased min-h-screen flex flex-col`}
-        style={{ fontFamily: "var(--font-mazzard-soft)", background: '#E2E2E2' }}
+        style={{ fontFamily: "var(--font-mazzard-soft)", background: "#E2E2E2" }}
       >
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-PQ89L42VT2"} />
         <ServiceWorkerRegistration />
-        <div className="flex-grow">
-          {children}
-        </div>
+        <div className="flex-grow">{children}</div>
         <Footer />
       </body>
     </html>

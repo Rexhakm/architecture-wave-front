@@ -63,14 +63,15 @@ const AboutUs = () => {
           }}>shaped by design.</span></h1>
        
           <p className="text-sm sm:text-base mb-4 sm:mb-6" style={{
-            fontFamily: 'Inter',
+            fontFamily: 'var(--font-mazzard-soft)',
             fontWeight: 400,
             lineHeight: '28px',
             letterSpacing: '0%',
             color: '#000',
             whiteSpace: 'pre-line',
             maxWidth: '50%',
-            fontSize: '18px'
+            fontSize: '18px',
+            marginTop: '80px',
           }}>
             Architecture Wave is a design and travel platform dedicated to the spaces that move us emotionally, spiritually, and sensorially. What began as an Instagram community has grown into a digital magazine, curating the most compelling stories of architecture, interiors, and destinations around the world.
             <br /><br />
