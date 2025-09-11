@@ -159,10 +159,9 @@ export default function Header({ tintColor }: { tintColor?: string }) {
               </div>
             )}
           </div>
-          {/* Shop link hidden
           <Link href="/shop" style={{ 
             marginRight: '60px',
-            fontFamily: 'Inter',
+            fontFamily: 'var(--font-mazzard-soft)',
             fontWeight: 400,
             fontSize: '14px',
             lineHeight: '19px',
@@ -171,7 +170,6 @@ export default function Header({ tintColor }: { tintColor?: string }) {
             color: 'black',
             textDecoration: 'none'
           }}>Shop</Link>
-          */}
           <Link href="/about-us" style={{ 
             marginRight: '60px',
             fontFamily: 'var(--font-mazzard-soft)',
@@ -241,9 +239,9 @@ export default function Header({ tintColor }: { tintColor?: string }) {
                 })}
               </div>
             </div>
-            {/* Shop link hidden
-            <Link href="/shop" className="block py-2 text-black font-medium">Shop</Link>
-            */}
+            <Link href="/shop" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)} style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
+              Shop
+            </Link>
             <Link href="/about-us" className="block py-2 text-black font-medium" onClick={() => setMobileMenuOpen(false)} style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
               About Us
             </Link>
