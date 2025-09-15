@@ -7,6 +7,16 @@ export function getImageUrl(imagePath: string): string {
     return imagePath;
   }
   
+  // If the image is a frontend public asset (e.g., /assets/..., /icons/..., /images/...),
+  // return the path as-is so Next.js serves it from the public/ directory
+  if (imagePath.startsWith('/')) {
+    // Strapi-hosted images typically live under /uploads; only those should use backend base URL
+    const isStrapiUpload = imagePath.startsWith('/uploads');
+    if (!isStrapiUpload) {
+      return imagePath;
+    }
+  }
+  
   // For relative paths, construct the full URL
   // Use environment-specific backend URL
   const baseUrl = getBackendBaseUrl();
