@@ -84,10 +84,16 @@ export default function ImagePreviewer({ images, allImages }: ImagePreviewerProp
           {validImages.map((image, i) => (
             <div
               key={image.id || i}
-              className="relative group"
-              style={{ height: validImages.length === 2 ? '600px' : '400px' }}
+              className="relative group flex flex-col"
             >
-              <div className="cursor-pointer h-full" onClick={() => handleImageClick(i)}>
+              <div 
+                className="cursor-pointer flex-shrink-0" 
+                onClick={() => handleImageClick(i)}
+                style={{ 
+                  aspectRatio: validImages.length === 2 ? '4/3' : '1/1',
+                  minHeight: validImages.length === 2 ? '300px' : '250px'
+                }}
+              >
                 <img
                   src={getImageUrl(image.url)}
                   alt={image.alternativeText || `Article image ${i + 1}`}
@@ -97,7 +103,7 @@ export default function ImagePreviewer({ images, allImages }: ImagePreviewerProp
                 />
               </div>
               {image.caption && (
-                <div className="mt-2">
+                <div className="mt-2 flex-shrink-0">
                   <p className="text-xs sm:text-sm text-gray-600 italic font-light leading-snug font-[var(--font-mazzard-soft)]">
                     {image.caption}
                   </p>
