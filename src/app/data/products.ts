@@ -73,5 +73,9 @@ export const shoppingGuides: ShoppingGuide[] = [
   {
     title: "Small Space Solutions",
     image: "/assets/image-3.png"
+  },
+  {
+    title: "test",
+    image: "/assets/image-1.png"
   }
 ];

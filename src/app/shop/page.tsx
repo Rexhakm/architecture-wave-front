@@ -72,11 +72,11 @@ export default function ShopPage() {
     };
 
     return (
-        <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
+        <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px', marginBottom: '0.75rem' }}>
             <Header />
 
             {/* Main Title */}
-            <section className="text-center py-8 sm:py-12 px-4">
+            <section className="text-center py-8 sm:py-12 px-4 w-[895px] max-[992px]:w-auto mx-auto">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-normal" style={{
                     fontFamily: 'var(--font-mazzard-soft)',
                     color: '#111',
@@ -88,11 +88,11 @@ export default function ShopPage() {
             </section>
 
             {/* Category Navigation Bar */}
-            <section className="bg-black rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-8 sm:mb-16 mx-4 sm:mx-0">
-                <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-2 sm:gap-4">
+            <section className="bg-black   p-4 sm:p-6 mb-8 sm:mb-16 mx-4 sm:mx-0" style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+                <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-2 sm:gap-4" style={{ gap: '1.875rem' }}>
                     {categories.map((category: Category, index: number) => (
                         <div key={index} className="text-center group cursor-pointer transition-all duration-300 hover:scale-105">
-                            <div className="bg-gray-100 rounded-lg p-1 sm:p-2 mb-1 sm:mb-2 transition-all duration-300 group-hover:bg-gray-200 group-hover:shadow-lg aspect-square">
+                            <div className="bg-gray-100  p-1 sm:p-2 mb-1 sm:mb-2 transition-all duration-300 group-hover:bg-gray-200 group-hover:shadow-lg aspect-square">
                                 <ProductImage
                                     src={category.image}
                                     alt={category.name}
@@ -107,8 +107,8 @@ export default function ShopPage() {
 
 
             {/* Featured Products Section */}
-            <section className="mb-8 sm:mb-16 px-4 sm:px-0 testt">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-2 sm:gap-0">
+            <section className="mb-8 sm:mb-16 px-4 sm:px-0" style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+                <div className="flex flex-col sm:flex-row  sm:items-center mb-6 sm:mb-8 gap-2 sm:gap-0" style={{ gap: '30px' }}>
                     <h2
                         className="text-xl sm:text-2xl font-semibold"
                         style={{ fontFamily: 'var(--font-mazzard-soft)', color: '#111' }}
@@ -117,15 +117,15 @@ export default function ShopPage() {
                     </h2>
                     <Link
                         href="#"
-                        className="text-sm font-medium text-gray-600 hover:text-black transition-colors self-start sm:self-auto"
-                        style={{ fontFamily: 'var(--font-mazzard-soft)' }}
+                        className="bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors self-start sm:self-auto flex items-center justify-center"
+                        style={{ fontFamily: 'var(--font-mazzard-soft)', width: '90px', height: '37px' }}
                     >
                         See all
                     </Link>
                 </div>
 
                 {isLoading ? (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-6">
                         {[...Array(6)].map((_, index) => (
                             <div key={index} className="animate-pulse">
                                 <div className="bg-gray-200 rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 h-40"></div>
@@ -151,7 +151,7 @@ export default function ShopPage() {
                         </button>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-6" style={{ gap: '3.125rem' }}>
                         {featuredProducts.map((product) => (
                             <Link
                                 key={product.id}
@@ -159,7 +159,7 @@ export default function ShopPage() {
                                 className="group cursor-pointer relative"
                             >
                                 {/* Image container */}
-                                <div className="relative bg-white rounded-2xl sm:rounded-[45px] overflow-hidden h-56 sm:h-64">
+                                <div className="relative bg-white  overflow-hidden h-56 sm:h-64" style={{ height: '305px' }}>
                                     <ProductImage
                                         src={product.image}
                                         alt={product.name}
@@ -215,11 +215,21 @@ export default function ShopPage() {
 
 
             {/* Exclusive Scent Profiles Section */}
-            <section className="mb-8 sm:mb-16 px-4 sm:px-0">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-4">
-                    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold" style={{ fontFamily: 'var(--font-mazzard-soft)', color: '#111' }}>
+            <section className="mb-8 sm:mb-16 px-4 sm:px-0" style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+                <div className="flex gap-8" style={{ gap: '3.125rem' }}>
+                    <div className="min-w-[424px] max-[1440px]:min-w-[250px] max-[1200px]:min-w-[200px]">
+                        <img 
+                            src="/assets/exclusive-scent-banner.png" 
+                            alt="Lifestyle scene with woman and built-in shelves"
+                            style={{ width: '424px', height: '574px', objectFit: 'cover'}}
+                        />
+                    </div>
+                    <div className="flex-1">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-4">
+                    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold" style={{ fontFamily: 'var(--font-mazzard-soft)', color: '#111', width: '340px' }}>
                         Exclusive scent profiles crafted by archwave
                     </h2>
+                    
                     <div className="flex items-center gap-2 sm:gap-4">
                         <button
                             onClick={scrollLeft}
@@ -245,11 +255,24 @@ export default function ShopPage() {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
-                        <Link href="#" className="text-sm font-medium text-gray-600 hover:text-black transition-colors" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-                            Shop the scents
-                        </Link>
+
                     </div>
                 </div>
+                <Link href="#" className="bg-black sm:mb-8 text-white text-sm font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2" style={{ fontFamily: 'var(--font-mazzard-soft)', width: '177px', height: '47px' }}>
+                            Shop the scents
+                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clipPath="url(#clip0_135_356)">
+                                    <path d="M5.70703 12.4609H19.707" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M15.707 16.4609L19.707 12.4609" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M15.707 8.46094L19.707 12.4609" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_135_356">
+                                        <rect width="24" height="24" fill="white" transform="translate(0.707031 0.460938)"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </Link>
                 <div className="relative">
                     <div
                         ref={scrollContainerRef}
@@ -259,7 +282,7 @@ export default function ShopPage() {
                         {exclusiveProducts.map((product: Product, index: number) => (
                             <Link key={index} href={absOrFallback(`/shop/${product.id}`)} className={`group cursor-pointer relative flex-shrink-0 ${index === 0 ? 'w-64 sm:w-80' : 'w-48 sm:w-64'}`}>
                                 {/* Image container */}
-                                <div className="relative bg-white rounded-2xl sm:rounded-[45px] overflow-hidden aspect-square">
+                                <div className="relative bg-white  overflow-hidden aspect-square">
                                     <ProductImage
                                         src={product.image}
                                         alt={product.name}
@@ -310,23 +333,25 @@ export default function ShopPage() {
                         ))}
                     </div>
                 </div>
+                    </div>
+                </div>
             </section>
 
             {/* Shopping Guides Section */}
-            <section className="mb-8 sm:mb-16 px-4 sm:px-0">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-2 sm:gap-0">
+            <section className="mb-8 sm:mb-16 px-4 sm:px-0" style={{ paddingLeft: '100px', paddingRight: '100px' }}>
+                <div className="flex flex-col sm:flex-row  sm:items-center mb-6 sm:mb-8 gap-2 sm:gap-0" style={{ gap: '30px' }}>
                     <h2 className="text-xl sm:text-2xl font-semibold" style={{ fontFamily: 'var(--font-mazzard-soft)', color: '#111' }}>
                         Shopping guides
                     </h2>
-                    <Link href="#" className="text-sm font-medium text-gray-600 hover:text-black transition-colors self-start sm:self-auto" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
+                    <Link href="#" className="bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors self-start sm:self-auto flex items-center justify-center" style={{ fontFamily: 'var(--font-mazzard-soft)', width: '90px', height: '37px' }}>
                         See all
                     </Link>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6" style={{ gap: '3.125rem' }}>
                     {shoppingGuides.map((guide: ShoppingGuide, index: number) => (
                         <div key={index} className="group cursor-pointer relative">
                             {/* Image container */}
-                            <div className="relative bg-white rounded-2xl sm:rounded-[45px] overflow-hidden aspect-square">
+                            <div className="relative bg-white   overflow-hidden aspect-square">
                                 <ProductImage
                                     src={guide.image}
                                     alt={guide.title}
