@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Suspense } from "react";
 import { mazzardSoft } from "../fonts";
@@ -28,14 +28,6 @@ export const metadata: Metadata = {
   applicationName: "Architecture Wave",
   authors: [{ name: "Architecture Wave Team" }],
   keywords: ["architecture", "design", "lifestyle", "culture", "trends"],
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
-  themeColor: "#111111",
-  colorScheme: "light",
   robots: {
     index: true,
     follow: true,
@@ -76,6 +68,15 @@ export const metadata: Metadata = {
     yandex: "your-yandex-verification-code",
     yahoo: "your-yahoo-verification-code",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#111111",
+  colorScheme: "light",
 };
 
 export default function RootLayout({

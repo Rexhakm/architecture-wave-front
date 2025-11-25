@@ -159,7 +159,7 @@ export default function ShopPage() {
                                 className="group cursor-pointer relative"
                             >
                                 {/* Image container */}
-                                <div className="relative bg-white rounded-2xl sm:rounded-[45px] overflow-hidden h-56 sm:h-64">
+                                <div className="relative bg-white overflow-hidden h-56 sm:h-64">
                                     <ProductImage
                                         src={product.image}
                                         alt={product.name}
@@ -263,7 +263,7 @@ export default function ShopPage() {
                                     <ProductImage
                                         src={product.image}
                                         alt={product.name}
-                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
+                                        className="w-full h-full rounded-2xl sm:rounded-[45px] object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
                                         fallbackIndex={index}
                                     />
 
@@ -330,7 +330,7 @@ export default function ShopPage() {
                                 <ProductImage
                                     src={guide.image}
                                     alt={guide.title}
-                                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
+                                    className="w-full h-full rounded-2xl sm:rounded-[45px] object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
                                     fallbackIndex={index}
                                 />
 

@@ -60,7 +60,7 @@ export default function ProductImage({
     <img
       src={getImageSrc(imgSrc)}
       alt={alt}
-      className={`rounded-2xl sm:rounded-[45px] ${className}`}
+      className={className}
       onError={handleError}
       style={{ 
         objectFit: 'cover',

@@ -1,29 +1,76 @@
 "use client"
 
-"use client"
-
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import ProductImage from "../../components/ProductImage"
 import { Heart, Share2, Star } from "lucide-react"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer";
 import Link from "next/link"
-import { getProductById, featuredProducts, exclusiveProducts } from "../../data/products"
+import { fetchProductById, fetchProducts } from "../../utils/apiService"
+import { exclusiveProducts } from "../../data/products"
 import { absOrFallback } from "../../utils/urlUtils";
 
 export default function ProductDetail({ params }: { params: { id: string } }) {
   const [isFavorited, setIsFavorited] = useState(false)
+  const [product, setProduct] = useState<any>(null)
+  const [relatedProducts, setRelatedProducts] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  // Get product data based on ID
-  const product = getProductById(params.id)
-  
-  // If product not found, show a fallback
-  if (!product) {
+  // Fetch product data and related products
+  useEffect(() => {
+    const loadProductData = async () => {
+      try {
+        setIsLoading(true)
+        setError(null)
+        
+        // Fetch the specific product
+        const productData = await fetchProductById(params.id)
+        if (!productData) {
+          setError('Product not found')
+          return
+        }
+        setProduct(productData)
+
+        // Fetch all products for related products
+        const allProducts = await fetchProducts()
+        const related = [...allProducts, ...exclusiveProducts]
+          .filter(p => p.id !== productData.id)
+          .slice(0, 4)
+        setRelatedProducts(related)
+      } catch (err) {
+        setError('Failed to load product')
+        console.error('Error loading product:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadProductData()
+  }, [params.id])
+
+  // Show loading state
+  if (isLoading) {
     return (
       <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
         <Header />
         <div className="text-center py-12">
-          <h1 className="text-2xl font-light text-gray-900 mb-4">Product not found</h1>
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-1/2 mx-auto mb-4"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/4 mx-auto"></div>
+          </div>
+        </div>
+      </main>
+    )
+  }
+
+  // Show error state
+  if (error || !product) {
+    return (
+      <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
+        <Header />
+        <div className="text-center py-12">
+          <h1 className="text-2xl font-light text-gray-900 mb-4">{error || 'Product not found'}</h1>
           <Link href={absOrFallback('/shop')} className="text-blue-600 hover:text-blue-800">
             Return to shop
           </Link>
@@ -31,12 +78,6 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
       </main>
     )
   }
-
-  // Get related products (excluding current product)
-  const allProducts = [...featuredProducts, ...exclusiveProducts]
-  const relatedProducts = allProducts
-    .filter(p => p.id !== product.id)
-    .slice(0, 4)
 
   return (
     <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
@@ -124,7 +165,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           <div className="border-t border-gray-200 pt-4 sm:pt-6">
             <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>Features</h3>
             <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-              {product.features?.map((feature, index) => (
+              {product.features?.map((feature: string, index: number) => (
                 <li key={index}>• {feature}</li>
               )) || <li>No features listed</li>}
             </ul>
