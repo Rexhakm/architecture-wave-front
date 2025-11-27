@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
 
   if (pathname === '/favicon.ico') {
     const url = request.nextUrl.clone();
-    url.pathname = '/assets/Vector-12.png';
+    url.pathname = '/assets/browser-icon.png';
     // Add cache-busting so browsers don't reuse old icon
     url.searchParams.set('v', '4');
     return NextResponse.rewrite(url);

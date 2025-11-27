@@ -20,6 +20,7 @@ export default function Home() {
         const loadArticles = async () => {
             try {
                 const allArticles = await getAllArticles();
+                console.log(`Total articles fetched from API: ${allArticles.length}`);
                 setArticles(allArticles);
                 setDisplayedArticles(allArticles.slice(0, articlesPerPage));
                 setIsLoading(false);
@@ -38,14 +39,9 @@ export default function Home() {
         await new Promise(resolve => setTimeout(resolve, 400));
         
         const nextPage = currentPage + 1;
-        const startIndex = 0;
-        const endIndex = nextPage * articlesPerPage;
-        setDisplayedArticles(articles.slice(startIndex, endIndex));
         setCurrentPage(nextPage);
         setIsLoadingMore(false);
     };
-
-    const hasMoreArticles = displayedArticles.length < articles.length;
 
     // Keep a single layout to avoid header remount flicker on first load
 
@@ -69,45 +65,99 @@ export default function Home() {
     };
 
     // Prepare non-overlapping article selections for sections
+    // Ensure articles are sorted by createdAt (desc) for consistent ordering across browsers
+    const sortedArticles = [...articles].sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return dateB - dateA; // Descending order (newest first)
+    });
+    
     const usedArticleIds = new Set<string | number>();
-    const promotedArticles = articles.filter(article => article.isPromoted);
+    const promotedArticles = sortedArticles.filter(article => article.isPromoted);
+    const featuredFlagArticles = sortedArticles.filter(article => article.isFeatured);
 
     // First section: ensure exactly up to 3 items from isPromoted
     const topPromoted = promotedArticles.slice(0, 3);
     topPromoted.forEach(a => usedArticleIds.add(a.id));
 
-    // Then reserve 2 items for featuredCards from remaining promoted.
-    // If not enough promoted remain, fill with next best non-promoted items.
-    const baseFeatured = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 2);
+    // Then reserve 2 items for featuredCards driven by explicit isFeatured flag.
+    // If not enough isFeatured remain, fall back to remaining promoted, then to next best non-promoted items.
+    const baseFeatured = featuredFlagArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 2);
     baseFeatured.forEach(a => usedArticleIds.add(a.id));
     let featuredCards = baseFeatured;
     if (featuredCards.length < 2) {
         const needed = 2 - featuredCards.length;
-        const fallback = articles
+        // 1) remaining isFeatured
+        const featuredFallback = featuredFlagArticles
             .filter(a => !usedArticleIds.has(a.id))
             .slice(0, needed);
-        featuredCards = [...featuredCards, ...fallback];
-        fallback.forEach(a => usedArticleIds.add(a.id));
+        featuredCards = [...featuredCards, ...featuredFallback];
+        featuredFallback.forEach(a => usedArticleIds.add(a.id));
+
+        if (featuredCards.length < 2) {
+            const stillNeeded = 2 - featuredCards.length;
+            // 2) remaining promoted
+            const promotedFallback = promotedArticles
+                .filter(a => !usedArticleIds.has(a.id))
+                .slice(0, stillNeeded);
+            featuredCards = [...featuredCards, ...promotedFallback];
+            promotedFallback.forEach(a => usedArticleIds.add(a.id));
+        }
+
+        if (featuredCards.length < 2) {
+            const finalNeeded = 2 - featuredCards.length;
+            // 3) generic newest articles
+            const genericFallback = sortedArticles
+                .filter(a => !usedArticleIds.has(a.id))
+                .slice(0, finalNeeded);
+            featuredCards = [...featuredCards, ...genericFallback];
+            genericFallback.forEach(a => usedArticleIds.add(a.id));
+        }
     }
 
-    // Then 1 item for featuredProject from remaining promoted; fallback to non-promoted if none left
-    let featuredProject = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 1);
+    // Then 1 item for featuredProject, also driven by isFeatured when possible.
+    // Prefer remaining isFeatured, then remaining promoted, then generic newest.
+    let featuredProject = featuredFlagArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 1);
     featuredProject.forEach(a => usedArticleIds.add(a.id));
     if (featuredProject.length < 1) {
-        const fallbackProject = articles.filter(a => !usedArticleIds.has(a.id)).slice(0, 1);
-        featuredProject = [...featuredProject, ...fallbackProject];
-        fallbackProject.forEach(a => usedArticleIds.add(a.id));
+        const promotedProject = promotedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 1);
+        featuredProject = [...featuredProject, ...promotedProject];
+        promotedProject.forEach(a => usedArticleIds.add(a.id));
+    }
+    if (featuredProject.length < 1) {
+        const genericProject = sortedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 1);
+        featuredProject = [...featuredProject, ...genericProject];
+        genericProject.forEach(a => usedArticleIds.add(a.id));
     }
 
     // Fill grid and new sections from remaining pool (non-overlapping)
-    const gridArticles = articles.filter(a => !usedArticleIds.has(a.id)).slice(0, 6);
+    const gridArticles = sortedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 6);
     gridArticles.forEach(a => usedArticleIds.add(a.id));
 
-    const newArticles = articles.filter(a => !usedArticleIds.has(a.id)).slice(0, 4);
+    const newArticles = sortedArticles.filter(a => !usedArticleIds.has(a.id)).slice(0, 4);
     newArticles.forEach(a => usedArticleIds.add(a.id));
 
-    // Remainder for the main list
-    const articlesForList = displayedArticles.filter(a => !usedArticleIds.has(a.id));
+    // Remainder for the main list - use full articles array, then paginate
+    const allArticlesForList = sortedArticles.filter(a => !usedArticleIds.has(a.id));
+    // Apply pagination to the list section based on currentPage
+    const startIndex = 0;
+    const endIndex = currentPage * articlesPerPage;
+    const articlesForList = allArticlesForList.slice(startIndex, endIndex);
+    
+    // Calculate if there are more articles to show in the list section
+    const hasMoreArticles = articlesForList.length < allArticlesForList.length;
+
+    // Calculate total articles being displayed
+    const totalArticlesDisplayed = topPromoted.length + gridArticles.length + newArticles.length + featuredProject.length + featuredCards.length + articlesForList.length;
+    console.log(`Total articles being displayed: ${totalArticlesDisplayed}`, {
+        topPromoted: topPromoted.length,
+        gridArticles: gridArticles.length,
+        newArticles: newArticles.length,
+        featuredProject: featuredProject.length,
+        featuredCards: featuredCards.length,
+        articlesForList: articlesForList.length
+    });
+    console.log(`Article breakdown: ${articles.length} total fetched, ${usedArticleIds.size} used in featured sections, ${allArticlesForList.length} available for list, ${articlesForList.length} shown in list (page ${currentPage})`);
 
     return (
         <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white" style={{ borderRadius: '45px' }}>

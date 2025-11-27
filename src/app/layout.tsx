@@ -18,8 +18,16 @@ export const metadata: Metadata = {
     "Discover the stories, trends, and experiences that shape how we live, work, and connect, blending everyday lifestyle with rich cultural insights.",
   // Keep manifest for PWA
   manifest: "/manifest.json",
-  // Keep it simple. Let browsers find this one file.
-  icons: { icon: "/favicon-v2.ico" },
+  icons: {
+    // Use a proven-working PNG asset for favicons instead of the oversized PNG-pretending-to-be-ICO
+    icon: [
+      {
+        url: "/assets/browser-icon.png",
+        type: "image/png",
+        sizes: "32x32",
+      },
+    ],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -100,7 +108,23 @@ export default function RootLayout({
         />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-        {/* IMPORTANT: no manual <link rel="icon"> here. Metadata handles it. */}
+
+        {/* Explicit favicon links for stubborn browsers (especially Safari) */}
+        <link
+          rel="icon"
+          href="/assets/browser-icon.png"
+          type="image/png"
+          sizes="32x32"
+        />
+        <link
+          rel="shortcut icon"
+          href="/assets/browser-icon.png"
+          type="image/png"
+        />
+        <link
+          rel="apple-touch-icon"
+          href="/assets/browser-icon.png"
+        />
         {/* Preload assets used immediately in header to avoid flicker on first paint */}
         <link
           rel="preload"

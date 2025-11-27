@@ -12,13 +12,13 @@
   "categories": ["lifestyle", "design", "architecture"],
   "icons": [
     {
-      "src": "/assets/Vector-12.png",
+      "src": "/assets/browser-icon.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/assets/Vector-12.png",
+      "src": "/assets/browser-icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

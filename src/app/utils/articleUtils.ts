@@ -13,14 +13,23 @@ const FALLBACK_IMAGES = [
 
 export async function getAllArticles(): Promise<Article[]> {
   try {
+    // First, try to fetch with a high limit
     const res = await fetch(
-      `${API_BASE_URL}/articles?populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,isPromoted,createdAt,updatedAt&sort=createdAt:desc`,
-      { next: { revalidate: 60 } }
+      `${API_BASE_URL}/articles?populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,isPromoted,isFeatured,createdAt,updatedAt&sort=createdAt:desc&pagination[limit]=100`,
+      { 
+        cache: 'no-store'
+      }
     );
+
+    if (!res.ok) {
+      console.error(`API request failed with status: ${res.status}`);
+      return [];
+    }
 
     const data = await res.json();
     
-    console.log('Strapi API response:', JSON.stringify(data, null, 2));
+    console.log('Strapi API response:', data);
+    console.log(`Fetched ${data.data?.length || 0} articles from Strapi`);
     
     if (!data.data) {
       console.error('No articles data received:', data);
@@ -37,8 +46,6 @@ export async function getAllArticles(): Promise<Article[]> {
     };
 
     for (const article of data.data) {
-      console.log('Processing article:', article);
-      
       // Get a fallback image based on article ID to ensure variety
       const fallbackImageIndex = article.id % FALLBACK_IMAGES.length;
       const fallbackImage = FALLBACK_IMAGES[fallbackImageIndex];
@@ -59,11 +66,72 @@ export async function getAllArticles(): Promise<Article[]> {
         categoryColor: getCategoryColor(normalizePrimaryCategory(article.category)),
         coverImage: coverImageUrl,
         isPromoted: article.isPromoted || false,
+        isFeatured: article.isFeatured || false,
         createdAt: article.createdAt || new Date().toISOString(),
         updatedAt: article.updatedAt || new Date().toISOString()
       });
     }
 
+    // If we got less than 100 and there's pagination info, fetch remaining pages
+    if (data.meta?.pagination && data.meta.pagination.pageCount > 1) {
+      const totalPages = data.meta.pagination.pageCount;
+      console.log(`Found ${totalPages} pages, fetching remaining pages...`);
+      
+      for (let page = 2; page <= totalPages; page++) {
+        try {
+          const pageRes = await fetch(
+            `${API_BASE_URL}/articles?populate[coverImage]=true&fields=id,title,description,uid,category,secondCategory,isPromoted,isFeatured,createdAt,updatedAt&sort=createdAt:desc&pagination[page]=${page}&pagination[limit]=100`,
+            { cache: 'no-store' }
+          );
+          
+          if (!pageRes.ok) {
+            console.error(`Failed to fetch page ${page}: ${pageRes.status}`);
+            continue;
+          }
+          
+          const pageData = await pageRes.json();
+          if (pageData.data && pageData.data.length > 0) {
+            console.log(`Fetched page ${page}: ${pageData.data.length} articles`);
+            
+            for (const article of pageData.data) {
+              const fallbackImageIndex = article.id % FALLBACK_IMAGES.length;
+              const fallbackImage = FALLBACK_IMAGES[fallbackImageIndex];
+              
+              let coverImageUrl = fallbackImage;
+              if (article.coverImage && Array.isArray(article.coverImage) && article.coverImage.length > 0) {
+                coverImageUrl = getImageUrl(article.coverImage[0].url);
+              }
+              
+              articles.push({
+                id: article.id,
+                title: article.title || 'Untitled',
+                description: article.description || '',
+                slug: article.uid || `article-${article.id}`,
+                category: normalizePrimaryCategory(article.category),
+                secondCategory: article.secondCategory || undefined,
+                categoryColor: getCategoryColor(normalizePrimaryCategory(article.category)),
+                coverImage: coverImageUrl,
+                isPromoted: article.isPromoted || false,
+                isFeatured: article.isFeatured || false,
+                createdAt: article.createdAt || new Date().toISOString(),
+                updatedAt: article.updatedAt || new Date().toISOString()
+              });
+            }
+          }
+        } catch (pageError) {
+          console.error(`Error fetching page ${page}:`, pageError);
+        }
+      }
+    }
+
+    // Explicitly sort articles by createdAt in descending order to ensure consistent ordering across browsers
+    articles.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return dateB - dateA; // Descending order (newest first)
+    });
+
+    console.log(`Total articles fetched: ${articles.length}`);
     return articles;
   } catch (error) {
     console.error('Error fetching articles:', error);

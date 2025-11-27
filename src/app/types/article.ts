@@ -8,6 +8,8 @@ export interface Article {
   categoryColor: string;
   coverImage: string;
   isPromoted?: boolean;
+  // New: explicit flag from CMS to control homepage featured sections
+  isFeatured?: boolean;
   createdAt: string;
   updatedAt: string;
 } 
