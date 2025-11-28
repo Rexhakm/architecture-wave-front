@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react"
 import ProductImage from "../../components/ProductImage"
-import { Heart, Share2, Star } from "lucide-react"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer";
 import Link from "next/link"
@@ -11,7 +10,6 @@ import { exclusiveProducts } from "../../data/products"
 import { absOrFallback } from "../../utils/urlUtils";
 
 export default function ProductDetail({ params }: { params: { id: string } }) {
-  const [isFavorited, setIsFavorited] = useState(false)
   const [product, setProduct] = useState<any>(null)
   const [relatedProducts, setRelatedProducts] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -87,121 +85,149 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
         
         {/* Product Image */}
-        <div className="relative flex items-center justify-center bg-white rounded-lg p-6">
+        <div className="relative flex items-center justify-center p-8 sm:p-12 bg-white">
           <ProductImage
             src={product.image}
             alt={product.name}
-            className="max-h-80 object-contain"
+            className="w-full max-w-2xl object-contain"
+            style={{ maxHeight: '800px' }}
           />
-          <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex space-x-1 sm:space-x-2">
-            <button
-              onClick={() => setIsFavorited(!isFavorited)}
-              className="p-1.5 sm:p-2 bg-white/90 hover:bg-white rounded-full transition-colors"
-            >
-              <Heart
-                className={`w-3 h-3 sm:w-4 sm:h-4 ${
-                  isFavorited ? "fill-red-500 text-red-500" : "text-gray-600"
-                }`}
-              />
-            </button>
-            <button className="p-1.5 sm:p-2 bg-white/90 hover:bg-white rounded-full transition-colors">
-              <Share2 className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" />
-            </button>
-          </div>
         </div>
 
         {/* Product Information */}
-        <div className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
+        <div className="p-6 sm:p-8 lg:p-12 space-y-6">
           <div>
-            <h1 className="text-xl sm:text-2xl font-light text-gray-900 mb-2" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-3" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
               {product.name}
             </h1>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mb-4 gap-2 sm:gap-0">
-              <span className="text-xl sm:text-2xl font-light text-gray-900" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
+            <div className="mb-6">
+              <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-black" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
                 {product.price}
               </span>
-              <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full self-start sm:self-auto" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-                Free Shipping
-              </span>
             </div>
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="flex items-center">
-                {[...Array(product.rating || 5)].map((_, i) => (
-                  <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <span className="text-xs sm:text-sm text-gray-500" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-                ({product.reviews || 0} reviews)
-              </span>
-            </div>
-            <div className="text-xs sm:text-sm text-gray-600" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-              <span className="font-medium">Seller:</span> {product.brand}
-            </div>
-          </div>
-
-          <div className="border-t border-gray-200 pt-4 sm:pt-6">
-            <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 sm:mb-4" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-              {product.description}
-            </p>
-            <p className="text-xs sm:text-sm text-gray-600 leading-relaxed" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-              {product.longDescription}
-            </p>
           </div>
 
           {/* Purchase */}
-          <div className="space-y-4 border-t border-gray-200 pt-4 sm:pt-6">
+          <div className="mb-6">
             <a 
               href="https://huckberry.com/store/onsen/category/p/52245-bath-bundle-large?utm_medium=affiliate&utm_source=dwell.com&clickref=1100lBjKSvsp&utm_content=partnerize" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-full bg-black hover:bg-gray-800 text-white font-medium py-3 rounded transition-colors inline-block text-center text-sm sm:text-base" 
+              className="w-full bg-black hover:bg-gray-900 text-white font-medium py-4 px-6 text-center text-sm sm:text-base transition-colors block" 
               style={{ fontFamily: 'var(--font-mazzard-soft)' }}
             >
               SHOP
             </a>
           </div>
 
-          {/* Features */}
-          <div className="border-t border-gray-200 pt-4 sm:pt-6">
-            <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>Features</h3>
-            <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-              {product.features?.map((feature: string, index: number) => (
-                <li key={index}>• {feature}</li>
-              )) || <li>No features listed</li>}
-            </ul>
+          <div className="space-y-4">
+            <p className="text-base sm:text-lg text-gray-900 leading-relaxed" style={{ 
+              fontFamily: 'Spectral, serif',
+              fontWeight: 400,
+              fontSize: '16px',
+              lineHeight: '23.9px',
+              letterSpacing: '0%'
+            }}>
+              {product.description}
+            </p>
+            {product.longDescription && product.longDescription !== product.description && (
+              <p className="text-base sm:text-lg text-gray-900 leading-relaxed" style={{ 
+                fontFamily: 'Spectral, serif',
+                fontWeight: 400,
+                fontSize: '16px',
+                lineHeight: '23.9px',
+                letterSpacing: '0%'
+              }}>
+                {product.longDescription}
+              </p>
+            )}
+          </div>
+
+          {/* Share Button */}
+          <div className="pt-4 flex justify-end">
+            <button
+              type="button"
+              className="bg-black hover:bg-gray-900 text-white font-medium py-3 px-6 text-sm sm:text-base transition-colors inline-flex items-center gap-2"
+              style={{ fontFamily: 'var(--font-mazzard-soft)' }}
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M7 17l9.2-9.2M17 8v9m-9-9h9"
+                />
+              </svg>
+              SHARE
+            </button>
           </div>
         </div>
       </div>
 
       {/* Related Products Section */}
-      <div className="mt-8 sm:mt-12 px-4 sm:px-0">
-        <h2 className="text-lg sm:text-xl font-light text-gray-900 mb-4 sm:mb-6" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-          You might also like
+      <div className="mt-12 sm:mt-16 px-4 sm:px-0">
+        <h2 className="text-xl sm:text-2xl font-semibold text-black mb-6 sm:mb-8" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
+          Similar &amp; Suggested
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-6">
           {relatedProducts.map((item) => (
             <Link 
               key={item.id} 
               href={absOrFallback(`/shop/${item.id}`)}
-              className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow group"
+              className="group cursor-pointer relative"
             >
-              <div className="flex items-center justify-center bg-white p-4 h-40">
+              {/* Image container */}
+              <div className="relative bg-white overflow-hidden h-56 sm:h-64">
                 <ProductImage
                   src={item.image}
                   alt={item.name}
-                  className="max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
+                  fallbackIndex={Number(item.id)}
                 />
+
+                {/* Hover overlay bar */}
+                <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white/90 flex items-center justify-between px-3 py-2">
+                  <div
+                    className="text-xs sm:text-sm font-bold text-gray-800"
+                    style={{ fontFamily: 'var(--font-mazzard-soft)' }}
+                  >
+                    Buy {item.price}
+                  </div>
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 17L17 7M17 7H7M17 7V17"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <div className="p-3 sm:p-4">
-                <h3 className="font-medium text-gray-900 text-xs sm:text-sm mb-1" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-                  {item.name}
-                </h3>
-                <p className="text-gray-600 text-xs mb-1 sm:mb-2" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-                  {item.brand}
-                </p>
-                <p className="font-medium text-gray-900 text-xs sm:text-sm" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
-                  {item.price}
-                </p>
+
+              {/* Product name + brand */}
+              <div
+                className="mt-2 text-xs sm:text-sm font-medium text-black transition-colors duration-300 group-hover:text-gray-700"
+                style={{ fontFamily: 'var(--font-mazzard-soft)' }}
+              >
+                {item.name}
+              </div>
+              <div
+                className="text-xs text-gray-500 transition-colors duration-300 group-hover:text-gray-600"
+                style={{ fontFamily: 'var(--font-mazzard-soft)' }}
+              >
+                {item.brand}
               </div>
             </Link>
           ))}

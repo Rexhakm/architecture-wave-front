@@ -7,27 +7,27 @@ export const categories: Category[] = [
   },
   {
     name: "Lighting",
-    image: "/assets/Vector-2.png"
+    image: "/assets/lighting.png"
   },
   {
     name: "Decor",
-    image: "/assets/Vector-3.png"
+    image: "/assets/decor.png"
   },
   {
     name: "Textiles",
-    image: "/assets/Vector-4.png"
+    image: "/assets/textiles.png"
   },
   {
     name: "Storage",
-    image: "/assets/Vector-5.png"
+    image: "/assets/storage.png"
   },
   {
     name: "Kitchen",
-    image: "/assets/Vector-6.png"
+    image: "/assets/kitchen.png"
   },
   {
     name: "Bathroom",
-    image: "/assets/Vector-7.png"
+    image: "/assets/bathroom.png"
   }
 ];
 
@@ -63,15 +63,38 @@ export const exclusiveProducts: Product[] = [
 
 export const shoppingGuides: ShoppingGuide[] = [
   {
-    title: "How to Choose the Perfect Sofa",
+    title: "Smart Tech for the Home Doesn’t Have to Be Ugly",
     image: "/assets/image-1.png"
   },
   {
-    title: "Lighting Design Basics",
+    title: "Hunter Craighill Makes Affordable Design Products That Solve Everyday Problems",
     image: "/assets/image-2.png"
   },
   {
-    title: "Small Space Solutions",
+    title: "Finally, a Weighted Blanket That You Can Actually Use Anywhere",
     image: "/assets/image-3.png"
-  }
-];
+  },
+  {
+    title: "My Quest for Beautiful Countertop Appliances You Don’t Need to Hide",
+    image: "/assets/image-3.png"
+  },
+  {
+    title: "My Quest for Beautiful Countertop Appliances You Don’t Need to Hide",
+    image: "/assets/image-3.png"
+  },
+  {
+    title: "My Quest for Beautiful Countertop Appliances You Don’t Need to Hide",
+    image: "/assets/image-3.png"
+  },
+  {
+    title: "My Quest for Beautiful Countertop Appliances You Don’t Need to Hide",
+    image: "/assets/image-3.png"
+  },
+  {
+    title: "My Quest for Beautiful Countertop Appliances You Don’t Need to Hide",
+    image: "/assets/image-3.png"
+  },
+  {
+    title: "My Quest for Beautiful Countertop Appliances You Don’t Need to Hide",
+    image: "/assets/image-3.png"
+  }];

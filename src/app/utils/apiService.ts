@@ -4,28 +4,36 @@ import { getImageUrl, getBackendBaseUrl } from './imageUtils';
 const API_BASE_URL = `${getBackendBaseUrl()}/api`;
 
 // Function to transform API product to our Product interface
-const transformApiProduct = (apiProduct: ApiProduct): Product => {
+// Supports both Strapi v3 flat payloads and v4 { attributes: {...} } payloads
+const transformApiProduct = (raw: ApiProduct | any): Product => {
+  const entity = raw?.attributes ? raw.attributes : raw;
+
+  if (!entity) {
+    throw new Error('Invalid product payload from API');
+  }
+
   // Handle image URL exactly the same way as articles
   let productImage = '/assets/chair.png'; // Default fallback
-  
-  if (apiProduct.product_thoumbnail && apiProduct.product_thoumbnail.url) {
-    // Use the same image URL handling as articles - access .url property
-    productImage = getImageUrl(apiProduct.product_thoumbnail.url);
-  } else if (apiProduct.product_images && apiProduct.product_images.length > 0 && apiProduct.product_images[0].url) {
-    // Use the same image URL handling as articles - access .url property
-    productImage = getImageUrl(apiProduct.product_images[0].url);
+
+  const thumb = entity.product_thoumbnail;
+  const images = entity.product_images;
+
+  if (thumb && thumb.url) {
+    productImage = getImageUrl(thumb.url);
+  } else if (images && images.length > 0 && images[0].url) {
+    productImage = getImageUrl(images[0].url);
   }
 
   return {
-    id: apiProduct.id.toString(),
-    name: apiProduct.title,
-    brand: apiProduct.seller || 'Unknown Brand',
-    price: apiProduct.price,
+    id: (raw.id ?? entity.id).toString(),
+    name: entity.title,
+    brand: entity.seller || 'Unknown Brand',
+    price: entity.price,
     image: productImage,
-    description: apiProduct.description,
-    longDescription: apiProduct.description,
-    features: apiProduct.feature_text ? [apiProduct.feature_text] : [],
-    category: 'Featured' // Default category for API products
+    description: entity.description,
+    longDescription: entity.description,
+    features: entity.feature_text ? [entity.feature_text] : [],
+    category: 'Featured', // Default category for API products
   };
 };
 
@@ -50,18 +58,21 @@ export const fetchProducts = async (): Promise<Product[]> => {
 };
 
 // Function to fetch a single product by ID
+// To avoid issues with backend ID mismatches / 404s, we reuse the list endpoint
+// and find the product client-side.
 export const fetchProductById = async (id: string): Promise<Product | null> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/products/${id}?populate=*`);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    const products = await fetchProducts();
+    const product = products.find(p => p.id === id);
+
+    if (!product) {
+      console.warn('fetchProductById: product not found for id:', id);
+      return null;
     }
-    
-    const data: ApiProduct = await response.json();
-    return transformApiProduct(data);
+
+    return product;
   } catch (error) {
-    console.error('Error fetching product:', error);
+    console.error('Error fetching product by id:', error);
     return null;
   }
 };
