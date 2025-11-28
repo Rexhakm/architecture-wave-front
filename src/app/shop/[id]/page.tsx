@@ -8,10 +8,11 @@ import Link from "next/link"
 import { fetchProductById, fetchProducts } from "../../utils/apiService"
 import { exclusiveProducts } from "../../data/products"
 import { absOrFallback } from "../../utils/urlUtils";
+import { Product } from "../../types/product";
 
 export default function ProductDetail({ params }: { params: { id: string } }) {
-  const [product, setProduct] = useState<any>(null)
-  const [relatedProducts, setRelatedProducts] = useState<any[]>([])
+  const [product, setProduct] = useState<Product | null>(null)
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 

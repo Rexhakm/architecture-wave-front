@@ -12,6 +12,54 @@ export interface Product {
   category?: string;
 }
 
+// Image formats structure
+export interface ImageFormats {
+  thumbnail?: {
+    name: string;
+    hash: string;
+    ext: string;
+    mime: string;
+    width: number;
+    height: number;
+    size: number;
+    path: string | null;
+    url: string;
+  };
+  small?: {
+    name: string;
+    hash: string;
+    ext: string;
+    mime: string;
+    width: number;
+    height: number;
+    size: number;
+    path: string | null;
+    url: string;
+  };
+  medium?: {
+    name: string;
+    hash: string;
+    ext: string;
+    mime: string;
+    width: number;
+    height: number;
+    size: number;
+    path: string | null;
+    url: string;
+  };
+  large?: {
+    name: string;
+    hash: string;
+    ext: string;
+    mime: string;
+    width: number;
+    height: number;
+    size: number;
+    path: string | null;
+    url: string;
+  };
+}
+
 // Image object structure (same as articles)
 export interface ApiImage {
   id: number;
@@ -21,7 +69,7 @@ export interface ApiImage {
   caption: string | null;
   width: number | null;
   height: number | null;
-  formats: any | null;
+  formats: ImageFormats | null;
   hash: string;
   ext: string;
   mime: string;

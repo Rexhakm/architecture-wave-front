@@ -5,8 +5,9 @@ const API_BASE_URL = `${getBackendBaseUrl()}/api`;
 
 // Function to transform API product to our Product interface
 // Supports both Strapi v3 flat payloads and v4 { attributes: {...} } payloads
-const transformApiProduct = (raw: ApiProduct | any): Product => {
-  const entity = raw?.attributes ? raw.attributes : raw;
+const transformApiProduct = (raw: ApiProduct | { attributes: ApiProduct; id?: number | string }): Product => {
+  const hasAttributes = 'attributes' in raw;
+  const entity = hasAttributes && raw.attributes ? raw.attributes : raw as ApiProduct;
 
   if (!entity) {
     throw new Error('Invalid product payload from API');
@@ -24,8 +25,9 @@ const transformApiProduct = (raw: ApiProduct | any): Product => {
     productImage = getImageUrl(images[0].url);
   }
 
+  const rawId = hasAttributes ? raw.id : (raw as ApiProduct).id;
   return {
-    id: (raw.id ?? entity.id).toString(),
+    id: (rawId ?? entity.id ?? '').toString(),
     name: entity.title,
     brand: entity.seller || 'Unknown Brand',
     price: entity.price,
