@@ -4,6 +4,7 @@ export interface Product {
   brand: string;
   price: string;
   image: string;
+  images?: string[]; // Array of all product images
   description?: string;
   longDescription?: string;
   rating?: number;

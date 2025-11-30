@@ -15,6 +15,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   // Fetch product data and related products
   useEffect(() => {
@@ -30,6 +31,16 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           return
         }
         setProduct(productData)
+        setCurrentImageIndex(0) // Reset to first image when product changes
+        console.log('=== Product Detail Debug ===');
+        console.log('Product:', productData);
+        console.log('Product images array:', productData.images);
+        console.log('Number of images:', productData.images?.length || 0);
+        if (productData.images) {
+          productData.images.forEach((img, idx) => {
+            console.log(`Image ${idx}:`, img);
+          });
+        }
 
         // Fetch all products for related products
         const allProducts = await fetchProducts()
@@ -83,17 +94,80 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
       <Header />
       
       {/* Product Detail */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+      <div className="ml-0 sm:ml-[55px] sm:mr-[50px]">
+        <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-0">
         
-        {/* Product Image */}
-        <div className="relative flex items-center justify-center p-8 sm:p-12 bg-white">
-          <ProductImage
-            src={product.image}
-            alt={product.name}
-            className="w-full max-w-2xl object-contain"
-            style={{ maxHeight: '800px' }}
-          />
-        </div>
+          {/* Product Image */}
+          <div className="relative flex flex-col gap-4 p-8 sm:p-12 bg-white">
+            {/* Main Image with Navigation */}
+            <div className="relative flex-1 flex items-center justify-center group">
+              {product.images && product.images.length > 1 && (
+                <>
+                  {/* Left Arrow */}
+                  <button
+                    onClick={() => setCurrentImageIndex((prev) => 
+                      prev > 0 ? prev - 1 : product.images!.length - 1
+                    )}
+                    className="absolute left-4 z-10 bg-white/80 hover:bg-white p-2 transition-colors"
+                    aria-label="Previous image"
+                  >
+                    <img 
+                      src="/assets/left_black_arr.png" 
+                      alt="Previous" 
+                      className="w-6 h-6"
+                    />
+                  </button>
+                  
+                  {/* Right Arrow */}
+                  <button
+                    onClick={() => setCurrentImageIndex((prev) => 
+                      prev < product.images!.length - 1 ? prev + 1 : 0
+                    )}
+                    className="absolute right-4 z-10 bg-white/80 hover:bg-white p-2 transition-colors"
+                    aria-label="Next image"
+                  >
+                    <img 
+                      src="/assets/right_black_arr.png" 
+                      alt="Next" 
+                      className="w-6 h-6"
+                    />
+                  </button>
+                </>
+              )}
+              
+              <ProductImage
+                src={product.images && product.images.length > 0 
+                  ? product.images[currentImageIndex] 
+                  : product.image}
+                alt={product.name}
+                className="w-full object-contain transition-all duration-300 group-hover:brightness-90"
+                style={{ maxHeight: '800px' }}
+              />
+            </div>
+
+            {/* Thumbnails - only show if multiple images, displayed below main image */}
+            {product.images && product.images.length > 1 && (
+              <div className="flex flex-row gap-2 justify-center flex-wrap">
+                {product.images.map((img, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`relative w-16 h-16 sm:w-20 sm:h-20 overflow-hidden border-2 transition-all ${
+                      currentImageIndex === index
+                        ? 'border-black'
+                        : 'border-transparent hover:border-gray-300'
+                    }`}
+                  >
+                    <ProductImage
+                      src={img}
+                      alt={`${product.name} - Image ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
         {/* Product Information */}
         <div className="p-6 sm:p-8 lg:p-12 space-y-6">
@@ -168,10 +242,11 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             </button>
           </div>
         </div>
+        </div>
       </div>
 
       {/* Related Products Section */}
-      <div className="mt-12 sm:mt-16 px-4 sm:px-0">
+      <div className="ml-0 sm:ml-[100px] sm:mr-[50px] mt-12 sm:mt-16">
         <h2 className="text-xl sm:text-2xl font-semibold text-black mb-6 sm:mb-8" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
           Similar &amp; Suggested
         </h2>

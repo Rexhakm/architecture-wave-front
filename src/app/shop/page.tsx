@@ -215,7 +215,7 @@ export default function ShopPage() {
                         Featured Products
                     </h2>
                     <Link
-                        href="#"
+                        href={absOrFallback("/shop/all")}
                         className="inline-flex items-center justify-center text-xs sm:text-sm font-medium bg-black text-white"
                         style={{
                             fontFamily: 'var(--font-mazzard-soft)',

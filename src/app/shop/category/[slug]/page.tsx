@@ -385,7 +385,7 @@ export default function ProductCategoryPage() {
           {/* Main Content Area */}
           <div className="flex-1">
             {isLoading ? (
-              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6">
                 {[...Array(8)].map((_, index) => (
                   <div key={index} className="animate-pulse">
                     <div className="bg-gray-200 rounded-lg h-56 sm:h-64 mb-2"></div>
@@ -412,7 +412,7 @@ export default function ProductCategoryPage() {
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6">
                   {currentProducts.map((product) => (
                     <Link
                       key={product.id}
@@ -420,7 +420,7 @@ export default function ProductCategoryPage() {
                       className="group cursor-pointer relative"
                     >
                       {/* Image container */}
-                      <div className="relative bg-white overflow-hidden h-56 sm:h-64 mb-2">
+                      <div className="relative bg-white overflow-hidden h-56 sm:h-64">
                         <ProductImage
                           src={product.image}
                           alt={product.name}
@@ -456,7 +456,7 @@ export default function ProductCategoryPage() {
 
                       {/* Product name + brand */}
                       <div
-                        className="text-xs sm:text-sm font-medium text-black transition-colors duration-300 group-hover:text-gray-700"
+                        className="mt-2 text-xs sm:text-sm font-medium text-black transition-colors duration-300 group-hover:text-gray-700"
                         style={{ fontFamily: 'var(--font-mazzard-soft)' }}
                       >
                         {product.name}
