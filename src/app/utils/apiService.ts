@@ -37,10 +37,10 @@ const transformApiProduct = (raw: ApiProduct | { attributes: ApiProduct; id?: nu
       
       // Check if it's a nested structure with data property
       if (img && typeof img === 'object' && 'data' in img) {
-        const data = (img as any).data;
+        const data = (img as { data: unknown }).data;
         if (Array.isArray(data)) {
           // If data is an array, process each item
-          data.forEach((item: any) => {
+          data.forEach((item: { attributes?: { url?: string }; url?: string }) => {
             const url = item?.attributes?.url || item?.url;
             if (url) {
               const finalUrl = getImageUrl(url);
@@ -51,7 +51,8 @@ const transformApiProduct = (raw: ApiProduct | { attributes: ApiProduct; id?: nu
           return; // Skip to next image
         } else {
           // If data is a single object
-          imageUrl = data?.attributes?.url || data?.url;
+          const dataObj = data as { attributes?: { url?: string }; url?: string } | undefined;
+          imageUrl = dataObj?.attributes?.url || dataObj?.url;
         }
       } else {
         // Direct ApiImage structure

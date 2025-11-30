@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Header from "../../components/Header";
 import ProductImage from "../../components/ProductImage";
 import Link from "next/link";
@@ -146,12 +147,12 @@ export default function AllProductsPage() {
               border: currentPage === 1 ? '1px solid #919EAB' : '1px solid #DFE3E8'
             }}
           >
-            <img 
+            <Image 
               src="/assets/left_arr.png" 
               alt="Previous" 
+              width={12}
+              height={10}
               style={{ 
-                width: '12px',
-                height: '10px',
                 objectFit: 'contain',
                 display: 'block'
               }} 
@@ -211,12 +212,12 @@ export default function AllProductsPage() {
               border: currentPage === totalPages ? '1px solid #919EAB' : '1px solid #DFE3E8'
             }}
           >
-            <img 
+            <Image 
               src="/assets/right_arr.png" 
               alt="Next" 
+              width={12}
+              height={10}
               style={{ 
-                width: '12px',
-                height: '10px',
                 objectFit: 'contain',
                 display: 'block'
               }} 

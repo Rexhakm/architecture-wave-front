@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import Image from "next/image"
 import ProductImage from "../../components/ProductImage"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer";
@@ -111,9 +112,11 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     className="absolute left-4 z-10 bg-white/80 hover:bg-white p-2 transition-colors"
                     aria-label="Previous image"
                   >
-                    <img 
+                    <Image 
                       src="/assets/left_black_arr.png" 
                       alt="Previous" 
+                      width={24}
+                      height={24}
                       className="w-6 h-6"
                     />
                   </button>
@@ -126,9 +129,11 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     className="absolute right-4 z-10 bg-white/80 hover:bg-white p-2 transition-colors"
                     aria-label="Next image"
                   >
-                    <img 
+                    <Image 
                       src="/assets/right_black_arr.png" 
                       alt="Next" 
+                      width={24}
+                      height={24}
                       className="w-6 h-6"
                     />
                   </button>
