@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import Header from "../components/Header";
 import ProductImage from "../components/ProductImage";
 import Link from "next/link";
@@ -350,9 +351,11 @@ export default function ShopPage() {
                 <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4" style={{ gap: '2.5rem' }}>
                     {/* Left: lifestyle image - spans first column */}
                     <div className="col-span-2 sm:col-span-1 flex justify-start">
-                        <img
+                        <Image
                             src="/assets/Frame%201.png"
                             alt="Exclusive scent profiles crafted by archwave"
+                            width={400}
+                            height={480}
                             className="object-cover w-full rounded-lg"
                             style={{
                                 height: 480,
@@ -393,9 +396,11 @@ export default function ShopPage() {
                                 : 'opacity-30 cursor-not-allowed'
                                 }`}
                         >
-                                    <img 
+                                    <Image 
                                         src="/assets/left_black_arr.png" 
                                         alt="Previous" 
+                                        width={16}
+                                        height={16}
                                         className="w-4 h-4"
                                     />
                         </button>
@@ -408,9 +413,11 @@ export default function ShopPage() {
                                 : 'opacity-30 cursor-not-allowed'
                                 }`}
                         >
-                                    <img 
+                                    <Image 
                                         src="/assets/right_black_arr.png" 
                                         alt="Next" 
+                                        width={16}
+                                        height={16}
                                         className="w-4 h-4"
                                     />
                         </button>
@@ -515,9 +522,11 @@ export default function ShopPage() {
                 <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4" style={{ gap: '2.5rem' }}>
                     {/* Left: lifestyle image - spans first column */}
                     <div className="col-span-2 sm:col-span-1 flex justify-start">
-                        <img
+                        <Image
                             src="/assets/Frame%201.png"
                             alt="Exclusive scent profiles crafted by archwave"
+                            width={400}
+                            height={480}
                             className="object-cover w-full rounded-lg"
                             style={{
                                 height: 480,
@@ -558,9 +567,11 @@ export default function ShopPage() {
                                             : 'opacity-30 cursor-not-allowed'
                                     }`}
                                 >
-                                    <img 
+                                    <Image 
                                         src="/assets/left_black_arr.png" 
                                         alt="Previous" 
+                                        width={16}
+                                        height={16}
                                         className="w-4 h-4"
                                     />
                                 </button>
@@ -573,9 +584,11 @@ export default function ShopPage() {
                                             : 'opacity-30 cursor-not-allowed'
                                     }`}
                                 >
-                                    <img 
+                                    <Image 
                                         src="/assets/right_black_arr.png" 
                                         alt="Next" 
+                                        width={16}
+                                        height={16}
                                         className="w-4 h-4"
                                     />
                                 </button>

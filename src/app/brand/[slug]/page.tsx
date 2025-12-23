@@ -45,7 +45,7 @@ export default function BrandPage() {
   }, [brandName]);
 
   const productCount = products.length;
-  const articleCount = 0; // TODO: Implement article fetching by brand
+  const articleCount: number = 0; // TODO: Implement article fetching by brand
 
   return (
     <>

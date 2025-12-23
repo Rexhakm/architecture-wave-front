@@ -1,7 +1,14 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
+  "/contact-us/page": "app/contact-us/page.js",
+  "/about-us/page": "app/about-us/page.js",
+  "/page": "app/page.js",
+  "/brand/[slug]/page": "app/brand/[slug]/page.js",
+  "/shop/all/page": "app/shop/all/page.js",
+  "/shop/category/[slug]/page": "app/shop/category/[slug]/page.js",
   "/shop/page": "app/shop/page.js",
   "/shop/[id]/page": "app/shop/[id]/page.js",
-  "/brand/[slug]/page": "app/brand/[slug]/page.js",
-  "/page": "app/page.js",
-  "/shop/category/[slug]/page": "app/shop/category/[slug]/page.js"
+  "/category/[slug]/page": "app/category/[slug]/page.js",
+  "/articles/[slug]/page": "app/articles/[slug]/page.js",
+  "/category/page": "app/category/page.js"
 }
