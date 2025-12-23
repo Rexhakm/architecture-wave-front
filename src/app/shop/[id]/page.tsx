@@ -18,6 +18,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   const [error, setError] = useState<string | null>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
+  // Ensure the page scrolls to the top whenever a new product is opened
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    }
+  }, [params.id])
+
   // Fetch product data and related products
   useEffect(() => {
     const loadProductData = async () => {
@@ -63,7 +70,16 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   // Show loading state
   if (isLoading) {
     return (
-      <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
+      <main
+        className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24 min-h-[calc(100vh-690px)]"
+        style={{
+          fontFamily: 'var(--font-mazzard-soft)',
+          borderRadius: '45px',
+          marginBottom: 40,
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
         <Header />
         <div className="text-center py-12">
           <div className="animate-pulse">
@@ -78,7 +94,16 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   // Show error state
   if (error || !product) {
     return (
-      <main className="w-[calc(100%-40px)] mx-auto px-4 bg-white pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
+      <main
+        className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24 min-h-[calc(100vh-690px)]"
+        style={{
+          fontFamily: 'var(--font-mazzard-soft)',
+          borderRadius: '45px',
+          marginBottom: 40,
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
         <Header />
         <div className="text-center py-12">
           <h1 className="text-2xl font-light text-gray-900 mb-4">{error || 'Product not found'}</h1>
@@ -91,11 +116,20 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   }
 
   return (
-    <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
+    <main
+      className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24 min-h-[calc(100vh-690px)]"
+      style={{
+        fontFamily: 'var(--font-mazzard-soft)',
+        borderRadius: '45px',
+        marginBottom: 40,
+        position: 'relative',
+        zIndex: 1,
+      }}
+    >
       <Header />
       
       {/* Product Detail */}
-      <div className="ml-0 sm:ml-[55px] sm:mr-[50px]">
+      <div className="ml-0 sm:ml-[82px] sm:mr-[32px]">
         <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-0">
         
           {/* Product Image */}
@@ -145,7 +179,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   ? product.images[currentImageIndex] 
                   : product.image}
                 alt={product.name}
-                className="w-full object-contain transition-all duration-300 group-hover:brightness-90"
+                className="w-full rounded-lg object-contain transition-all duration-300 group-hover:brightness-90"
                 style={{ maxHeight: '800px' }}
               />
             </div>
@@ -177,9 +211,18 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
         {/* Product Information */}
         <div className="p-6 sm:p-8 lg:p-12 space-y-6">
           <div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-3" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-2" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
               {product.name}
             </h1>
+            {product.brand && (
+              <Link
+                href={absOrFallback(`/brand/${product.brand.toLowerCase().replace(/\s+/g, '-')}`)}
+                className="text-sm sm:text-base text-gray-600 hover:text-black transition-colors inline-block mb-3"
+                style={{ fontFamily: 'var(--font-mazzard-soft)' }}
+              >
+                {product.brand}
+              </Link>
+            )}
             <div className="mb-6">
               <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-black" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
                 {product.price}
@@ -193,7 +236,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               href="https://huckberry.com/store/onsen/category/p/52245-bath-bundle-large?utm_medium=affiliate&utm_source=dwell.com&clickref=1100lBjKSvsp&utm_content=partnerize" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-full bg-black hover:bg-gray-900 text-white font-medium py-4 px-6 text-center text-sm sm:text-base transition-colors block" 
+              className="w-full bg-black hover:bg-gray-900 text-white font-medium py-4 px-6 text-center text-sm sm:text-base transition-colors block rounded-lg" 
               style={{ fontFamily: 'var(--font-mazzard-soft)' }}
             >
               SHOP
@@ -227,7 +270,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           <div className="pt-4 flex justify-end">
             <button
               type="button"
-              className="bg-black hover:bg-gray-900 text-white font-medium py-3 px-6 text-sm sm:text-base transition-colors inline-flex items-center gap-2"
+              className="bg-black hover:bg-gray-900 text-white font-medium py-3 px-6 text-sm sm:text-base transition-colors inline-flex items-center gap-2 rounded-lg"
               style={{ fontFamily: 'var(--font-mazzard-soft)' }}
             >
               <svg
@@ -251,11 +294,11 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
       </div>
 
       {/* Related Products Section */}
-      <div className="ml-0 sm:ml-[100px] sm:mr-[50px] mt-12 sm:mt-16">
+      <div className="ml-0 sm:ml-[82px] sm:mr-[32px] mt-12 sm:mt-16">
         <h2 className="text-xl sm:text-2xl font-semibold text-black mb-6 sm:mb-8" style={{ fontFamily: 'var(--font-mazzard-soft)' }}>
           Similar &amp; Suggested
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4" style={{ gap: '2.5rem' }}>
           {relatedProducts.map((item) => (
             <Link 
               key={item.id} 
@@ -263,16 +306,16 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               className="group cursor-pointer relative"
             >
               {/* Image container */}
-              <div className="relative bg-white overflow-hidden h-56 sm:h-64">
+              <div className="relative bg-white overflow-hidden h-56 sm:h-64 rounded-lg">
                 <ProductImage
                   src={item.image}
                   alt={item.name}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
+                  className="w-full h-full rounded-lg object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
                   fallbackIndex={Number(item.id)}
                 />
 
                 {/* Hover overlay bar */}
-                <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white/90 flex items-center justify-between px-3 py-2">
+                <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white flex items-center justify-between px-3 py-2" style={{ opacity: 1 }}>
                   <div
                     className="text-xs sm:text-sm font-bold text-gray-800"
                     style={{ fontFamily: 'var(--font-mazzard-soft)' }}
@@ -298,17 +341,43 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               </div>
 
               {/* Product name + brand */}
-              <div
-                className="mt-2 text-xs sm:text-sm font-medium text-black transition-colors duration-300 group-hover:text-gray-700"
-                style={{ fontFamily: 'var(--font-mazzard-soft)' }}
-              >
-                {item.name}
-              </div>
-              <div
-                className="text-xs text-gray-500 transition-colors duration-300 group-hover:text-gray-600"
-                style={{ fontFamily: 'var(--font-mazzard-soft)' }}
-              >
-                {item.brand}
+              <div className="mt-2">
+                <div
+                  className="text-xs sm:text-sm font-medium text-black transition-colors duration-300 group-hover:text-gray-700"
+                  style={{ fontFamily: 'var(--font-mazzard-soft)' }}
+                >
+                  {item.name}
+                </div>
+                {item.brand && (
+                  <div 
+                    className="relative z-10"
+                    onMouseEnter={(e) => {
+                      const group = e.currentTarget.closest('.group');
+                      if (group) {
+                        group.classList.add('brand-link-hover');
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      const group = e.currentTarget.closest('.group');
+                      if (group) {
+                        group.classList.remove('brand-link-hover');
+                      }
+                    }}
+                  >
+                    <Link
+                      href={absOrFallback(`/brand/${item.brand.toLowerCase().replace(/\s+/g, '-')}`)}
+                      className="text-xs text-gray-500 hover:text-black transition-colors duration-300 inline-block"
+                      style={{ fontFamily: 'var(--font-mazzard-soft)' }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.location.href = absOrFallback(`/brand/${item.brand.toLowerCase().replace(/\s+/g, '-')}`);
+                      }}
+                    >
+                      {item.brand}
+                    </Link>
+                  </div>
+                )}
               </div>
             </Link>
           ))}

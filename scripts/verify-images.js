@@ -32,6 +32,11 @@ const imagesToCheck = [
   'assets/Rectangle.png',
   'assets/Rectangle2.png',
   'assets/arch_icon.png',
+  'assets/right_arr.png',
+  'assets/left_arr.png',
+  'assets/right_black_arr.png',
+  'assets/left_black_arr.png',
+  'assets/arch_icon.png',
 ];
 
 console.log('🔍 Checking image files...\n');

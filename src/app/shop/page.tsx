@@ -100,7 +100,7 @@ export default function ShopPage() {
         if (scrollContainerRef1.current) {
             const container = scrollContainerRef1.current;
             const itemWidth = container.querySelector('a')?.offsetWidth || 0;
-            const gap = 24; // gap-6 = 1.5rem = 24px
+            const gap = 40; // 2.5rem = 40px
             const scrollAmount = itemWidth + gap;
             container.scrollBy({
                 left: -scrollAmount,
@@ -116,7 +116,7 @@ export default function ShopPage() {
         if (scrollContainerRef1.current) {
             const container = scrollContainerRef1.current;
             const itemWidth = container.querySelector('a')?.offsetWidth || 0;
-            const gap = 24; // gap-6 = 1.5rem = 24px
+            const gap = 40; // 2.5rem = 40px
             const scrollAmount = itemWidth + gap;
             container.scrollBy({
                 left: scrollAmount,
@@ -132,7 +132,7 @@ export default function ShopPage() {
         if (scrollContainerRef2.current) {
             const container = scrollContainerRef2.current;
             const itemWidth = container.querySelector('a')?.offsetWidth || 0;
-            const gap = 24; // gap-6 = 1.5rem = 24px
+            const gap = 40; // 2.5rem = 40px
             const scrollAmount = itemWidth + gap;
             container.scrollBy({
                 left: -scrollAmount,
@@ -148,7 +148,7 @@ export default function ShopPage() {
         if (scrollContainerRef2.current) {
             const container = scrollContainerRef2.current;
             const itemWidth = container.querySelector('a')?.offsetWidth || 0;
-            const gap = 24; // gap-6 = 1.5rem = 24px
+            const gap = 40; // 2.5rem = 40px
             const scrollAmount = itemWidth + gap;
             container.scrollBy({
                 left: scrollAmount,
@@ -161,11 +161,11 @@ export default function ShopPage() {
     };
 
     return (
-        <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
+        <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24 min-h-[calc(100vh-690px)]" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px', marginBottom: 40, position: 'relative', zIndex: 1 }}>
             <Header />
 
             {/* Content wrapper aligned with header icon on desktop with equal side spacing */}
-            <div className="ml-0 sm:ml-[95px] sm:mr-[50px]">
+            <div className="ml-0 sm:ml-[82px] sm:mr-[32px]">
 
             {/* Main Title */}
             <section className="text-center sm:text-left py-8 sm:py-12">
@@ -180,7 +180,7 @@ export default function ShopPage() {
             </section>
 
             {/* Category Navigation Bar */}
-            <section className="bg-black rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-8 sm:mb-16 sm:mr-8">
+            <section className="rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-8 sm:mb-16 sm:mr-8" style={{ backgroundColor: '#232222' }}>
                 <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-2 sm:gap-4">
                     {categories.map((category: Category, index: number) => {
                         const categorySlug = category.name.toLowerCase().replace(/\s+/g, '-');
@@ -207,7 +207,7 @@ export default function ShopPage() {
 
             {/* Featured Products Section */}
             <section className="mb-8 sm:mb-16 sm:mr-8 testt">
-                <div className="flex items-center gap-6 mb-6 sm:mb-8">
+                <div className="flex items-center justify-between mb-6 sm:mb-8">
                     <h2
                         className="text-xl sm:text-2xl font-semibold"
                         style={{ fontFamily: 'var(--font-mazzard-soft)', color: '#111' }}
@@ -216,7 +216,7 @@ export default function ShopPage() {
                     </h2>
                     <Link
                         href={absOrFallback("/shop/all")}
-                        className="inline-flex items-center justify-center text-xs sm:text-sm font-medium bg-black text-white"
+                        className="inline-flex items-center justify-center text-xs sm:text-sm font-medium bg-black text-white rounded-lg"
                         style={{
                             fontFamily: 'var(--font-mazzard-soft)',
                             height: 37,
@@ -256,7 +256,7 @@ export default function ShopPage() {
                         </button>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4" style={{ gap: '2.5rem' }}>
                         {featuredProducts.slice(0, 8).map((product) => (
                             <Link
                                 key={product.id}
@@ -264,16 +264,16 @@ export default function ShopPage() {
                                 className="group cursor-pointer relative"
                             >
                                 {/* Image container */}
-                                <div className="relative bg-white overflow-hidden h-56 sm:h-64">
+                                <div className="relative bg-white overflow-hidden h-56 sm:h-64 rounded-lg">
                                     <ProductImage
                                         src={product.image}
                                         alt={product.name}
-                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
+                                        className="w-full h-full rounded-lg object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
                                         fallbackIndex={Number(product.id)}
                                     />
 
                                     {/* Hover overlay bar */}
-                                    <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white/90 flex items-center justify-between px-3 py-2">
+                                    <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white flex items-center justify-between px-3 py-2" style={{ opacity: 1 }}>
                                         <div
                                             className="text-xs sm:text-sm font-bold text-gray-800"
                                             style={{ fontFamily: 'var(--font-mazzard-soft)' }}
@@ -299,17 +299,43 @@ export default function ShopPage() {
                                 </div>
 
                                 {/* Product name + brand */}
-                                <div
-                                    className="mt-2 text-xs sm:text-sm font-medium text-black transition-colors duration-300 group-hover:text-gray-700"
+                                <div className="mt-2">
+                                  <div
+                                    className="text-xs sm:text-sm font-medium text-black transition-colors duration-300 group-hover:text-gray-700"
                                     style={{ fontFamily: 'var(--font-mazzard-soft)' }}
-                                >
+                                  >
                                     {product.name}
-                                </div>
-                                <div
-                                    className="text-xs text-gray-500 transition-colors duration-300 group-hover:text-gray-600"
-                                    style={{ fontFamily: 'var(--font-mazzard-soft)' }}
-                                >
-                                    {product.brand}
+                                  </div>
+                                  {product.brand && (
+                                    <div 
+                                      className="relative z-10"
+                                      onMouseEnter={(e) => {
+                                        const group = e.currentTarget.closest('.group');
+                                        if (group) {
+                                          group.classList.add('brand-link-hover');
+                                        }
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        const group = e.currentTarget.closest('.group');
+                                        if (group) {
+                                          group.classList.remove('brand-link-hover');
+                                        }
+                                      }}
+                                    >
+                                      <Link
+                                        href={absOrFallback(`/brand/${product.brand.toLowerCase().replace(/\s+/g, '-')}`)}
+                                        className="text-xs text-gray-500 hover:text-black transition-colors duration-300 inline-block"
+                                        style={{ fontFamily: 'var(--font-mazzard-soft)' }}
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          window.location.href = absOrFallback(`/brand/${product.brand.toLowerCase().replace(/\s+/g, '-')}`);
+                                        }}
+                                      >
+                                        {product.brand}
+                                      </Link>
+                                    </div>
+                                  )}
                                 </div>
                             </Link>
                         ))}
@@ -321,13 +347,13 @@ export default function ShopPage() {
 
             {/* Exclusive Scent Profiles Section */}
             <section className="mb-8 sm:mb-16 sm:mr-8">
-                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4" style={{ gap: '2.5rem' }}>
                     {/* Left: lifestyle image - spans first column */}
                     <div className="col-span-2 sm:col-span-1 flex justify-start">
                         <img
                             src="/assets/Frame%201.png"
                             alt="Exclusive scent profiles crafted by archwave"
-                            className="object-cover w-full"
+                            className="object-cover w-full rounded-lg"
                             style={{
                                 height: 480,
                                 opacity: 1,
@@ -394,10 +420,9 @@ export default function ShopPage() {
                         <div className="mb-4">
                             <Link
                                 href="#"
-                                className="inline-flex items-center justify-center text-xs sm:text-sm font-medium bg-black text-white hover:bg-gray-900 transition-colors"
+                                className="inline-flex items-center justify-center text-xs sm:text-sm font-medium bg-black text-white hover:bg-gray-900 transition-colors rounded-lg"
                                 style={{
                                     fontFamily: 'var(--font-mazzard-soft)',
-                                    borderRadius: 0,
                                     width: 177,
                                     height: 47,
                                     paddingTop: 5,
@@ -416,8 +441,8 @@ export default function ShopPage() {
                         <div className="relative mt-4 overflow-hidden w-full">
                             <div
                                 ref={scrollContainerRef1}
-                                className="flex gap-3 sm:gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-1"
-                                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                                className="flex overflow-x-auto scrollbar-hide scroll-smooth pb-1"
+                                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', gap: '2.5rem' }}
                             >
                                 {featuredProducts.slice(0, 6).map((product: Product, index: number) => (
                                     <Link
@@ -426,16 +451,16 @@ export default function ShopPage() {
                                         className="group cursor-pointer relative flex-shrink-0 w-[calc((100%-0.75rem)/2)] sm:w-[calc((100%-3rem)/3)]"
                                     >
                                         {/* Image container */}
-                                        <div className="relative bg-white overflow-hidden h-56 sm:h-64">
+                                        <div className="relative bg-white overflow-hidden h-56 sm:h-64 rounded-lg">
                                             <ProductImage
                                                 src={product.image}
                                                 alt={product.name}
-                                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
+                                                className="w-full h-full rounded-lg object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
                                                 fallbackIndex={Number(product.id)}
                                             />
 
                                             {/* Hover overlay bar - same as Featured Products */}
-                                            <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white/90 flex items-center justify-between px-3 py-2">
+                                            <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white flex items-center justify-between px-3 py-2" style={{ opacity: 1 }}>
                                                 <div
                                                     className="text-xs sm:text-sm font-bold text-gray-800"
                                                     style={{ fontFamily: 'var(--font-mazzard-soft)' }}
@@ -467,12 +492,16 @@ export default function ShopPage() {
                                         >
                                             {product.name}
                                         </div>
-                                        <div
-                                            className="text-xs text-gray-500 transition-colors duration-300 group-hover:text-gray-600"
+                                        {product.brand && (
+                                          <Link
+                                            href={absOrFallback(`/brand/${product.brand.toLowerCase().replace(/\s+/g, '-')}`)}
+                                            className="text-xs text-gray-500 hover:text-black transition-colors duration-300 inline-block"
                                             style={{ fontFamily: 'var(--font-mazzard-soft)' }}
-                                        >
+                                            onClick={(e) => e.stopPropagation()}
+                                          >
                                             {product.brand}
-                                        </div>
+                                          </Link>
+                                        )}
                         </Link>
                                 ))}
                             </div>
@@ -483,13 +512,13 @@ export default function ShopPage() {
 
             {/* Exclusive Scent Profiles Section (duplicate) */}
             <section className="mb-8 sm:mb-16 sm:mr-8">
-                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4" style={{ gap: '2.5rem' }}>
                     {/* Left: lifestyle image - spans first column */}
                     <div className="col-span-2 sm:col-span-1 flex justify-start">
                         <img
                             src="/assets/Frame%201.png"
                             alt="Exclusive scent profiles crafted by archwave"
-                            className="object-cover w-full"
+                            className="object-cover w-full rounded-lg"
                             style={{
                                 height: 480,
                                 opacity: 1,
@@ -556,10 +585,9 @@ export default function ShopPage() {
                         <div className="mb-4">
                             <Link
                                 href="#"
-                                className="inline-flex items-center justify-center text-xs sm:text-sm font-medium bg-black text-white hover:bg-gray-900 transition-colors"
+                                className="inline-flex items-center justify-center text-xs sm:text-sm font-medium bg-black text-white hover:bg-gray-900 transition-colors rounded-lg"
                                 style={{
                                     fontFamily: 'var(--font-mazzard-soft)',
-                                    borderRadius: 0,
                                     width: 177,
                                     height: 47,
                                     paddingTop: 5,
@@ -578,8 +606,8 @@ export default function ShopPage() {
                         <div className="relative mt-4 overflow-hidden w-full">
                             <div
                                 ref={scrollContainerRef2}
-                                className="flex gap-3 sm:gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-1"
-                                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                                className="flex overflow-x-auto scrollbar-hide scroll-smooth pb-1"
+                                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', gap: '2.5rem' }}
                             >
                                 {featuredProducts.slice(0, 6).map((product: Product, index: number) => (
                                     <Link
@@ -588,16 +616,16 @@ export default function ShopPage() {
                                         className="group cursor-pointer relative flex-shrink-0 w-[calc((100%-0.75rem)/2)] sm:w-[calc((100%-3rem)/3)]"
                                     >
                                 {/* Image container */}
-                                        <div className="relative bg-white overflow-hidden h-56 sm:h-64">
+                                        <div className="relative bg-white overflow-hidden h-56 sm:h-64 rounded-lg">
                                     <ProductImage
                                         src={product.image}
                                         alt={product.name}
-                                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
+                                                className="w-full h-full rounded-lg object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
                                                 fallbackIndex={Number(product.id)}
                                     />
 
                                             {/* Hover overlay bar - same as Featured Products */}
-                                    <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white/90 flex items-center justify-between px-3 py-2">
+                                    <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white flex items-center justify-between px-3 py-2" style={{ opacity: 1 }}>
                                         <div
                                             className="text-xs sm:text-sm font-bold text-gray-800"
                                             style={{ fontFamily: 'var(--font-mazzard-soft)' }}
@@ -645,7 +673,7 @@ export default function ShopPage() {
 
             {/* Shopping Guides Section */}
             <section className="mb-8 sm:mb-16 sm:mr-8">
-                <div className="flex items-center gap-6 mb-6 sm:mb-8">
+                <div className="flex items-center justify-between mb-6 sm:mb-8">
                     <h2
                         className="text-xl sm:text-2xl font-semibold"
                         style={{ fontFamily: 'var(--font-mazzard-soft)', color: '#111' }}
@@ -654,7 +682,7 @@ export default function ShopPage() {
                     </h2>
                     <Link
                         href="#"
-                        className="inline-flex items-center justify-center text-xs sm:text-sm font-medium bg-black text-white"
+                        className="inline-flex items-center justify-center text-xs sm:text-sm font-medium bg-black text-white rounded-lg"
                         style={{
                             fontFamily: 'var(--font-mazzard-soft)',
                             height: 37,
@@ -667,12 +695,12 @@ export default function ShopPage() {
                     </Link>
                 </div>
                 {/* 4x2 compact grid like design, same card height as featured products */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4" style={{ gap: '2.5rem' }}>
                     {shoppingGuides.slice(0, 8).map((guide: ShoppingGuide, index: number) => (
                         <div key={index} className="group cursor-pointer">
                             {/* Design-style placeholder block with alternating colors */}
                             <div
-                                className="w-full h-56 sm:h-64"
+                                className="w-full h-56 sm:h-64 rounded-lg"
                                 style={{
                                     backgroundColor: index % 2 === 0 ? '#959595' : '#D1D1D1',
                                 }}

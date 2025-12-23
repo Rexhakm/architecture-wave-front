@@ -147,15 +147,10 @@ export default function AllProductsPage() {
               border: currentPage === 1 ? '1px solid #919EAB' : '1px solid #DFE3E8'
             }}
           >
-            <Image 
-              src="/assets/left_arr.png" 
+            <img 
+              src="/assets/left_black_arr.png" 
               alt="Previous" 
-              width={12}
-              height={10}
-              style={{ 
-                objectFit: 'contain',
-                display: 'block'
-              }} 
+              className="w-3 h-3"
             />
           </button>
           
@@ -212,15 +207,10 @@ export default function AllProductsPage() {
               border: currentPage === totalPages ? '1px solid #919EAB' : '1px solid #DFE3E8'
             }}
           >
-            <Image 
-              src="/assets/right_arr.png" 
+            <img 
+              src="/assets/right_black_arr.png" 
               alt="Next" 
-              width={12}
-              height={10}
-              style={{ 
-                objectFit: 'contain',
-                display: 'block'
-              }} 
+              className="w-3 h-3"
             />
           </button>
         </div>
@@ -228,7 +218,7 @@ export default function AllProductsPage() {
         <button
           onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
           disabled={currentPage === totalPages}
-          className={`absolute right-0 px-6 py-2 bg-black text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-gray-800 transition-colors`}
+          className={`absolute right-0 px-6 py-2 bg-black text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-gray-800 transition-colors rounded-lg`}
           style={{ fontFamily: 'var(--font-mazzard-soft)' }}
         >
           Next
@@ -237,25 +227,34 @@ export default function AllProductsPage() {
     );
   };
 
+  // Inject checkbox styles on client side to avoid hydration error
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      input[type="checkbox"] {
+        accent-color: #000000;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+      }
+      input[type="checkbox"]:checked {
+        accent-color: #000000;
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   return (
     <>
-      <style>{`
-        input[type="checkbox"] {
-          accent-color: #000000;
-          width: 16px;
-          height: 16px;
-          cursor: pointer;
-        }
-        input[type="checkbox"]:checked {
-          accent-color: #000000;
-        }
-      `}</style>
-      <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px' }}>
+      <main className="w-[calc(100%-20px)] sm:w-[calc(100%-40px)] mx-auto px-2 sm:px-4 bg-white rounded-2xl pb-12 sm:pb-24 min-h-[calc(100vh-690px)]" style={{ fontFamily: 'var(--font-mazzard-soft)', borderRadius: '45px', marginBottom: 40, position: 'relative', zIndex: 1 }}>
         <Header />
 
-        <div className="ml-0 sm:ml-[95px] sm:mr-[60px] pr-4 sm:pr-8">
+        <div className="ml-0 sm:ml-[100px] sm:mr-[92px]">
           {/* Page Header Section */}
-          <section className="bg-black py-6 sm:py-8 px-4 sm:px-6 mb-8 relative">
+          <section className="py-6 sm:py-8 mb-8 relative">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="flex flex-col gap-2">
                 <h1
@@ -266,8 +265,8 @@ export default function AllProductsPage() {
                     fontSize: '24.69px',
                     lineHeight: '21.94px',
                     letterSpacing: '0%',
-                    textAlign: 'center',
-                    color: '#E5E5E5'
+                    textAlign: 'left',
+                    color: '#000'
                   }}
                 >
                   New Arrivals: Modern Furniture, Lighting, Products, Gifts
@@ -280,8 +279,8 @@ export default function AllProductsPage() {
                 fontSize: '14px',
                 lineHeight: '21.94px',
                 letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#E5E5E5'
+                textAlign: 'right',
+                color: '#000'
               }}>
                 {startIndex + 1}-{Math.min(endIndex, filteredProducts.length)} of {filteredProducts.length}
               </div>
@@ -290,7 +289,7 @@ export default function AllProductsPage() {
 
           <div className="flex flex-col lg:flex-row gap-8 mt-8">
             {/* Left Sidebar */}
-            <aside className="w-full lg:w-64 flex-shrink-0 p-4" style={{ backgroundColor: '#F9F9F9' }}>
+            <aside className="w-full lg:w-64 flex-shrink-0">
               <div className="mb-6">
                 <h2
                   className="text-lg font-semibold mb-4 uppercase"
@@ -309,11 +308,7 @@ export default function AllProductsPage() {
                         <Link
                           key={category.slug}
                           href={absOrFallback(`/shop/category/${category.categorySlug}`)}
-                          className={`w-full text-left px-2 py-2 rounded transition-colors block ${
-                            isSelected 
-                              ? 'bg-black text-white' 
-                              : 'bg-transparent text-gray-600 hover:bg-gray-200 hover:text-black'
-                          }`}
+                          className="w-full text-left py-2 rounded block bg-transparent text-black"
                           style={{ fontFamily: 'var(--font-mazzard-soft)' }}
                         >
                           {category.name}
@@ -324,11 +319,7 @@ export default function AllProductsPage() {
                         <button
                           key={category.slug}
                           onClick={() => setSelectedCategory(isSelected ? null : category.slug)}
-                          className={`w-full text-left px-2 py-2 rounded transition-colors ${
-                            isSelected 
-                              ? 'bg-black text-white' 
-                              : 'bg-transparent text-gray-600 hover:bg-gray-200 hover:text-black'
-                          }`}
+                          className="w-full text-left py-2 rounded bg-transparent text-black"
                           style={{ fontFamily: 'var(--font-mazzard-soft)' }}
                         >
                           {category.name}
@@ -370,7 +361,7 @@ export default function AllProductsPage() {
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-3" style={{ gap: '2.5rem' }}>
                     {currentProducts.map((product) => (
                       <Link
                         key={product.id}
@@ -378,16 +369,16 @@ export default function AllProductsPage() {
                         className="group cursor-pointer relative"
                       >
                         {/* Image container */}
-                        <div className="relative bg-white overflow-hidden h-56 sm:h-64">
+                        <div className="relative bg-white overflow-hidden h-56 sm:h-64 rounded-lg">
                           <ProductImage
                             src={product.image}
                             alt={product.name}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
+                            className="w-full h-full rounded-lg object-cover transition-transform duration-300 group-hover:scale-105 group-hover:opacity-90"
                             fallbackIndex={Number(product.id)}
                           />
 
                           {/* Hover overlay bar */}
-                          <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white/90 flex items-center justify-between px-3 py-2">
+                          <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white flex items-center justify-between px-3 py-2" style={{ opacity: 1 }}>
                             <div
                               className="text-xs sm:text-sm font-bold text-gray-800"
                               style={{ fontFamily: 'var(--font-mazzard-soft)' }}
@@ -436,17 +427,43 @@ export default function AllProductsPage() {
                         </div>
 
                         {/* Product name + brand */}
-                        <div
-                          className="mt-2 text-xs sm:text-sm font-medium text-black transition-colors duration-300 group-hover:text-gray-700"
-                          style={{ fontFamily: 'var(--font-mazzard-soft)' }}
-                        >
-                          {product.name}
-                        </div>
-                        <div
-                          className="text-xs text-gray-500 transition-colors duration-300 group-hover:text-gray-600"
-                          style={{ fontFamily: 'var(--font-mazzard-soft)' }}
-                        >
-                          {product.brand}
+                        <div className="mt-2">
+                          <div
+                            className="text-xs sm:text-sm font-medium text-black transition-colors duration-300 group-hover:text-gray-700"
+                            style={{ fontFamily: 'var(--font-mazzard-soft)' }}
+                          >
+                            {product.name}
+                          </div>
+                          {product.brand && (
+                            <div 
+                              className="relative z-10"
+                              onMouseEnter={(e) => {
+                                const group = e.currentTarget.closest('.group');
+                                if (group) {
+                                  group.classList.add('brand-link-hover');
+                                }
+                              }}
+                              onMouseLeave={(e) => {
+                                const group = e.currentTarget.closest('.group');
+                                if (group) {
+                                  group.classList.remove('brand-link-hover');
+                                }
+                              }}
+                            >
+                              <Link
+                                href={absOrFallback(`/brand/${product.brand.toLowerCase().replace(/\s+/g, '-')}`)}
+                                className="text-xs text-gray-500 hover:text-black transition-colors duration-300 inline-block"
+                                style={{ fontFamily: 'var(--font-mazzard-soft)' }}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  window.location.href = absOrFallback(`/brand/${product.brand.toLowerCase().replace(/\s+/g, '-')}`);
+                                }}
+                              >
+                                {product.brand}
+                              </Link>
+                            </div>
+                          )}
                         </div>
                       </Link>
                     ))}

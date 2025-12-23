@@ -108,6 +108,23 @@ html {
   display: none;
 }
 
+/* Prevent product hover effects when hovering over brand link */
+.group.brand-link-hover:hover .group-hover\:scale-105 {
+  transform: scale(1) !important;
+}
+
+.group.brand-link-hover:hover .group-hover\:opacity-90 {
+  opacity: 1 !important;
+}
+
+.group.brand-link-hover:hover .group-hover\:translate-y-0 {
+  transform: translateY(100%) !important;
+}
+
+.group.brand-link-hover:hover .group-hover\:text-gray-700 {
+  color: rgb(0, 0, 0) !important;
+}
+
 /* Mobile-specific improvements */
 @media (max-width: 640px) {
   /* Ensure text is readable on mobile */
